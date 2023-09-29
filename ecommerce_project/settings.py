@@ -1,6 +1,8 @@
-from dotenv import load_dotenv
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -132,14 +133,14 @@ LOGIN_URL = '/login/'
 
 
 # Stripe payment
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51NMiBGGc2BRGe9DEdQB4uFXo4cXsyIrsmOZWEqzjcEwncSEkSXFmpChhckGDXA63HT5rScE6xFmZkvgvCKvfeeEP00lbHOx2KK'
-STRIPE_SECRET_KEY = 'sk_test_51NMiBGGc2BRGe9DEuMhhtg7J7gJSyrkLWj4YQWyei8Kpc3NIN7i7QESI03yaxZTnxSHt8SaZT2R7qPAbV8jqedBF0013Eb2BBn'
-STRIPE_WEBHOOK_SECRET = 'whsec_6687e864ee5553cdd76003b259c456af97f2ba119a6e61753b7eb6d08483bde4'
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ericanderson3262014@gmail.com'
-EMAIL_HOST_PASSWORD = 'aunplxnxdrfefkpk'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
