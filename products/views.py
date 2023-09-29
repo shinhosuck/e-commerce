@@ -25,7 +25,7 @@ from .forms import (
     ProductReviewForm,
     ShippingAddressForm,
 )
-
+from django.template import loader
 from django.conf import settings
 import stripe
 import json
@@ -386,7 +386,10 @@ def payment_success_view(request, id):
             \nReceipt ID: {receipt.id}{receipt.checkout_summary}
         ''',
         recipient_list = [address.email],
-        from_email = email_from
+        from_email = email_from,
+        html_message = loader.render_to_string(
+            'products/payment_success.html'
+        )
     )
 
     receipt.receipt_sent_date = timezone.now()
@@ -438,3 +441,7 @@ def order_history_view(request):
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
     return render(request, 'products/receipts.html', context)
+
+
+def success_view(request):
+    return render(request, 'products/payment_success.html')
