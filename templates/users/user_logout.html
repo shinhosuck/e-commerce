@@ -1,0 +1,121 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    Logout
+{% endblock title %}
+
+{% block banner %}
+{% endblock banner %}
+
+{% block content %}
+    
+    <style>
+
+        .logout-warning-wrapper {
+            min-height: 100vh;
+            padding: 3rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logout-warning-error {
+            max-width: 95%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.3rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0px 0px 20px -1px rgb(209, 209, 209);
+        }
+
+        .logout-warning-error > h3 {
+            letter-spacing: 0.07rem;
+        }
+        
+        .logout-warning-error > h4 {
+            letter-spacing: 0.07rem;
+            color: rgb(66, 66, 66);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-warning-error > h4 > a{
+            letter-spacing: 0.07rem;
+            color: rgb(255, 0, 0);
+            text-decoration: underline;
+        }
+
+        .logout-form-wrapper {
+            min-height: 100vh;
+            padding: 3rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logout-form {
+            max-width: 95%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.3rem;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0px 0px 20px -1px rgb(209, 209, 209);
+        }
+
+        .logout-form > h3 {
+            letter-spacing: 0.07rem;
+            font-weight: 500;
+            color: rgb(20, 20, 20);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-form > h3 > button {
+            letter-spacing: 0.07rem;
+            text-decoration: underline;
+            color: rgb(97, 97, 97);
+            font-size: 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .logout-form > h3 > a {
+            letter-spacing: 0.07rem;
+            color: rgb(255, 0, 0);
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+    </style>
+    {% if not request.user.is_authenticated %}
+        <div class="logout-warning-wrapper">
+            <div class="logout-warning-error">
+                <h3>You are not logged in!</h3>
+                <h4>Did you wnat to login? <a href="{% url 'users:user-login' %}">Login</a></h4>
+            </div>
+        </div>
+        {% else %}
+        <div class="logout-form-wrapper">
+            <form action="{% url 'users:user-logout' %}" class="logout-form" method="POST">
+                <h3>Are you sure you want to logout?<button type="submit">Logout</button></h3>
+                {% csrf_token %}
+                <h3 class="logout-no"><a href="{% url 'products:product-list' %}">Continue shopping</a></h3>
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block scrollbar %}
+{% endblock scrollbar %}

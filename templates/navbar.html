@@ -1,0 +1,87 @@
+
+
+<div class="nav-bar-wrapper">
+    <a class="brand-name" href="{% url 'products:product-home' %}">
+        <h1>AiAi Market</h1>
+        <p>THE PLACE TO SHOP</p>
+    </a>
+    {% with request.resolver_match.url_name as url_name %}
+        <nav class="nav-links">
+            <a class="nav-link {% if url_name == 'product-list' %}active-nav-link{% endif %}" href="{% url 'products:product-list' %}">Products</a>
+            {% if not request.user.is_authenticated %}
+                <a class="nav-link {% if url_name == 'user-login' %}active-nav-link{% endif %}" href="{% url 'users:user-login' %}">Login</a>
+                <a class="nav-link {% if url_name == 'user-register' %}active-nav-link{% endif %}" href="{% url 'users:user-register' %}">Register</a>
+            {% else %}
+                <div class="logged-in-user-nav-link-container">
+                    <div class="toggle-user-navbar">
+                        <img class="logged-in-navbar-user-profile-img" src="{{request.user.userprofile.profile_image.url}}" alt="">
+                        <h4 class="logged-in-navbar-username">{{ request.user.username }}</h4>
+                        <span class="material-symbols-outlined logged-in-navbar-arrow-down">
+                            keyboard_arrow_down
+                        </span>
+                        <span class="material-symbols-outlined logged-in-navbar-arrow-up">
+                            keyboard_arrow_up
+                        </span>
+                    </div>
+                    <div class="logged-in-user-nav-links">
+                        <a class="nav-basket {% if url_name == 'product-basket' %}active-nav-link{% endif %}" href="{% url 'products:product-basket' %}">
+                            My cart
+                            <span class="material-symbols-outlined shopping-cart">shopping_cart</span> 
+                            <span class="num-of-items">{{ num_of_product }}</span>
+                        </a>
+                        <a class="nav-link" href="">Profile</a>
+                        <a class="nav-link {% if url_name == 'order-history' %}active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
+                        <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                        <a class="nav-link {% if url_name == 'user-logout' %}active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
+                    </div>
+                </div>
+            {% endif %}
+            <a href="{% url 'sellers:sellers-seller' %}" class="nav-link">Sell on market</a>
+            <button type="button" class="nav-link nav-link-search-button">
+                Search
+                <span class="material-symbols-outlined search-icon">search</span>
+            </button>
+        </nav>
+    {% endwith %}
+</div>
+
+<div class="search-form-wrapper">
+    <form class="search-form" action="{% url 'products:product-search' %}" method="GET">
+        <input class="search-form-input" type="text", name='q' required placeholder="Search">
+        <button class="search-form-submit-btn" type="submit">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </form>
+    <span class="material-symbols-outlined search-form-close-btn">close</span>
+</div>
+
+<div class="mobile-nav-bar-wrapper">
+    <a class="mobile-brand-name" href="{% url 'products:product-home' %}">
+        <h1>AiAi Market</h1>
+        <p>THE PLACE TO SHOP</p>
+    </a>
+    <div class="mobile-toggle-nav-btn">
+        <span class="material-symbols-outlined mobile-menu-btn">menu</span>
+    </div>
+    {% with request.resolver_match.url_name as url_name %}
+        <nav class="mobile-nav-links">
+            <span class="material-symbols-outlined mobile-nav-close-btn">close</span>
+            <button type="button" class="mobile-nav mobile-nav-link-search-button  mobile-nav-link">
+                Search
+                <!-- <span class="material-symbols-outlined">search</span> -->
+            </button>
+            <a class="mobile-nav mobile-nav-link {% if url_name == 'product-list' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-list' %}">Products</a>
+            {% if not request.user.is_authenticated %}
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'user-login' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-login' %}">Login</a>
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'user-register' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-register' %}">Register</a>
+            {% else %}
+                <a class="mobile-nav mobile-nav-link" href="">Profile</a>
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'order-history' %}mobile-active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'user-logout' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
+            {% endif %}
+            <a class="mobile-nav mobile-nav-link" href="{% url 'sellers:sellers-seller' %}">Sell on market</a>
+        </nav>
+    {% endwith %}
+    <div class="mobile-nav-background-layout"></div>
+</div>

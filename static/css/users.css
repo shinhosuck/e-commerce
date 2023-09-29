@@ -1,0 +1,232 @@
+/*
+==================
+USER_REGISTER.HTML
+================== */
+
+.user-register-form-wrapper {
+    padding: 1rem 0;
+}
+
+.register-form {
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.800);
+}
+
+.register-form > h2 {
+    letter-spacing: 0.05rem;
+    color: rgb(255, 255, 255);
+    font-size: 1.25rem;
+    border-radius: 5px;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background: var(--purple-40);
+}
+
+.username-container,
+.password1-container,
+.password2-container,
+.register-form-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.username-container > input,
+.password1-container > input,
+.password2-container > input {
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    letter-spacing: 0.05rem;
+    color: var(--black-15);
+    font-size: 1rem;
+    border: 1px solid var(--black-70);
+}
+
+.username-container > input:focus,
+.password1-container > input:focus,
+.password2-container > input:focus {
+    outline: 2px solid var(--black-70);
+}
+
+.username-container > label,
+.password1-container > label,
+.password2-container > label {
+    letter-spacing: 0.05rem;
+    color: var(--black-20);
+    font-weight: 500;
+}
+
+.username-help-text,
+.password2-help-text {
+    font-size: 0.95rem;
+    letter-spacing: 0.07rem;
+    color: var(--black-30);
+    display: none;
+}
+
+.password1-container > ul {
+   margin-left: 1rem;
+   color: var(--black-30);
+   font-size: 0.95rem;
+   letter-spacing: 0.05rem;
+   display: none;
+}
+
+.errorlist {
+   margin-left: 1rem;
+   color: var(--orange-50) !important;
+   font-size: 0.95rem;
+   letter-spacing: 0.05rem;
+   display: block !important;
+}
+
+.register-form-button-container {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.3rem
+}
+
+.register-button {
+    padding: 0.9rem 1rem;
+    text-align: center;
+    letter-spacing: 0.07rem;
+    background: var(--orange-50);
+    color: rgb(255, 255, 255);
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+}
+
+.shop-without-registering-button {
+    padding: 0.9rem 1rem;
+    text-align: center;
+    letter-spacing: 0.05rem;
+    background: var(--black-30);
+    color: rgb(255, 255, 255);
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+}
+
+.already-registered {
+    margin-top: 0.3rem;
+    letter-spacing: 0.05rem;
+    color: var(--black-20)
+}
+
+.already-registered > a {
+    letter-spacing: 0.05rem;
+    color: var(--purple-50);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+@media screen and (min-width: 600px) {
+    .user-register-form-wrapper {
+        padding: 2rem 0;
+    }
+}
+
+/*
+==================
+USER_REGISTER.HTML
+================== */
+
+.user-login-form-wrapper {
+    padding: 1rem 0;
+}
+
+.login-form {
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 10px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px -1px rgb(209, 209, 209);
+}
+
+.login-form-header {
+    letter-spacing: 0.05rem;
+    background: var(--purple-40);
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.8rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+
+}
+
+.login-form > label {
+    letter-spacing: 0.05rem;
+    font-weight: 500;
+}
+
+.login-form > input {
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--black-70);
+}
+
+.login-form-button-container {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.login-button {
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 25px;
+    border: none;
+    color: rgb(255, 255, 255);
+    background: var(--orange-50);
+    text-align: center;
+}
+
+.shop-without-logging-in-button {
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 25px;
+    border: none;
+    color: rgb(255, 255, 255);
+    background: var(--black-30);
+    text-align: center;
+}
+
+.login-form > input:focus {
+    outline: 2px solid var(--black-70);
+}
+
+
+.not-yet-registered {
+    letter-spacing: 0.05rem;
+    color: var(--black-20)
+}
+
+.not-yet-registered > a{
+    letter-spacing: 0.05rem;
+    color: var(--purple-50);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+@media screen and (min-width: 600px) {
+    .user-login-form-wrapper {
+        padding: 2rem 0;
+    }
+}

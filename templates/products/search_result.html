@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    {{ q }}
+{% endblock title %}
+
+
+
+{% block content %}
+
+    {% if not query_set %}
+        <div class="product-main-container" style="min-height: 100vh;">
+            <div class="product-list-wrapper" style="background: transparent;">
+                <div class="product-list-header-container" style="background: transparent;">
+                    <div class="product-list-header-and-link" style="justify-content: center;">
+                        <h2 class="product-list-header" style="color: rgb(34, 34, 34)">Search "{{ q }}" did not return anything.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="product-main-container">
+            <div class="product-list-wrapper">
+                <div class="product-list-header-container">
+                    <div class="product-list-header-and-link">
+                        <h2 class="product-list-header">Result for "{{ q }}"</h2>
+                    </div>
+                    <p>
+                        It is a long established fact that a reader will be distracted by 
+                        the readable content of a page when looking at its layout.
+                    </p>
+                </div>
+                <div class="product-list">
+                    {% for product in query_set %}
+                        <a href="{{ product.get_absolute_url }}" class="product">
+                            <div class="product-image">
+                                <img src="{{ product.get_product_image_url }}" alt="">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-name-and-description">
+                                    <strong>{{ product.name }}</strong> 
+                                    {{ product.description }}
+                                </p>
+                                <div class="product-price-and-discount">
+                                    {% if product.get_discount_price %}
+                                        <p class="product-price">P{{ product.discount_price_str_format }}</p>
+                                        <div class="product-discount-price-container">
+                                            <p class="product-discount-price">P{{ product.price_str_format }}</p>
+                                            <span>-10%</span>
+                                        </div>
+                                    {% else %}
+                                        <p class="product-price">P{{ product.price_str_format }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="product-like-container">
+                                    {% if product.likes %}
+                                        <span class="likes">{{ product.likes }}</span>
+                                    {% endif %}
+                                    <div class="rate-star-icons">
+                                        <!-- insert star rating from js -->
+                                    </div>
+                                    {% if product.productreview_set.all %}
+                                        <div class="product-list-reviews">
+                                            <span class="material-symbols-rounded review-icon">rate_review</span>
+                                            <span class="reviews">{{ product.productreview_set.count }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+{% endblock content %}

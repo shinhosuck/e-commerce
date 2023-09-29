@@ -1,0 +1,141 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    Create
+{% endblock title %}
+
+ {% block banner %}
+ {% endblock banner %}
+
+{% block content %}
+
+    <div class="product-create-form-wrapper">
+        <form class="create-form" action="{% url 'products:product-create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="product-create-input-container">
+                <h2 class="create-your-product-header">Create Your Product</h2>
+                <div class="product-category-input">
+                    {{ product_form.category.label_tag}}
+                    <p>{{ product_form.category }}</p>
+                </div>
+                <div class="product-sub-category-input">
+                    {{ product_form.sub_category.label_tag}}
+                    <p id="sub-category">{{ product_form.sub_category }}</p>
+                </div>
+                <div class="product-name-input">
+                    {{ product_form.name.label_tag}}
+                    <p>{{ product_form.name }}</p>
+                </div>
+                <div class="product-brand-input">
+                    {{ product_form.brand.label_tag}}
+                    <p>{{ product_form.brand }}</p>
+                </div>
+                <div class="product-seller-organization-input">
+                    {{ product_form.seller_organization.label_tag}}
+                    <p>{{ product_form.seller_organization }}</p>
+                </div>
+                <div class="product-image-input">
+                    {{ product_form.product_image.label_tag}}
+                    <p>{{ product_form.product_image }}</p>
+                </div>
+                <div class="product-price-input">
+                    {{ product_form.price.label_tag}}
+                    <p>{{ product_form.price }}</p>
+                </div>
+                <div class="product-available-input">
+                    {{ product_form.available.label_tag}}
+                    {{ product_form.available }}
+                </div>
+            </div>
+            <div class="product-create-input-container">
+                <div class="product-image-input">
+                    {{ image_form.image.label_tag }}
+                    <p>{{ image_form.image }}</p>
+                    <ul class="image-upload-warning">
+                        <li>required.</li>
+                        <li>three images are allowed.</li>
+                    </ul>
+                </div>
+                <div class="product-description-input">
+                    {{ product_form.description.label_tag}}
+                    <p>{{ product_form.description}}</p>
+                </div>
+                <div class="product-detail-textarea">
+                    {{ product_form.detail.label_tag}}
+                    <p>{{ product_form.detail}}</p>
+                </div>
+                <div class="create-form-btns">
+                    <button type="submit">Create</button>
+                    <a href="{% url 'products:product-list' %}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        const productSubCategoryInput = document.querySelector('.product-sub-category-input')
+        const subCategories = '{{ sub_categories|safe }}'
+        const json_obj = JSON.parse(subCategories)
+        
+        const idCategory = document.querySelector('#id_category')
+        const idSubCategory = document.querySelector('#id_sub_category')
+        const select = ''
+
+        productSubCategoryInput.style.display = 'none'
+
+        idCategory.addEventListener('click', (e) => {
+            const id = e.currentTarget.value
+            json_obj.map((obj) => {
+                if(obj.id === parseInt(id)) {
+                    productSubCategoryInput.style.display = 'flex'
+                    const subCats = obj.sub_categories
+                    const data = subCats.map((subCat) => {
+                        return(
+                            `<option value=${subCat.id}>${subCat.name}</option>`
+                        )
+                    })
+
+                    data.splice(0, 0, '<option value="" selected="">---------</option>')
+                    idSubCategory.innerHTML = data.join(' ')
+                }
+                else {
+                    const new_obj = json_obj.find((obj) => {
+                        if(obj.id === parseInt(id)) {
+                            return obj
+                        }
+                    })
+                    if(!new_obj) {
+                        productSubCategoryInput.style.display = 'none'
+                    }
+                }
+            })
+        })
+    
+
+        const idName = document.querySelector('#id_name')
+        idName.placeholder = 'Name of the product'
+
+        const idBrand = document.querySelector('#id_brand')
+        idBrand.placeholder = 'Product company name'
+
+        const idSellerOrganization = document.querySelector('#id_seller_organization')
+        idSellerOrganization.placeholder = 'Your organization name'
+
+        const idPrice = document.querySelector('#id_price')
+        idPrice.placeholder = 'Must be in php format. Example: 0.00'
+
+        const idDescription = document.querySelector('#id_description')
+        idDescription.placeholder = 'Description of the product. Max: 50chars'
+
+        const idDetail = document.querySelector('#id_detail')
+        idDetail.placeholder = 'Detail of the product'
+
+    </script>
+
+{% endblock content %}
+
+{% block scrollbar %}
+{% endblock scrollbar %}

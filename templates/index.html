@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="shop, online market, gadgets, PC, laptop">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- google material icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+   <!-- local css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/users.css' %}">
+
+    <title>{% block title %}{% endblock title %}</title>
+
+</head>
+<body id="body">
+    <header id="header">
+        {% include 'navbar.html' %}
+    </header>
+    <main>
+        
+        <div class="main-banner">
+            {% block banner %}
+                {% include 'banner.html' %}
+            {% endblock banner %}
+        </div>
+
+        <!-- Search form for mobile device -->
+        <div class="mobile-search-form-container">
+            <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
+                <input class="mobile-search-input" type="text", name='q' required placeholder="Search">
+                <button class="mobile-search-submit-btn" type="submit">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+            </form>
+        </div>
+        <div class="main-content">
+            {% include 'messages.html' %}
+            
+            {% block content %}
+            {% endblock content %}
+        
+            {% block scrollbar %}
+                <div class="scroll-btns">
+                    <a href="#header" class="scroll-up">
+                        <span class="material-symbols-outlined">keyboard_arrow_up</span>
+                    </a>
+                    <a href="#footer" class="scroll-down">
+                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+                    </a>
+                </div>
+            {% endblock scrollbar %}
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-wrapper">
+            <div class="footer-contents">
+                <h2>Footer</h2>
+            </div>
+            <div class="copy-right">
+                <p>Copyright 2023 by AiAi Market team. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

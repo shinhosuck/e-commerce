@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Register
+{% endblock title%}
+
+
+{% block banner %}
+{% endblock banner %}
+
+
+{% block content %}
+
+    <div class="user-register-form-wrapper">
+        <form class="register-form show-register-form" action="" method="POST">
+            <h2>Please Register</h2>
+            {% csrf_token %}
+            <div class="username-container">
+                <p class="errorlist">{{ form.username.errors }}</p>
+                {{ form.username.label_tag}}
+                {{ form.username}}
+                <p class="username-help-text">{{ form.username.help_text}}</p>
+            </div>
+            <div class="password1-container">
+                {{ form.password1.label_tag}}
+                {{ form.password1}}
+                {{ form.password1.help_text}}
+                {{ form.password2.errors}}
+            </div>
+        
+            <div class="password2-container">
+                {{ form.password2.label_tag}}
+                {{ form.password2}}
+                <p class="password2-help-text">{{ form.password2.help_text}}</p>
+            </div>
+            <div class="register-form-button-container">
+                <button class="register-button" type="submit">Register</button>
+                <a href="{% url 'products:product-list' %}" class="shop-without-registering-button" type="submit">Shop Without Registering</a>
+            </div>
+            <p class="already-registered">Already registered? <a href="{% url 'users:user-login' %}">Login</a></p>
+        </form>
+    </div>
+
+    <script>
+
+        const usernameContainer = document.querySelector('.username-container')
+        const password1Container = document.querySelector('.password1-container')
+        const password2Container = document.querySelector('.password2-container')
+
+        const inputs = []
+        const usernameInput = usernameContainer.querySelector('input')
+        const password1Input = password1Container.querySelector('input')
+        const password2Input = password2Container.querySelector('input')
+
+        inputs.push(usernameInput)
+        inputs.push(password1Input)
+        inputs.push(password2Input)
+
+        const siblings = []
+        siblings.push(usernameInput.nextElementSibling)
+        siblings.push( password1Input.nextElementSibling)
+        siblings.push(password2Input.nextElementSibling)
+
+        const events = ['click', 'focus']
+
+        events.map((currentEvent) => {
+            inputs.forEach((input) => {
+                input.addEventListener(currentEvent, (e) => {
+                    siblings.forEach((sibling) => {
+                        sibling.style.display = 'none'
+                    })
+                    e.currentTarget.nextElementSibling.style.display = 'block'
+
+                })
+            })
+        })
+        
+
+    </script>
+    
+{% endblock content %}
+
+
+{% block scrollbar %}
+{% endblock scrollbar %}

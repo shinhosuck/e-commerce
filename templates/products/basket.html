@@ -1,0 +1,195 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    {{ request.user.username }}'s basket
+{% endblock title %}
+
+
+
+{% block content %}
+
+<div class="product-basket-wrapper">
+    <h2 class="product-basket-header">{{ request.user }}'s cart</h2>
+    <div class="basket-list">
+        {% for order in query_set %}
+            <div class="basket-product">
+                <a href="{{ order.product.get_absolute_url }}" class="basket-product-info-container">
+                    <div class="basket-product-image">
+                        <img src="{{ order.product.get_product_image_url }}" alt="">
+                    </div>
+                    <div class="basket-product-info">
+                        <h4 class="basket-product-name">
+                            {{ order.product.name }} 
+                        </h4>
+                        <div class="basket-product-price-and-discount">
+                            {% if order.product.get_discount_price %}
+                                <p class="basket-product-price">P{{ order.product.discount_price_str_format }}</p>
+                                <div class="basket-price-discount-container">
+                                    <p class="basket-product-discount-price">P{{ order.product.price_str_format }}</p>
+                                    <span>-10%</span>
+                                </div>
+                            {% else %}
+                                <p class="basket-product-price">P{{ order.product.price_str_format }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                <form class="basket-total-product" action="{% url 'products:update-basket' order.product.id %}" method="GET">
+                    <button type="button"class="basket-minus-item">
+                        <span class="material-symbols-outlined">
+                            remove
+                        </span>
+                    </button>
+                    <div class="quantity">
+                        Qty:
+                        <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
+                    </div>
+                    <button  type="button" class="basket-add-item">
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
+                    </button>
+                    <button class='update-or-delete' type="submit">Remove</button>
+                </form>
+                {% for obj in order_total %}
+                    {% if order.product.id == obj.id %}
+                        <h4 class="total-price">P{{ obj.order_total }}</h4>
+                         <!-- coming from context_processor order_total -->
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Small screen -->
+            <div class="small-screen-basket-product">
+                <a href="{{ order.product.get_absolute_url }}" class="basket-product-link">
+                    <img src="{{ order.product.get_product_image_url }}" alt="">
+                </a>
+                <div class="basket-product-info-container">
+                    <div class="basket-product-info">
+                        <h4 class="basket-product-name">
+                            {{ order.product.name }} 
+                        </h4>
+                        <div class="basket-product-price-and-discount">
+                            {% if order.product.get_discount_price %}
+                                <div class="basket-price-discount-container">
+                                    <p class="basket-product-price"><span style="color: rgb(27, 27, 27)">Price:</span> P{{ order.product.discount_price_str_format }}</p>
+                                    <div class="basket-price-line-through">
+                                        <p class="basket-product-discount-price">P{{ order.product.price_str_format }}</p>
+                                        <span>-10%</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="basket-product-price"><span style="color: rgb(27, 27, 27)">Price:</span> P{{ order.product.price_str_format }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% for obj in order_total %}
+                        {% if order.product.id == obj.id %}
+                            <h4 class="small-screen-total-price"><span>Total: </span>P{{ obj.order_total }}</h4>
+                            <!-- coming from context_processor order_total -->
+                        {% endif %}
+                    {% endfor %}
+                    <form class="basket-total-product" action="{% url 'products:update-basket' order.product.id %}" method="GET">
+                        <button type="button"class="basket-minus-item">
+                            <span class="material-symbols-outlined">
+                                remove
+                            </span>
+                        </button>
+                        <div class="quantity">
+                            Qty:
+                            <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
+                        </div>
+                        <button  type="button" class="basket-add-item">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                        </button>
+                        <button class='update-or-delete' type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="basket-sub-total-container">
+        <div class="basket-sub-total">
+            <h2 class="basket-order-summary">Order Summary</h2>
+            <div class="basket-sub-total-info">
+                <div class="sub-total-basket-quantity">
+                    <h4>Quantity</h4>
+                    {% if num_of_product > 1 %}
+                        <p>{{ num_of_product }} items</p>
+                    {% else %}
+                        <p>{{ num_of_product }} item</p>
+                    {% endif %}
+                    <!-- coming from context_processors.py -->
+                </div>
+                {% if discount_amount != '0' %}
+                    <div class="sub-total-basket-savings">
+                        <h4>Saved</h4>
+                        <p>P{{ discount_amount }}</p> 
+                        <!-- coming from context_processors.py -->
+                    </div>
+                {% endif %}
+                <div class="sub-total-basket-subtotal">
+                    <h4>Sub-total</h4>
+                    <p>P{{ sub_total }}</p>
+                    <!-- coming from context_processors.py -->
+                </div>
+                <div class="sub-total-basket-subtotal">
+                    <h4>VAT<small style="color: rgb(87, 87, 87); font-size: 14px;">12%</small></h4>
+                    <p>P{{ vat }}</p>
+                    <!-- coming from context_processors.py -->
+                </div>
+                <div class="sub-total-basket-subtotal">
+                    <h4>Total</h4>
+                    <p>P{{ total }}</p>
+                    <!-- coming from context_processors.py -->
+                </div>
+            </div>
+            <div class="sub-total-btns">
+                <a class="basket-checkout-btn" href="{% url 'products:shipping-address' %}">Go to Checkout</a>
+                <a class="basket-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    const basketProduct = document.querySelectorAll('.basket-product')
+    const basketMinusItem = document.querySelectorAll('.basket-minus-item')
+    const basketAddItem = document.querySelectorAll('.basket-add-item')
+    const totalAmount = document.querySelectorAll('.total-amount')
+    
+
+    basketAddItem.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            const input = e.currentTarget.previousElementSibling.firstElementChild
+            const submitButton = e.currentTarget.nextElementSibling
+            submitButton.textContent = 'Update'
+            input.value ++
+        })
+    })
+    
+    basketMinusItem.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            const input = e.currentTarget.nextElementSibling.firstElementChild
+            const submitButton = e.currentTarget.nextElementSibling.nextElementSibling.nextElementSibling
+            if(input.value >= 1){
+                input.value --
+                submitButton.textContent = 'Update'
+                if(input.value <=0) {
+                    submitButton.textContent = 'Delete'
+                    input.value = 0
+                }
+            }
+
+        })
+    })
+    
+</script>
+
+{% endblock content %}

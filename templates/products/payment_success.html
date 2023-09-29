@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Successful payment
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="success-payment-wrapper">
+        <h2>Payment was successful</h2>
+        <h4>Receipt ID: {{ receipt_id }}</h4>
+        <p>Customer: {{ customer }}</p>
+        <div class="order-receipts">
+            {% for order in orders %}
+                <div class="order-receipt">
+                    <p>Name: {{ order.product.name }}</p>
+                    <p>Quantity: {{ order.quantity }}</p>
+                    {% if order.product.get_discount_price %}
+                        <p>Price: P{{ order.product.get_discount_price}}</p>
+                        <p>Orginal price: P{{ order.product.price_str_format}}</p>
+                    {% else %}
+                        <p>Price: {{ order.product.price_str_format}}</p>
+                    {% endif %}
+                    {% for discount in discount_amount %}
+                        {% if discount.name == order.product.name %}
+                            <p>Amount saved: P{{ discount.discount_amount}}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <p>Url: <a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">
+                            {{ domain }}{{ order.product.get_absolute_url }}
+                        </a>
+                    </p>
+                    {% for obj in basket_total.order_total %}
+                        {% if obj.id == order.id %}
+                            <h4>Total: P{{ order_total }}</h4>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <h2>Checkout Summary</h2>
+        {% if basket_total.discount_amount %}
+            <h4>Savings: P{{ basket_total.discount_amount }}
+        {% endif %}
+        <h4>Sub-total: P{{ basket_total.sub_total }}
+        <h4>VAT: P{{ basket_total.vat }}</h4>
+        <h4>Total: P{{ basket_total.total }}</h4>
+    </div>
+
+{% endblock content %}

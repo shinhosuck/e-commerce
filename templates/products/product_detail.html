@@ -1,0 +1,140 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ query.name }} 
+{% endblock title %}
+
+
+
+{% block content %}
+
+    <div class="product-detail-container-wrapper">
+        <div class="product-detail-container">
+            <div class="product-detail-img-container">
+                <img src="{{ query.get_product_image_url }}" alt="">
+                <div class="product-detail-extra-images">
+                    {% for img in images %}
+                        <a href="#header" class="product-detail-extra-image">
+                            <span class="material-symbols-outlined product-detail-image-close-btn">close</span>
+                            <img class="extra-image" src="{{ img.image.url }}" alt="product image">
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="prduct-detail-info-container">
+                <h2 class="product-detail-name">{{ query.name }} <span>{{ query.description }}</span></h2>
+                <div class="product-detail-price-and-discount">
+                    {% if query.get_discount_price %}
+                        <h3 class="product-detail-price">P{{ query.discount_price_str_format }}</h3>
+                        <div class="product-detail-discount-price-container">
+                            <p class="product-detail-discount-price">P{{ query.price_str_format }}</p>
+                            <span>-10%</span>
+                        </div>
+                    {% else %}
+                        <h3 class="product-detail-price">P{{ query.price_str_format }}</h3>
+                    {% endif %}
+                    {% if query.available %}
+                        <p class="product-detail-in-stock">In stock</p>
+                    {% else %}
+                        <p class="product-detail-out-of-stock">Out of stock</p>
+                    {% endif %}
+                </div>
+                <div class="product-detail-brand-and-seller">
+                    <p class="product-detail-brand-name">Brand: <a href="">{{ query.brand }}</a></p>
+                    <p>|</p>
+                    <p class="product-detail-seller-organization">Sold by: <a href="">{{ query.seller_organization }}</a></p>
+                </div>
+                {% if query.likes  and query.productreview_set.all%}
+                    <div class="product-detail-available-review-favorite">
+                        <a href="#reviews" class="product-detail-favorite-icon-container">
+                            <span class="product-detail-rating-count">{{ query.likes }}</span>
+                            <!-- <span class="material-symbols-rounded product-detail-favorite-icon">star</span> -->
+                            <!-- inserted from js -->
+                        </a>
+                        <a  href="#reviews" class="product-detail-review-icon-container">
+                            <span class="material-symbols-outlined product-detail-review-icon">rate_review</span>
+                            <span class="product-detail-review-count">
+                                {{ query.productreview_set.count }} 
+                            </span>
+                        </a>
+                    </div>
+                {% endif %}
+                {% if request.user.is_authenticated and purchase_verified %}
+                    {% if has_review %}
+                        <a class="write-a-review" href="{% url 'products:product-review' query.id %}?update={{ review_id }}">Update review</a>
+                    {% else %}
+                        <a class="write-a-review" href="{% url 'products:product-review' query.id %}">Write a review</a>
+                    {% endif %}
+                {% endif %}
+                <div class="product-detail-drop-container">
+                    <div class="product-detail-drop product-detail-toggle-btn">
+                        <h4 class="product-detail-detail-header">Specification</h4>
+                        <span class="material-symbols-outlined product-detail-arrow-up">keyboard_arrow_up</span>
+                        <span class="material-symbols-outlined product-detail-arrow-down">keyboard_arrow_down</span>
+                    </div>
+                    <p class="product-detail">{{ query.detail }}</p>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="product-detail-btns">
+                        <a class="add-to-basket" href="{% url 'products:add-to-basket' query.id %}">Add to cart</a>
+                        <a class="back-to-product" href="{% url 'products:product-list' %}">Continue shopping</a>
+                    </div>
+                {% else %}
+                    <div class="product-detail-btns">
+                        <a class="add-to-basket" href="{% url 'users:user-login' %}?next=/product/{{query.id}}/detail/">Login to purchase</a>
+                        <a class="back-to-product" href="{% url 'products:product-list' %}">Continue shopping</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if reviews %}
+            <div id="reviews" class="product-detail-customer-reviews-wrapper">
+                <h2 class="customer-reviews-header">Customer Reviews</h2>
+                <div class="product-detail-reviews">
+                    {% for review in reviews %}
+                        <div class="product-detail-review">
+                            <div class="review-author-info-container">
+                                <img src="{{ review.author.userprofile.profile_image.url }}" alt="img">
+                                <h4 class="review-author">{{ review.author.username }} </h4>
+                            </div>
+                            <div class="customer-review-rating-container">
+                                <p class="review-rated">{{ review.rating }}.0</p>
+                                <div class="customer-review-ratiing-stars">
+                                    <!-- <span class="material-symbols-rounded customer-review-star-rating">star</span> -->
+                                    <!-- insert stars from js -->
+                                </div>
+                            </div>
+                            <p class="review-created-data">Reviewed on {{ review.created|date:"N, d, Y" }}</p>
+                            <div class="customer-purchased-the-product">
+                                <input type="checkbox" checked>
+                                <h4 class="review-product-verified-purchase">Verified purchase</h4>
+                            </div>
+                            <h3 class="customer-review-title">{{ review.title }}</h3>
+                            <p class="review-content">{{ review.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        
+        const reviewRated = document.querySelectorAll('.review-rated')
+        
+        reviewRated.forEach((rating) => {
+            const sibling = rating.nextElementSibling
+            const rate = parseInt(rating.textContent)
+            stars = ''
+            for(let i = 0; i < rate; i++) {
+                stars += '<span class="material-symbols-rounded customer-review-star-rating">star</span>'
+            }
+            sibling.innerHTML += stars
+        })
+
+    </script>
+
+{% endblock content %}

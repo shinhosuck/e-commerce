@@ -1,0 +1,168 @@
+
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    Payment center
+{% endblock title %}
+
+
+{% block content %}
+
+    <style>
+
+        .payment-center-wrapper {
+            min-height: 100vh;
+            width: 95%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 0;
+            display: flex; 
+            flex-direction: column;
+        }
+
+        .purchase-items {
+            background: white;
+            padding: 1.3rem;
+            border-radius: 10px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .purchase-items > h2 {
+            letter-spacing: 0.05rem;
+            margin-bottom: 1rem;
+            font-size: 22px;
+            color: rgb(37, 37, 37);
+        }
+
+        .purchased-item-headers {
+            display: grid;
+            border-bottom: 1px solid rgb(209, 209, 209);
+        }
+
+        .purchased-item-headers > ul {
+            list-style-type: none;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .purchased-item-headers > ul > li {
+            text-transform: capitalize;
+            font-weight: bold;
+            letter-spacing: 0.05rem;
+            word-break: break-word;
+            padding-bottom: 0.2rem;
+        }
+
+        .purchase-item {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            border-bottom: 1px solid rgb(209, 209, 209);
+        }
+
+        .purchase-item > p {
+            letter-spacing: 0.05rem;
+            color: rgb(37, 37, 37);
+            word-break: break-word;
+            padding-bottom: 0.2rem;
+        }
+
+        .purchase-items-total-amount {
+            align-self: end;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .purchase-items-total-amount > h3 {
+            color: rgb(43, 43, 43);
+            font-weight: 500 !important;
+            font-size: 17px;
+        }
+
+        .checkout-form {
+            margin-top: 0.5rem;
+        }
+
+        .purchase-btn {
+            width: 100%;
+            background: orangered;
+            color: white;
+            padding: 0.6rem 2rem;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+            letter-spacing: 0.05rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 552px) {
+            .purchased-item-headers > ul > li {
+                letter-spacing: initial;
+                font-size: 0.9rem;
+            }
+            .purchase-item > p {
+                letter-spacing: initial;
+                font-size: 0.9rem;
+            }
+        }
+        
+    </style>
+
+    <div class="payment-center-wrapper">
+        <div class="purchase-items">
+            <h2>Checkout summary</h2>
+            <div class="purchased-item-headers">
+                <ul>
+                    <li>Name</li>
+                    <li>Price</li>
+                    <li>Quantity</li>
+                    <li>Total</li>
+                </ul>
+            </div>
+            {% for item in query_set %}
+                <a href="{{ item.product.get_absolute_url }}" class="purchase-item">
+                    <p>{{ item.product.name }}</p>
+                    {% if item.product.get_discount_price %}
+                        <p>P{{ item.product.discount_price_str_format }}</p>
+                        <!-- from Product model method -->
+                    {% else %}
+                        <p>P{{ item.product.price_str_format }}</p>
+                    {% endif %}
+                    <p>{{ item.quantity }}</p>
+                    {% for order in order_total %}
+                        {% if item.product.id == order.id%}
+                            <p>P{{ order.order_total }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <!-- from Order model method -->
+                </a>
+            {% endfor %}
+            <div class="purchase-items-total-amount">
+                <h4>Number of items: {{ num_of_product }}</h4>
+                {% if not discount_amount == '0' %}
+                    <h4>Total savings: P{{ discount_amount }}</h4>
+                    <!-- coming from context_processor get_basket_total() -->
+                {% endif %}
+                <h4>Sub-total: P{{ sub_total }}</h4>
+                <h4>VAT: P{{ vat }}</h4>
+                <h4>Total: P{{ total }}</h4>
+                <!-- coming from context_processor get_basket_total() -->
+                <form class="checkout-form" action="{% url 'products:checkout' %}?str={{ sub_total }}" method="POST">
+                    {% csrf_token %}
+                    <button class="purchase-btn" type="submit" id="checkout-button">Purchase</button>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+    
+{% endblock content %}
+

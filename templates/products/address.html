@@ -1,0 +1,149 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Address 
+{% endblock title %}
+
+
+
+{% block banner %}
+{% endblock banner %}
+
+
+
+{% block content %}
+
+<style>
+
+    .shipping-address-form-wrapper {
+        padding: 3rem 0;
+    }
+
+    .shipping-address-form {
+        width: 95%;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        align-items: start;
+        flex-wrap: wrap;
+        gap: 1.3rem;
+        padding: 1.3rem;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .shipping-address-form-header {
+        flex: 0 0 100%;
+        letter-spacing: 0.05rem;
+    }
+
+    .address-inputs {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .address-inputs > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .address-inputs > div > label {
+        letter-spacing: 0.07rem;
+        color: rgb(49, 49, 49)
+    }
+
+    .address-inputs > div > input {
+        padding: 0.8rem 1rem;
+        border: 1px solid rgb(196, 196, 196);
+        border-radius: 5px;
+        font-size: 1rem;
+        letter-spacing: 0.07rem;
+    }
+
+    .address-inputs > div > input:focus {
+        outline: 2px solid rgb(135, 71, 255);
+        border: 1px solid transparent;
+    }
+
+    .address-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .address-btns > button, 
+    .address-btns > a {
+        text-align: center;
+        font-size: 1rem;
+        letter-spacing: 0.07rem;
+        padding: 0.8rem 1rem;
+        border-radius: 5px;
+        color: white;
+        background: orangered;
+        border: none;
+    }
+
+    .address-btns > a {
+        background: rgb(116, 13, 242) !important;
+    }
+
+</style>
+
+
+<div class="shipping-address-form-wrapper">
+    <form class="shipping-address-form" action="" method="POST">
+        {% csrf_token %}
+        <h2 class="shipping-address-form-header">Shipping address</h2>
+        <div class="address-inputs">
+            <div class="address-first-name">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+            <div class="address-last-name">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+            <div class="address-email">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="address-phone-number">
+                {{ form.phone_number.label_tag }}
+                {{ form.phone_number }}
+            </div>
+            <div class="address-address-input">
+                {{ form.address.label_tag }}
+                {{ form.address }}
+            </div>
+        </div>
+        <div class="address-inputs">
+            <div class="address-city">
+                {{ form.city.label_tag }}
+                {{ form.city }}
+            </div>
+            <div class="address-province">
+                {{ form.province.label_tag }}
+                {{ form.province }}
+            </div>
+            <div class="address-state">
+                {{ form.state.label_tag }}
+                {{ form.state }}
+            </div>
+            <div class="address-zip_code">
+                {{ form.zip_code.label_tag }}
+                {{ form.zip_code }}
+            </div>
+            <div class="address-btns">
+                <button type="submit">Continue to checkout</button>
+                <a href="{% url 'products:product-list' %}">Continue shopping</a>
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+{% endblock content %}
