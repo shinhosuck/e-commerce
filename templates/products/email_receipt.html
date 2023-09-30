@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Receipt</title>
+</head>
+<body>
+    <div class="email-receipt-container">
+        <h2>Receipt</h2>
+        <h4>Receipt ID:<span>{{ receipt_id }}</span></h4>
+        <h4>Customer Name:<span>{{ customer }}</span></h4>
+        <a href="{% url 'products:email-receipt' receipt_id %}?str=email receipt" class="email-receipt">Eamil Receipt</a>
+        {% for order in orders %}
+            <div class="email-receipt-order">
+                <p>Name:<span>{{ order.product.name }}</span></p>
+                <p>Quantity:<span>{{ order.quantity }}</span></p>
+                {% if order.product.get_discount_price %}
+                    <p>Price:<span>{{ order.product.discount_price_str_format}}</span></p>
+                    <p>Original Price:<span>{{ order.product.price_str_format}}</span></p>
+                    {% for amount in discount_amount %}
+                        {% if amount.id == order.product.id %}
+                            <p>Discount Amount:<span>{{ amount.discount }}</span></p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>Price:<span>{{ order.product.price_str_format}}</span></p>
+                {% endif %}
+                {% for total in order_total %}
+                    {% if total.id == order.id %}
+                        <h4>Order Total:<span>{{ total.total }}</span></h4>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <h4>Sub-total:<span>{{ sub_total }}</span></h4>
+        <h4>VAT:<span>{{ vat }}</span></h4>
+        <h4>Total:<span>{{ total }}</span></h4>
+    </div>
+</body>
+</html>

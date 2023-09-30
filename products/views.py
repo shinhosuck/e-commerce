@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.utils import timezone
-from .context_processors import get_basket_total
+from .context_processors import get_basket_total, get_customer_receipt
 from .models import (
     Product, 
     ProductImage,  
@@ -274,21 +274,21 @@ def checkout_view(request):
         checkout = Checkout.objects.create(customer=user)
         for product in orders:
             checkout.order.add(product)
-        checkout.set_amount_due()
-        checkout.save()
+            checkout.set_amount_due()
+            checkout.save()
         return redirect('products:checkout-session', checkout.id)
 
     for product in orders:
         checkout.order.add(product)
-    checkout.set_amount_due()
-    checkout.save()
+        checkout.set_amount_due()
+        checkout.save()
     return redirect('products:checkout-session', checkout.id)
 
 
 @login_required 
 def create_checkout_session_view(request, id):
     DOMAIN = 'http://127.0.0.1:8000/'
-
+    DOMAIN = f'http://{request.get_host()}/'
     try:
         checkout_obj = Checkout.objects.get(id=id, open=True)
     except:
@@ -298,7 +298,7 @@ def create_checkout_session_view(request, id):
     total = get_basket_total(request)['total'].replace(',','')
     total = int(Decimal(total)*100)
 
-    amount_due = int((checkout_obj.total_amount_due) * 100)
+    # amount_due = int((checkout_obj.total_amount_due) * 100)
     checkout_session = stripe.checkout.Session.create(
         line_items=[{ 
                 'price_data': { 
@@ -310,7 +310,6 @@ def create_checkout_session_view(request, id):
                 },
                 'quantity': 1
             }],
-        metadata={'receipt_url': 'http://127.0.0.1:8000/payment/success/7/'},
         mode='payment',
         success_url=DOMAIN + f'payment/success/{id}/',
         cancel_url=DOMAIN + 'payment/cancel/',
@@ -326,6 +325,8 @@ def payment_cancel_view(request):
 @login_required
 def payment_success_view(request, id):
     DOMAIN = 'http://127.0.0.1:8000'
+    DOMAIN = f'http://{request.get_host()}/'
+
     customer = request.user
     orders = customer.order_set.filter(open=True)
     checkout_obj = Checkout.objects.filter(id=id, open=True).first()
@@ -334,6 +335,9 @@ def payment_success_view(request, id):
         'domain': DOMAIN,
         'basket_total': get_basket_total(request),
     }
+
+    discount_amount = []
+    order_total = []
 
     if not orders.exists() and not checkout_obj:
         messages.error(request, 'You do not have any pending orders.')
@@ -345,6 +349,8 @@ def payment_success_view(request, id):
         discount = ''
         if item.product.get_discount_price():
             discount = item.product.price - Decimal(item.product.get_discount_price().replace(',',''))
+            discount_amount.append({'id':item.product.id, 'discount':f'{discount*item.quantity:,.2f}'})
+            order_total.append({'id':item.id, 'total':f'{item.get_order_total():,.2f}'})
             discount = f'{str(discount)[0:-6]},{str(discount)[-6:]}'
         else:
             discount = 0
@@ -382,20 +388,19 @@ def payment_success_view(request, id):
     send_mail(
         subject = 'Your ordered items',
         message = f'''
-            Thank you for shopping at AiAi Market. Here is your receipt:
-            \nReceipt ID: {receipt.id}{receipt.checkout_summary}
+            Thank you for shopping at AiAi Market!
+            click to see your receipt: {DOMAIN}email/receipt/{receipt.id}
         ''',
         recipient_list = [address.email],
         from_email = email_from,
-        html_message = loader.render_to_string(
-            'products/payment_success.html'
-        )
     )
 
     receipt.receipt_sent_date = timezone.now()
     receipt.sent = True
     receipt.save()
 
+    context['discount_amount'] = discount_amount
+    context['order_total'] = order_total
     context['receipt_id']= receipt.id
     context['customer'] = receipt.customer.username
     context['orders'] = receipt.checkout.order.all()
@@ -438,10 +443,63 @@ def stripe_webhook(request):
 
 def order_history_view(request):
     user = request.user
+    address = ShippingAddress.objects.get(customer=user)
+    email_from = settings.EMAIL_HOST_USER
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
+
+    # send_mail(
+    #     subject = 'Your ordered items',
+    #     message = f'''
+    #         Thank you for shopping at AiAi Market. Here is your receipt:
+    #     ''',
+    #     recipient_list = [address.email],
+    #     from_email = email_from,
+    #     html_message = loader.render_to_string(
+    #         'products/email_receipt.html'
+    #     )
+    # )
+
     return render(request, 'products/receipts.html', context)
 
 
 def success_view(request):
     return render(request, 'products/payment_success.html')
+
+
+def email_receipt_view(request, id):
+    email_receipt = request.GET.get('str')
+    print(email_receipt)
+    try:
+        receipt = CheckoutReceipt.objects.get(id=id)
+    except Exception as e:
+        messages.error(request, f'{e}')
+        return redirect('products:product-list')
+
+    order_total = [{'id':order.id, 'total':f'{order.get_order_total():,.2f}'} for order in receipt.checkout.order.all()]
+    sub_total = f'{receipt.checkout.total_amount_due:,.2f}'
+    vat = f'{float(receipt.checkout.total_amount_due)*.12:,.2f}'
+    total = f"{Decimal(sub_total.replace(',',''))+Decimal(vat.replace(',','')):,.2f}"
+    discount_amount = []
+
+    for order in receipt.checkout.order.all():
+        if order.product.get_discount_price():
+            discount = (order.product.price - Decimal(order.product.get_discount_price().replace(',',''))) * order.quantity
+            discount_amount.append({'id': order.product.id, 'discount': f'{discount:,.2f}'})
+
+    context = {
+        'discount_amount': discount_amount,
+        'orders':receipt.checkout.order.all(),
+        'order_total': order_total,
+        'sub_total': sub_total,
+        'vat': vat,
+        'total': total,
+        'customer': receipt.customer.username,
+        'receipt_id': id
+    }
+    if email_receipt:
+        address = ShippingAddress.objects.filter(customer=receipt.customer).first()
+        messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
+        return redirect('products:product-list')
+   
+    return render(request, 'products/email_receipt.html', context)

@@ -14,7 +14,7 @@
         min-height: 100vh;
         display: grid;
         gap: 1rem;
-        align-items: start;
+        align-content: start;
         padding: 2rem 0;
     }
 
@@ -102,99 +102,58 @@
         color: rgb(77, 77, 77);
     }
 </style>
-<div class="success-payment-main">
-    <div class="success-payment-receipt-info">
-        <h2>Transaction Complete</h2>
-        <p>
-            It is a long established fact that a reader will be distracted 
-            by the readable content of a page when looking at its layout.
-        </p>
-        <h4>Receipt ID: d0784895-2704-432b-8867-4f6dfb3f429b</h4>
-        <h4>Customer: jack_daniel</h4>
-    </div>
-    <div class="success-payment-wrapper">
-        <div class="order-receipts">
+
+    <div class="success-payment-main">
+        <div class="success-payment-receipt-info">
+            <h2>Payment was successful</h2>
+            <p>
+                It is a long established fact that a reader will be distracted 
+                by the readable content of a page when looking at its layout.
+            </p>
+            <h4>Receipt ID:<span>{{ receipt_id }}</span></h4>
+            <p>Customer:<span>{{ customer }}</span></p>
+            <a class="see-order-history" href="{% url 'products:order-history' %}">Order History</a>
+        </div>
+        <div class="success-payment-wrapper">
             <h2 class="purchased-items-header"> Purchased Items</h2>
-            <div class="order-receipt">
-                <p>Name: <span>Desktop PC</span></p>
-                <p>Quantity: <span>2</span></p>
-                <p>Price: <span>P15,455.00</span></p>
-                <p>Orginal price: <span>P16,700.00</span></p>
-                <p>Amount saved: <span>P1,245.00</span></p>
-                <p>Product URL: <a href="" target="_blank">Click to see the product</a></p>
-                <h4>Total: <span>P15,455.00</span></h4>
+            <div class="order-receipts">
+                {% for order in orders %}
+                    <div class="order-receipt">
+                        <p>Name:<span>{{ order.product.name }}</span></p>
+                        <p>Quantity:<span> {{ order.quantity }}</span></p>
+                        {% if order.product.get_discount_price %}
+                            <p>Price:<span>P{{ order.product.get_discount_price}}</span></p>
+                            <p>Orginal price:<span>P{{ order.product.price_str_format}}</span></p>
+                        {% else %}
+                            <p>Price:<span>{{ order.product.price_str_format}}</span></p>
+                        {% endif %}
+                        {% for discount in discount_amount %}
+                            {% if discount.id == order.product.id %}
+                                <p>Amount saved:<span>P{{ discount.discount}}</span></p>
+                            {% endif %}
+                        {% endfor %}
+                        <p>Url: <a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">
+                                click to see the product
+                            </a>
+                        </p>
+                        {% for obj in order_total %}
+                            {% if obj.id == order.id %}
+                                <h4>Total:<span>P{{ obj.total }}</span></h4>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="order-receipt">
-                <p>Name: <span>Desktop PC</span></p>
-                <p>Quantity: <span>2</span></p>
-                <p>Price: <span>P15,455.00</span></p>
-                <p>Orginal price: <span>P16,700.00</span></p>
-                <p>Amount saved: <span>P1,245.00</span></p>
-                <p>Product URL: <a href="" target="_blank">Click to see the product</a></p>
-                <h4>Total: <span>P15,455.00</span></h4>
+            <div class="success-payment-receipt-summary">
+                <h2>Checkout Summary</h2>
+                {% if basket_total.discount_amount %}
+                    <h4>Savings:<span>P{{ basket_total.discount_amount }}</span></h4>
+                {% endif %}
+                <h4>Sub-total:<span>P{{ basket_total.sub_total }}</span></h4>
+                <h4>VAT:<span>P{{ basket_total.vat }}</span></h4>
+                <h4>Total:<span>P{{ basket_total.total }}</span></h4>
             </div>
-            <div class="order-receipt">
-                <p>Name: <span>Desktop PC</span></p>
-                <p>Quantity: <span>2</span></p>
-                <p>Price: <span>P15,455.00</span></p>
-                <p>Orginal price: <span>P16,700.00</span></p>
-                <p>Amount saved: <span>P1,245.00</span></p>
-                <p>Product URL: <a href="" target="_blank">Click to see the product</a></p>
-                <h4>Total: <span>P15,455.00</span></h4>
-            </div>
-        </div>
-        <div class="success-payment-receipt-summary">
-            <h2>Transaction Summary</h2>
-            <h4>Savings:<span>P1,245.00</span></h4>
-            <h4>Sub-total:<span>P15,455.00</span></h4>
-            <h4>VAT:<span>P1,854.60</span> </h4>
-            <h4>Total:<span>P17,309.60</span></h4>
         </div>
     </div>
-</div>
-
-{% comment %}
-    <div class="success-payment-wrapper">
-        <h2>Payment was successful</h2>
-        <h4>Receipt ID: <span>{{ receipt_id }}</span></h4>
-        <p>Customer: <span>{{ customer }}</span></p>
-        <div class="order-receipts">
-            {% for order in orders %}
-                <div class="order-receipt">
-                    <p>Name: <span>{{ order.product.name }}</span></p>
-                    <p>Quantity: <span> {{ order.quantity }}</span></p>
-                    {% if order.product.get_discount_price %}
-                        <p>Price: <span>P{{ order.product.get_discount_price}}</span></p>
-                        <p>Orginal price: <span>P{{ order.product.price_str_format}}</span></p>
-                    {% else %}
-                        <p>Price: <span>{{ order.product.price_str_format}}</span></p>
-                    {% endif %}
-                    {% for discount in discount_amount %}
-                        {% if discount.name == order.product.name %}
-                            <p>Amount saved: <span>P{{ discount.discount_amount}}</span></p>
-                        {% endif %}
-                    {% endfor %}
-                    <p>Url: <a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">
-                            {{ domain }}{{ order.product.get_absolute_url }}
-                        </a>
-                    </p>
-                    {% for obj in basket_total.order_total %}
-                        {% if obj.id == order.id %}
-                            <h4>Total: <span>P{{ order_total }}</span></h4>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-        
-        <h2>Checkout Summary</h2>
-        {% if basket_total.discount_amount %}
-            <h4>Savings: <span>P{{ basket_total.discount_amount }}</span></h4>
-        {% endif %}
-        <h4>Sub-total: <span>P{{ basket_total.sub_total }}</span></h4>
-        <h4>VAT: <span>P{{ basket_total.vat }}</span></h4>
-        <h4>Total: <span>P{{ basket_total.total }}</span></h4>
-    </div>
-{% endcomment %}
-
+    
 {% endblock content %}

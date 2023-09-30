@@ -72,12 +72,12 @@ class Product(models.Model):
         item = Product.objects.get(id=self.id)
         if item.sub_category:
             if item.sub_category.name in sub_cat:
-                discount = item.price - (item.price * Decimal(.10))
+                discount = round(item.price - (item.price * Decimal(.10)), 2)
                 for char in str(discount):
                     if char == '.':
                         index = str(discount).index(char)
                         discount = f'{str(discount)[0 : index - 3]},{str(discount)[index - 3 : index  + 3]} '
-                self.discount_price_str_format = discount.strip()
+                self.discount_price_str_format = discount
                 return discount
         # return 0
     
@@ -146,10 +146,10 @@ class Order(models.Model):
 
     def get_order_total(self):
         if self.product.get_discount_price():
-            order_total = self.quantity * Decimal(self.product.get_discount_price().replace(',', ''))
+            order_total = round(self.quantity * Decimal(self.product.get_discount_price().replace(',', '')), 2)
             return order_total
         else:
-            order_total = self.quantity * self.product.price
+            order_total = round(self.quantity * self.product.price, 2)
             return order_total
     
     def __str__(self):
@@ -169,16 +169,16 @@ class Checkout(models.Model):
     order = models.ManyToManyField(Order)
     date_created = models.DateTimeField(auto_now_add=True)
     checkout_date = models.DateTimeField(null=True)
-    total_amount_due = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_amount_due = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     open = models.BooleanField(default=True)
 
     def set_amount_due(self):
         customer = User.objects.get(username=self.customer.username)
         checkout = Checkout.objects.get(customer=customer, open=True)
         amount_due = [product.get_order_total() for product in checkout.order.all()]
-        self.total_amount_due = sum( amount_due)
+        self.total_amount_due = round(sum(amount_due), 2)
         checkout.save()
-        return sum(amount_due)
+        return round(sum(amount_due), 2)
     
     def __str__(self):
         return f'{self.customer.username} - {self.order}'

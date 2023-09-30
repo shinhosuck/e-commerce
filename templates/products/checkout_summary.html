@@ -147,7 +147,7 @@
             {% endfor %}
             <div class="purchase-items-total-amount">
                 <h4>Number of items: {{ num_of_product }}</h4>
-                {% if not discount_amount == '0' %}
+                {% if discount_amount %}
                     <h4>Total savings: P{{ discount_amount }}</h4>
                     <!-- coming from context_processor get_basket_total() -->
                 {% endif %}
