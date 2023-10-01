@@ -99,7 +99,7 @@
                         </button>
                         <div class="quantity">
                             Qty:
-                            <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
+                            <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="1">
                         </div>
                         <button  type="button" class="basket-add-item">
                             <span class="material-symbols-outlined">
@@ -178,15 +178,13 @@
         btn.addEventListener('click', (e) => {
             const input = e.currentTarget.nextElementSibling.firstElementChild
             const submitButton = e.currentTarget.nextElementSibling.nextElementSibling.nextElementSibling
-            if(input.value >= 1){
+            if(input.value > 1){
                 input.value --
                 submitButton.textContent = 'Update'
-                if(input.value <=0) {
-                    submitButton.textContent = 'Delete'
-                    input.value = 0
-                }
+            } if(input.value <= 1) {
+                    submitButton.textContent = 'Remove'
+                    input.value = 1
             }
-
         })
     })
     

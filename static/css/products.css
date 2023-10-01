@@ -2087,7 +2087,7 @@ basket.html
 .sub-total-btns {
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.5rem;
 }
 
 .sub-total-btns > a {
@@ -2095,7 +2095,7 @@ basket.html
     padding: 0.8rem 1rem;
     background: orangered;
     color: white;
-    border-radius: 5px;
+    border-radius: 25px;
     text-align: center;
 }
 

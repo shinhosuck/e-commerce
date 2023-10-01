@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from .models import CheckoutReceipt
 from decimal import Decimal
 
+
+
 def get_basket_total(request):
     user = request.user
     discount_amount = []
@@ -63,44 +65,3 @@ def get_basket_total(request):
             }
     return {'num_of_product': 0}
     
-
-def get_customer_receipt(request):
-    
-    try:
-        receipt = CheckoutReceipt.objects.get(id=id)
-    except Exception as e:
-       return {'error': f'{e}'}
-    
-    
-    discount_amount = []
-    orders = receipt.checkout.order.all()
-    order_total = []
-
-    for order in orders:
-        total = f'{str(order.get_order_total())[0:-6]},{str(order.get_order_total())[-6:]}'
-        order_total.append({'id':order.id, 'total':total})
-
-        if order.product.get_discount_price():
-            discount_price = order.product.get_discount_price().replace(',', '')
-            amount = round((order.product.price - Decimal(discount_price)) * order.quantity, 2)
-            discount_amount.append({'id':order.product.id, 'discount_amount': f'{str(amount)[0:-6]},{str(amount)[-6:]}'})
-
-    total = round(Decimal(round(float(receipt.checkout.total_amount_due)*.12, 2)) + receipt.checkout.total_amount_due, 2)
-    total = f'{str(total)[0:-6]},{str(total)[-6:]}'
-
-    tax = round(float(receipt.checkout.total_amount_due)*.12, 2)
-    tax = f'{str(tax)[0:-6]},{str(tax)[-6:]}'
-
-    total_amount = round(receipt.checkout.total_amount_due, 2)
-    total_amount = f'{str(total_amount)[0:-6]},{str(total_amount)[-6:]}'
-
-    return {
-        'receipt_id': receipt.id, 
-        'customer': receipt.checkout.customer.username,
-        'orders': orders, 
-        'receipt_discount_amount': discount_amount,
-        'receipt_order_total': order_total,
-        'total_amount': total_amount,
-        'tax': tax,
-        'receipt_total': total
-    }

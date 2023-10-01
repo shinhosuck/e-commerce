@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.utils import timezone
-from .context_processors import get_basket_total, get_customer_receipt
+from .context_processors import get_basket_total
 from .models import (
     Product, 
     ProductImage,  
@@ -25,7 +25,7 @@ from .forms import (
     ProductReviewForm,
     ShippingAddressForm,
 )
-from django.template import loader
+from django.template.loader import render_to_string
 from django.conf import settings
 import stripe
 import json
@@ -220,9 +220,10 @@ def basket_view(request):
 def update_basket_view(request, id):
     user = request.user
     qty = request.GET.get('amount')
+    print('QTY:', qty)
     order = Order.objects.get(customer=user, product__id=id, open=True)
 
-    if int(qty) == 0 or order.quantity == int(qty):
+    if int(qty) == 1 or order.quantity == int(qty):
         order.delete()
         messages.success(request, f'{order.product.name} has been deleted from your basket.')
         return redirect('products:product-basket')
@@ -343,38 +344,17 @@ def payment_success_view(request, id):
         messages.error(request, 'You do not have any pending orders.')
         return redirect('products:order-history')
     
-    your_purchase = ''
-
     for item in checkout_obj.order.all():
-        discount = ''
         if item.product.get_discount_price():
             discount = item.product.price - Decimal(item.product.get_discount_price().replace(',',''))
             discount_amount.append({'id':item.product.id, 'discount':f'{discount*item.quantity:,.2f}'})
             order_total.append({'id':item.id, 'total':f'{item.get_order_total():,.2f}'})
-            discount = f'{str(discount)[0:-6]},{str(discount)[-6:]}'
-        else:
-            discount = 0
-        your_purchase += f'''
-        Customer: {checkout_obj.customer.username},
-        Product name: {item.product.name}, 
-        Price: P{item.product.price_str_format}, 
-        Discount price: P{item.product.discount_price_str_format},
-        Saved: P{discount}, 
-        Quantity: {item.quantity},
-        item_url: {DOMAIN}{item.product.get_absolute_url()}
-        --------------------------------------------------
-        '''
-    if get_basket_total(request)['discount_amount']:
-        your_purchase += 'Savings: {0}\n'.format(get_basket_total(request)['discount_amount'])
-    your_purchase += 'Sub-total: {0},{1}\n'.format(str(checkout_obj.set_amount_due())[0:-6], str(checkout_obj.set_amount_due())[-6:])
-    your_purchase += 'VAT: {0}\n'.format(get_basket_total(request)['vat'])
-    your_purchase += 'Total: {0}'.format(get_basket_total(request)['total'])
 
     # create CheckoutReceipt
     receipt = CheckoutReceipt.objects.create(
         checkout=checkout_obj, 
         customer=customer, 
-        checkout_summary=your_purchase,
+        # checkout_summary=your_purchase,
         saving = '{0}'.format(get_basket_total(request)['discount_amount']),
         sub_total = '{0},{1}'.format(str(checkout_obj.set_amount_due())[0:-6], str(checkout_obj.set_amount_due())[-6:]),
         tax = '{0}'.format(get_basket_total(request)['vat']),
@@ -441,25 +421,11 @@ def stripe_webhook(request):
     return HttpResponse(status=200)
 
 
+@login_required
 def order_history_view(request):
     user = request.user
-    address = ShippingAddress.objects.get(customer=user)
-    email_from = settings.EMAIL_HOST_USER
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
-
-    # send_mail(
-    #     subject = 'Your ordered items',
-    #     message = f'''
-    #         Thank you for shopping at AiAi Market. Here is your receipt:
-    #     ''',
-    #     recipient_list = [address.email],
-    #     from_email = email_from,
-    #     html_message = loader.render_to_string(
-    #         'products/email_receipt.html'
-    #     )
-    # )
-
     return render(request, 'products/receipts.html', context)
 
 
@@ -468,8 +434,9 @@ def success_view(request):
 
 
 def email_receipt_view(request, id):
+
     email_receipt = request.GET.get('str')
-    print(email_receipt)
+    
     try:
         receipt = CheckoutReceipt.objects.get(id=id)
     except Exception as e:
@@ -498,7 +465,18 @@ def email_receipt_view(request, id):
         'receipt_id': id
     }
     if email_receipt:
+        html = render_to_string('products/email_receipt.html', context)
         address = ShippingAddress.objects.filter(customer=receipt.customer).first()
+        email_from = settings.EMAIL_HOST_USER
+        send_mail(
+            subject = 'Your ordered items',
+            message = f'''
+                Thank you for shopping at AiAi Market. Here is your receipt:
+            ''',
+            recipient_list = [address.email],
+            from_email = email_from,
+            html_message = html
+        )
         messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
         return redirect('products:product-list')
    
