@@ -325,6 +325,13 @@ def payment_cancel_view(request):
 
 @login_required
 def payment_success_view(request, id):
+
+    random_checkout = request.GET.get('q')
+    if random_checkout:
+        checkout = CheckoutReceipt.objects.order_by('?').first()
+        print(checkout)
+
+
     DOMAIN = 'http://127.0.0.1:8000'
     DOMAIN = f'http://{request.get_host()}/'
 
@@ -349,12 +356,13 @@ def payment_success_view(request, id):
             discount = item.product.price - Decimal(item.product.get_discount_price().replace(',',''))
             discount_amount.append({'id':item.product.id, 'discount':f'{discount*item.quantity:,.2f}'})
             order_total.append({'id':item.id, 'total':f'{item.get_order_total():,.2f}'})
+        else:
+            order_total.append({'id':item.id, 'total':f'{item.get_order_total():,.2f}'})
 
     # create CheckoutReceipt
     receipt = CheckoutReceipt.objects.create(
         checkout=checkout_obj, 
         customer=customer, 
-        # checkout_summary=your_purchase,
         saving = '{0}'.format(get_basket_total(request)['discount_amount']),
         sub_total = '{0},{1}'.format(str(checkout_obj.set_amount_due())[0:-6], str(checkout_obj.set_amount_due())[-6:]),
         tax = '{0}'.format(get_basket_total(request)['vat']),
@@ -364,7 +372,7 @@ def payment_success_view(request, id):
     address = ShippingAddress.objects.get(customer=request.user)
     email_from = settings.EMAIL_HOST_USER
 
-    # send customer the receipt
+    # send customer the url of the receipt
     send_mail(
         subject = 'Your ordered items',
         message = f'''
@@ -384,6 +392,7 @@ def payment_success_view(request, id):
     context['receipt_id']= receipt.id
     context['customer'] = receipt.customer.username
     context['orders'] = receipt.checkout.order.all()
+    context['email'] = address.email
 
     for order in orders:
         order.open = False
@@ -426,11 +435,20 @@ def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
-    return render(request, 'products/receipts.html', context)
+    return render(request, 'products/order_history.html', context)
 
 
 def success_view(request):
-    return render(request, 'products/payment_success.html')
+    context = {}
+    random_checkout = request.GET.get('q')
+    if random_checkout:
+        receipt = CheckoutReceipt.objects.order_by('?').first()
+        context['orders'] = receipt.checkout.order.all()
+        context['receipt_id'] = receipt.id
+        context['customer'] = receipt.customer
+        context['domain'] = f'http://{request.get_host()}/'
+        context['email'] = ShippingAddress.objects.filter(customer=receipt.customer).first().email
+    return render(request, 'products/payment_success.html', context)
 
 
 def email_receipt_view(request, id):

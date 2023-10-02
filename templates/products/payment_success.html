@@ -6,14 +6,15 @@
 {% endblock title %}
 
 
-{% block content %}
+{% block banner %}
+{% endblock banner %}
 
+{% block content %}
 
 <style>
     .success-payment-main {
         min-height: 100vh;
         display: grid;
-        gap: 1rem;
         align-content: start;
         padding: 2rem 0;
     }
@@ -22,30 +23,64 @@
         width: 95%;
         max-width: 1000px;
         margin: 0 auto;
-        background: rgb(106, 16, 147);
-        color: white; 
+        background: var(--purple-30);
+        color: rgb(255, 255, 255); 
         padding: 1.3rem;
         border-radius: 10px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
         display: grid;
-        gap: 0.5rem;
+        gap: 0.8rem;
+    }
+
+    .payment-successful-header {
         letter-spacing: 0.05rem;
     }
 
-    .success-payment-receipt-info > h2 {
-        letter-spacing: 0.05rem;
-    }
-
-    .success-payment-receipt-info > p {
+    .payment-successful-text {
         letter-spacing: 0.07rem;
-        color: rgb(206, 206, 206);
-        line-height: 1.3;
+        color: rgb(216, 216, 216);
+        line-height: 1.4;
         max-width: 600px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
     }
 
-    .success-payment-receipt-info > h4 {
+    .payment-successful-text > span {
+        color: white;
+        font-weight: 500;
+    }
+
+    .payment-successful-receipt-id {
         letter-spacing: 0.05rem;
         color: rgb(230, 230, 230);
         line-height: 1.4;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+    }
+
+    .payment-successful-receipt-customer {
+        letter-spacing: 0.05rem;
+        color: rgb(230, 230, 230);
+        line-height: 1.4;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+    }
+
+    .payment-successful-order-history-btn {
+        justify-self: start;
+        text-decoration: none;
+        padding: 0.7rem 1rem;
+        border-radius: 20px;
+        background: var(--orange-65);
+        color: rgb(255, 255, 255);
+        letter-spacing: 0.05rem;
     }
 
     .success-payment-wrapper {
@@ -56,20 +91,22 @@
         gap: 1rem;
         padding: 1.3em;
         border-radius: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
         background: white;
     }
 
-    .order-receipts {
+    .success-payment-order-receipts {
         display: grid;
         gap: 1rem;
     }
 
-    .purchased-items-header {
-        color: hsl(281, 82%, 40%);
+    .success-payment-purchased-items-header {
+        color: rgb(35, 35, 35);
         letter-spacing: 0.05rem;
     }
 
-    .order-receipt {
+    .success-payment-order-receipt {
         display: grid;
         gap: 0.3rem;
         padding: 1rem;
@@ -77,12 +114,24 @@
         box-shadow: 0px 0px 6px -1px rgb(201, 201, 201);;
     }
 
-    .order-receipt > * {
-        word-break: break-all;
+    .success-payment-text {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
         letter-spacing: 0.05rem;
     }
 
-    .success-payment-receipt-summary {
+    .success-payment-order-total {
+        color: rgb(60, 60, 60);
+        letter-spacing: 0.02rem;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        font-size: 1.2rem;
+    }
+
+    .payment-successful-amount-received-container {
         display: grid;
         gap: 0.5rem;
         padding: 1rem;
@@ -90,70 +139,80 @@
         box-shadow: 0px 0px 6px -1px rgb(182, 182, 182);;
     }
 
-    .success-payment-receipt-summary > * {
+    .payment-successful-amount-received-header {
         letter-spacing: 0.05rem;
+        color: rgb(35, 35, 35);
+        font-size: 1.3rem;
+    }
+
+    .payment-successful-amount-received-container > h4 {
+        letter-spacing: 0.05rem;
+        color: rgb(35, 35, 35);
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.3rem;
+        gap: 0.2rem;
     }
 
-    .success-payment-receipt-summary > h4 > span {
+    .payment-successful-amount-received-container > h4 > span {
         color: rgb(77, 77, 77);
     }
 </style>
 
     <div class="success-payment-main">
         <div class="success-payment-receipt-info">
-            <h2>Payment was successful</h2>
-            <p>
-                It is a long established fact that a reader will be distracted 
-                by the readable content of a page when looking at its layout.
+            <h2 class="payment-successful-header">Payment was successful!</h2>
+            <p class="payment-successful-text">
+                The URL to your receipt has been sent to
+                <span>{{ email }}</span>. The email
+                that you have provided to us in Shipping Address. 
+                Thank you very much for shopping at our AiAi Market. 
             </p>
-            <h4>Receipt ID:<span>{{ receipt_id }}</span></h4>
-            <p>Customer:<span>{{ customer }}</span></p>
-            <a class="see-order-history" href="{% url 'products:order-history' %}">Order History</a>
+            <h4 class="payment-successful-receipt-id">Receipt ID:<span>{{ receipt_id }}</span></h4>
+            <h4 class="payment-successful-receipt-customer">Customer:<span>{{ customer }}</span></h4>
+
+            <a class="payment-successful-order-history-btn" href="{% url 'products:order-history' %}">See Order History</a>
         </div>
         <div class="success-payment-wrapper">
-            <h2 class="purchased-items-header"> Purchased Items</h2>
-            <div class="order-receipts">
+            <h2 class="success-payment-purchased-items-header"> Purchased Items</h2>
+            <div class="success-payment-order-receipts">
                 {% for order in orders %}
-                    <div class="order-receipt">
-                        <p>Name:<span>{{ order.product.name }}</span></p>
-                        <p>Quantity:<span> {{ order.quantity }}</span></p>
+                    <div class="success-payment-order-receipt">
+                        <p class="success-payment-text">Name:<span>{{ order.product.name }}</span></p>
+                        <p class="success-payment-text">Quantity:<span> {{ order.quantity }}</span></p>
                         {% if order.product.get_discount_price %}
-                            <p>Price:<span>P{{ order.product.get_discount_price}}</span></p>
-                            <p>Orginal price:<span>P{{ order.product.price_str_format}}</span></p>
+                            <p class="success-payment-text">Price:<span>P{{ order.product.get_discount_price}}</span></p>
+                            <p class="success-payment-text">Orginal price:<span>P{{ order.product.price_str_format}}</span></p>
                         {% else %}
-                            <p>Price:<span>{{ order.product.price_str_format}}</span></p>
+                            <p class="success-payment-text">Price:<span>{{ order.product.price_str_format}}</span></p>
                         {% endif %}
                         {% for discount in discount_amount %}
                             {% if discount.id == order.product.id %}
-                                <p>Amount saved:<span>P{{ discount.discount}}</span></p>
+                                <p class="success-payment-text">Amount saved:<span>P{{ discount.discount}}</span></p>
                             {% endif %}
                         {% endfor %}
-                        <p>Url: <a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">
+                        <p class="success-payment-text">Product URL: <a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">
                                 click to see the product
                             </a>
                         </p>
                         {% for obj in order_total %}
                             {% if obj.id == order.id %}
-                                <h4>Total:<span>P{{ obj.total }}</span></h4>
+                                <h4 class="success-payment-order-total">Total:<span>P{{ obj.total }}</span></h4>
                             {% endif %}
                         {% endfor %}
                     </div>
                 {% endfor %}
             </div>
-            <div class="success-payment-receipt-summary">
-                <h2>Checkout Summary</h2>
+            <div class="payment-successful-amount-received-container">
+                <h3 class="payment-successful-amount-received-header">Amount Received</h3>
                 {% if basket_total.discount_amount %}
-                    <h4>Savings:<span>P{{ basket_total.discount_amount }}</span></h4>
+                    <h4 class="payment-successful-amount-received-savings">Savings:<span>P{{ basket_total.discount_amount }}</span></h4>
                 {% endif %}
-                <h4>Sub-total:<span>P{{ basket_total.sub_total }}</span></h4>
-                <h4>VAT:<span>P{{ basket_total.vat }}</span></h4>
-                <h4>Total:<span>P{{ basket_total.total }}</span></h4>
+                <h4 class="payment-successful-amount-received-sub-total">Sub-total:<span>P{{ basket_total.sub_total }}</span></h4>
+                <h4 class="payment-successful-amount-received-tax">VAT:<span>P{{ basket_total.vat }}</span></h4>
+                <h4 class="payment-successful-amount-received-total">Total:<span>P{{ basket_total.total }}</span></h4>
             </div>
         </div>
     </div>
-    
+     cla=""
 {% endblock content %}

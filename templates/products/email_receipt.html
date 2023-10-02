@@ -146,6 +146,7 @@
         .email-receipt-summary-header {
             letter-spacing: 0.05rem;
             color: rgb(35, 35, 35);
+            font-size: 1.3rem;
         }
 
         .email-receipt-summary-text {
@@ -191,7 +192,7 @@
                 </div>
                 {% for total in order_total %}
                     {% if total.id == order.id %}
-                        <h3 class="receipt-order-total">Order Total:<span>P{{ total.total }}</span></h3>
+                        <h3 class="receipt-order-total">Total:<span>P{{ total.total }}</span></h3>
                     {% endif %}
                 {% endfor %}
             </div>

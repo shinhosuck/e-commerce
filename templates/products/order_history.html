@@ -1,0 +1,214 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Order history
+{% endblock title %}
+
+{% block banner %}
+{% endblock banner %}
+
+{% block content %}
+
+<style>
+
+    .order-history-container {
+        display: grid;
+        align-content: start;
+        padding: 2rem 0;
+    }
+
+    .order-history-header-container {
+        width: 95%;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        gap: 0.8rem;
+        padding: 1.3rem;
+        background: var(--purple-30);
+        color: white;
+        border-radius: 10px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .order-history-header {
+        color: rgb(255, 255, 255);
+        letter-spacing: 0.05rem;
+    }
+
+    .order-history-header-container > h4 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        letter-spacing: 0.05rem;
+        color: rgb(216, 216, 216)
+    }
+
+    .order-history-text {
+        letter-spacing: 0.07rem;
+        line-height: 1.4;
+        color: rgb(216, 216, 216);
+        max-width: 600px;
+    }
+
+    .receipts {
+        width: 95%;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        align-content: start;
+        border-radius: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background: white;
+    }
+
+    .receipt {
+        display: grid;
+        align-content: start;
+        border-bottom: 1px solid rgb(199, 199, 199);
+    }
+
+    .receipt:last-child {
+        border-bottom: none;
+    }
+
+    .receipts-info {
+        display: grid;
+        gap: 0.5rem;
+        padding: 1rem 1.3rem 0.65rem 1.3rem;
+    }
+
+    .receipts-info > * {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        color: rgb(61, 61, 61);
+        letter-spacing: 0.02rem;
+    }
+
+    .receipts-receipt-counter {
+        width: 30px;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--orange-60);
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: white;
+    }
+
+    .receipts-receipt-id {
+        color: rgb(20, 20, 20);
+        font-size: 1.1rem;
+    }
+
+    .receipts-products-ordered {
+        display: grid;
+        gap: 0.5rem;
+        padding: 1rem 1.3rem 0.65rem 1.3rem;
+    }
+
+    .receipts-product-ordered {
+        display: grid;
+        gap: 0.5rem;
+        background: hsl(282, 83%, 95%);
+        padding: 1rem;
+        border-radius: 5px;
+    }
+
+    .receipts-product-ordered > * {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        letter-spacing: 0.02rem;
+    }
+
+    .receipts-amount-paid {
+        display: grid;
+        gap: 0.5rem;
+        padding: 1rem 1.3rem 0.65rem 1.3rem;
+    }
+
+    .receipts-amount-paid > * {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        color: rgb(20, 20, 20);
+        letter-spacing: 0.05rem;
+    }
+
+    .receipts-amount-paid-text {
+        color: rgb(65, 65, 65);
+        letter-spacing: 0.02rem;
+    }
+
+</style>
+
+
+
+
+    <div class="order-history-container">
+        <div class="order-history-header-container">
+            <h2 class="order-history-header">Order History</h2>
+            <!-- <p class="order-history-text">
+                It is a long established fact that a reader will be distracted 
+                by the readable content of a page when looking at its layout.
+            </p> -->
+            <h4 class="order-history-username">Username: <span>{{ request.user.username}}</span></h4>
+            <h4 class="order-history-total-receipt">
+                {% if request.user.checkoutreceipt_set.count > 1 %}
+                    Total Receipts: <span>{{ request.user.checkoutreceipt_set.count }}</span>
+                {% else %}
+                    Total Receipt: <span>{{ request.user.checkoutreceipt_set.count }}</span>
+                {% endif %}
+            </h4>
+        </div>
+        <div class="receipts">
+            {% for receipt in receipts %}
+                <div class="receipt">
+                    <div class="receipts-info">
+                        <p class="receipts-receipt-counter">{{ forloop.counter }}</p>
+                        <h4 class="receipts-receipt-id">Receipt ID:<span>{{ receipt.id }}</span></h4>
+                        <p class="receipts-receipt-text">Customer:<span>{{ receipt.customer.username }}</span></p>
+                        <p class="receipts-receipt-text">Ordered date:<span>{{ receipt.created }}</span></p>
+                        <p class="receipts-receipt-text">Receipt URL sent:<span>{{ receipt.sent }}</span></p>
+                        <p class="receipts-receipt-text">Receipt sent date:<span>{{ receipt.receipt_sent_date }}</span></p>
+                    </div>
+                    <div class="receipts-products-ordered">
+                        <h3>Products ordered</h3>
+                        {% for order in receipt.checkout.order.all %}
+                            <div class="receipts-product-ordered">
+                                <p>Name:<span>{{ order.product.name }}</span></p>
+                                <p>Quantity:<span>{{ order.quantity }} {% if order.quantity > 1 %}items{% else %}item{% endif %}</span></p>
+                                {% if order.product.get_discount_price %}
+                                    <p>Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
+                                    <p>Orginal price:<span>P{{ order.product.price_str_format }}</span></p>
+                                {% else %}
+                                    <p>Price:<span>P{{ order.product.price_str_format }}</span></p>
+                                {% endif %}
+                                <a href="{{ domain }}{{ order.product.get_absolute_url }}">Product URL:<span>Click to see the product</span></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="receipts-amount-paid">
+                        <h3 class="receipts-amount-paid-header">Amount Paid</h3>
+                        {% if receipt.saving %}
+                            <h4 class="receipts-amount-paid-text">Savings:<span>P{{ receipt.saving }}</span></h4>
+                        {% endif %}
+                        <h4 class="receipts-amount-paid-text">Sub-total:<span>P{{ receipt.sub_total }}</span></h4>
+                        <h4 class="receipts-amount-paid-text">VAT:<span>P{{ receipt.tax }}</span></h4>
+                        <h4 class="receipts-amount-paid-text">Total:<span>P{{ receipt.total }}</span></h4>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
