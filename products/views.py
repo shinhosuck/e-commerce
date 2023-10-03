@@ -435,6 +435,13 @@ def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
+    order_total = []
+    for receipt in receipts:
+        orders = receipt.checkout.order.all()
+        for order in orders:
+            order_total.append({'id':order.product.id, 'total':f'{order.get_order_total():,.2f}'})
+    context['order_total'] = order_total
+    
     return render(request, 'products/order_history.html', context)
 
 

@@ -223,7 +223,7 @@ class CheckoutReceipt(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     receipt_sent_date = models.DateTimeField(null=True)
     sent = models.BooleanField(default=False)
-    saving = models.CharField(max_length=100, null=True, blank=True)
+    saving = models.CharField(max_length=100, null=True, blank=True, default='None')
     sub_total = models.CharField(max_length=100, null=True, blank=True)
     tax = models.CharField(max_length=100, null=True, blank=True)
     total = models.CharField(max_length=100, null=True, blank=True)

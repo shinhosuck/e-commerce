@@ -15,6 +15,7 @@
     .success-payment-main {
         min-height: 100vh;
         display: grid;
+        gap: 1rem;
         align-content: start;
         padding: 2rem 0;
     }
@@ -27,10 +28,9 @@
         color: rgb(255, 255, 255); 
         padding: 1.3rem;
         border-radius: 10px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
         display: grid;
-        gap: 0.8rem;
+        gap: 0.5rem;
+        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
     }
 
     .payment-successful-header {
@@ -41,7 +41,7 @@
         letter-spacing: 0.07rem;
         color: rgb(216, 216, 216);
         line-height: 1.4;
-        max-width: 600px;
+        max-width: 800px;
         display: flex;
         align-items: center;
         flex-wrap: wrap;
@@ -89,11 +89,10 @@
         margin: 0 auto;
         display: grid;
         gap: 1rem;
-        padding: 1.3em;
+        padding: 1.3rem;
         border-radius: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
         background: white;
+        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
     }
 
     .success-payment-order-receipts {
@@ -102,24 +101,34 @@
     }
 
     .success-payment-purchased-items-header {
-        color: rgb(35, 35, 35);
+        color: var(--purple-35);
         letter-spacing: 0.05rem;
     }
 
     .success-payment-order-receipt {
         display: grid;
-        gap: 0.3rem;
+        gap: 0.5rem;
         padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0px 0px 6px -1px rgb(201, 201, 201);;
+        border-radius: 5px;
+        background: var(--black-95);
     }
 
     .success-payment-text {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.2rem;
+        gap: 0.5rem;
         letter-spacing: 0.05rem;
+        font-weight: 500;
+        color: var(--black-15);
+    }
+
+    .success-payment-text > span {
+        font-weight: initial;
+    }
+
+    .success-payment-text > a {
+        color: var(--blue-50)
     }
 
     .success-payment-order-total {
@@ -134,15 +143,12 @@
     .payment-successful-amount-received-container {
         display: grid;
         gap: 0.5rem;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0px 0px 6px -1px rgb(182, 182, 182);;
     }
 
     .payment-successful-amount-received-header {
         letter-spacing: 0.05rem;
-        color: rgb(35, 35, 35);
-        font-size: 1.3rem;
+        color: var(--purple-35);
+        font-size: 1.2rem;
     }
 
     .payment-successful-amount-received-container > h4 {
@@ -164,8 +170,7 @@
             <h2 class="payment-successful-header">Payment was successful!</h2>
             <p class="payment-successful-text">
                 The URL to your receipt has been sent to
-                <span>{{ email }}</span>. The email
-                that you have provided to us in Shipping Address. 
+                <span>{{ email }}.</span>
                 Thank you very much for shopping at our AiAi Market. 
             </p>
             <h4 class="payment-successful-receipt-id">Receipt ID:<span>{{ receipt_id }}</span></h4>

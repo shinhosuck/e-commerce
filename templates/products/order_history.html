@@ -15,7 +15,37 @@
     .order-history-container {
         display: grid;
         align-content: start;
+        gap: 1rem;
         padding: 2rem 0;
+    }
+
+    .order-history-brand-name-container {
+        justify-self: center;
+        margin-bottom: 1rem;
+        /* border: 2px solid red; */
+    }
+
+    .order-history-brand-name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-history-brand-name > h1 {
+        font-size: 2.7rem;
+        letter-spacing: 0.04rem;
+        font-weight: 700;
+        color: var(--orange-50);
+        font-family: 'Lobster', 'Roboto', sans-serif;
+        text-shadow: 2px 2px 3px rgb(150, 150, 150);
+    }
+
+    .order-history-brand-name > p {
+        color: var(--purple-20);
+        letter-spacing: 0.07rem;
+        font-weight: 500;
+        font-size: 16px;
+        text-shadow: 2px 2px 3px rgb(150, 150, 150);
     }
 
     .order-history-header-container {
@@ -23,33 +53,55 @@
         max-width: 1000px;
         margin: 0 auto;
         display: grid;
-        gap: 0.8rem;
-        padding: 1.3rem;
         background: var(--purple-30);
         color: white;
         border-radius: 10px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
     }
 
     .order-history-header {
         color: rgb(255, 255, 255);
         letter-spacing: 0.05rem;
+        padding: 1rem 1.3rem 0.65rem 1.3rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-size: 1.7rem;
     }
 
-    .order-history-header-container > h4 {
+    .order-history-user-info-container {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        gap: 0.8rem;
+        padding: 1rem 1.3rem 0.65rem 1.3rem;
+    }
+
+    .order-history-user-profile-image {
+        width: 75px;
+        aspect-ratio: 1/1;
+        
+    }
+    .order-history-user-profile-image > img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 50%;
+    }
+
+    .order-history-user-profile-info {
+        display: grid;
         gap: 0.2rem;
+    }
+
+    .order-history-user-profile-info > p {
         letter-spacing: 0.05rem;
-        color: rgb(216, 216, 216)
+        color: var(--black-85)
     }
 
     .order-history-text {
         letter-spacing: 0.07rem;
         line-height: 1.4;
-        color: rgb(216, 216, 216);
+        color: rgb(230, 230, 230);
         max-width: 600px;
     }
 
@@ -60,147 +112,169 @@
         display: grid;
         align-content: start;
         border-radius: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        background: white;
+        gap: 1rem;
     }
 
     .receipt {
         display: grid;
         align-content: start;
-        border-bottom: 1px solid rgb(199, 199, 199);
-    }
-
-    .receipt:last-child {
-        border-bottom: none;
+        gap: 1rem;
+        padding: 1.3rem 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
     }
 
     .receipts-info {
         display: grid;
         gap: 0.5rem;
-        padding: 1rem 1.3rem 0.65rem 1.3rem;
+        padding: 0 1.3rem;
+        color: var(--black-15);
+    }
+
+    .receipts-receipt-id {
+        color: var(--purple-35) !important;
+        font-weight: 700 !important;
+        font-size: 1.3rem;
+    }
+
+    .receipts-receipt-id > span {
+        font-weight: 700 !important;
     }
 
     .receipts-info > * {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.2rem;
-        color: rgb(61, 61, 61);
-        letter-spacing: 0.02rem;
-    }
-
-    .receipts-receipt-counter {
-        width: 30px;
-        aspect-ratio: 1/1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: var(--orange-60);
+        gap: 0.5rem;
         font-weight: 500;
-        font-size: 0.9rem;
-        color: white;
     }
 
-    .receipts-receipt-id {
-        color: rgb(20, 20, 20);
-        font-size: 1.1rem;
+    .receipts-info > * > span {
+        font-weight: initial;
     }
 
     .receipts-products-ordered {
         display: grid;
         gap: 0.5rem;
-        padding: 1rem 1.3rem 0.65rem 1.3rem;
+        padding: 0 1.3rem;
     }
 
     .receipts-product-ordered {
         display: grid;
         gap: 0.5rem;
-        background: hsl(282, 83%, 95%);
+        background: var(--black-95);
         padding: 1rem;
         border-radius: 5px;
+    }
+
+    .receipt-products-ordered-header {
+        letter-spacing: 0.05rem;
+        color: var(--purple-35)
     }
 
     .receipts-product-ordered > * {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.2rem;
-        letter-spacing: 0.02rem;
+        gap: 0.5rem;
+        font-weight: 500;
+        color: var(--black-10);
+    }
+
+    .receipts-product-ordered > * > span {
+        font-weight: initial;
+    }
+
+    .receipts-product-ordered > * > a {
+        color: var(--blue-50)
     }
 
     .receipts-amount-paid {
         display: grid;
         gap: 0.5rem;
-        padding: 1rem 1.3rem 0.65rem 1.3rem;
+        padding: 0 1.3rem;
+    }
+
+    .receipts-amount-paid-header {
+        letter-spacing: 0.05rem;
+        color: var(--purple-35) !important
     }
 
     .receipts-amount-paid > * {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.2rem;
-        color: rgb(20, 20, 20);
+        gap: 0.5rem;
+        color: var(--black-5);
         letter-spacing: 0.05rem;
     }
 
-    .receipts-amount-paid-text {
-        color: rgb(65, 65, 65);
-        letter-spacing: 0.02rem;
+    .receipts-amount-paid > * > span {
+        font-weight: initial;
     }
-
 </style>
 
 
 
 
     <div class="order-history-container">
+        <div class="order-history-brand-name-container">
+            <a class="order-history-brand-name" href="{% url 'products:product-home' %}">
+                <h1>AiAi Market</h1>
+                <p>THE PLACE TO SHOP</p>
+            </a>
+        </div>
         <div class="order-history-header-container">
             <h2 class="order-history-header">Order History</h2>
-            <!-- <p class="order-history-text">
-                It is a long established fact that a reader will be distracted 
-                by the readable content of a page when looking at its layout.
-            </p> -->
-            <h4 class="order-history-username">Username: <span>{{ request.user.username}}</span></h4>
-            <h4 class="order-history-total-receipt">
-                {% if request.user.checkoutreceipt_set.count > 1 %}
-                    Total Receipts: <span>{{ request.user.checkoutreceipt_set.count }}</span>
-                {% else %}
-                    Total Receipt: <span>{{ request.user.checkoutreceipt_set.count }}</span>
-                {% endif %}
-            </h4>
+            <div class="order-history-user-info-container">
+                <div class="order-history-user-profile-image">
+                    <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
+                </div>
+                <div class="order-history-user-profile-info">
+                    <p class="order-history-username">{{ request.user.username }}</p>
+                    <p>
+                        {{ request.user.shippingaddress_set.all.first.first_name }} 
+                        {{ request.user.shippingaddress_set.all.first.last_name }}
+                    </p>
+                    <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                </div>
+            </div>
         </div>
         <div class="receipts">
             {% for receipt in receipts %}
                 <div class="receipt">
                     <div class="receipts-info">
-                        <p class="receipts-receipt-counter">{{ forloop.counter }}</p>
-                        <h4 class="receipts-receipt-id">Receipt ID:<span>{{ receipt.id }}</span></h4>
+                        <h3 class="receipts-receipt-id">Receipt ID:<span>{{ receipt.id }}</span></h3>
                         <p class="receipts-receipt-text">Customer:<span>{{ receipt.customer.username }}</span></p>
                         <p class="receipts-receipt-text">Ordered date:<span>{{ receipt.created }}</span></p>
-                        <p class="receipts-receipt-text">Receipt URL sent:<span>{{ receipt.sent }}</span></p>
+                        <p class="receipts-receipt-text">URL to receipt sent:<span>{{ receipt.sent }}</span></p>
                         <p class="receipts-receipt-text">Receipt sent date:<span>{{ receipt.receipt_sent_date }}</span></p>
                     </div>
                     <div class="receipts-products-ordered">
-                        <h3>Products ordered</h3>
+                        <h3 class="receipt-products-ordered-header">Products ordered</h3>
                         {% for order in receipt.checkout.order.all %}
                             <div class="receipts-product-ordered">
                                 <p>Name:<span>{{ order.product.name }}</span></p>
-                                <p>Quantity:<span>{{ order.quantity }} {% if order.quantity > 1 %}items{% else %}item{% endif %}</span></p>
+                                <p>Quantity:<span>{{ order.quantity }}</span></p>
                                 {% if order.product.get_discount_price %}
                                     <p>Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
                                     <p>Orginal price:<span>P{{ order.product.price_str_format }}</span></p>
                                 {% else %}
                                     <p>Price:<span>P{{ order.product.price_str_format }}</span></p>
                                 {% endif %}
-                                <a href="{{ domain }}{{ order.product.get_absolute_url }}">Product URL:<span>Click to see the product</span></a>
+                                <p>Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}">click to see the product</a></p>
+                                {% for item in receipt.checkout.order.all %}
+                                    {% if item.product.id == order.product.id %}
+                                        <h4 class="receipt-products-order-total">Total:<span id="order_total">{{ item.get_order_total }}</span></h4>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         {% endfor %}
                     </div>
                     <div class="receipts-amount-paid">
                         <h3 class="receipts-amount-paid-header">Amount Paid</h3>
-                        {% if receipt.saving %}
+                        {% if not receipt.saving == 'None' %}
                             <h4 class="receipts-amount-paid-text">Savings:<span>P{{ receipt.saving }}</span></h4>
                         {% endif %}
                         <h4 class="receipts-amount-paid-text">Sub-total:<span>P{{ receipt.sub_total }}</span></h4>
@@ -211,4 +285,16 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        
+        const IdorderTotal = document.querySelectorAll('#order_total')
+
+        IdorderTotal.forEach((order) => {
+            let content = order.textContent
+            let newContent = `P${content.slice(0, -6)},${content.slice(-6,)}`
+            order.textContent = newContent
+        })
+
+    </script>
 {% endblock content %}
