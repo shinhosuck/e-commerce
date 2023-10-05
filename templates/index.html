@@ -25,7 +25,9 @@
 </head>
 <body id="body">
     <header id="header">
-        {% include 'navbar.html' %}
+        {% block navbar %}
+            {% include 'navbar.html' %}
+        {% endblock navbar%}
     </header>
     <main>
         
@@ -36,6 +38,7 @@
         </div>
 
         <!-- Search form for mobile device -->
+        {% block form %}
         <div class="mobile-search-form-container">
             <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
                 <input class="mobile-search-input" type="text", name='q' required placeholder="Search">
@@ -44,6 +47,7 @@
                 </button>
             </form>
         </div>
+        {% endblock form %}
         <div class="main-content">
             {% include 'messages.html' %}
             

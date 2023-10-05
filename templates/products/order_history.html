@@ -5,218 +5,17 @@
     Order history
 {% endblock title %}
 
+{% block navbar %}
+{% endblock navbar %}
+
 {% block banner %}
 {% endblock banner %}
 
+
+{% block form %}
+{% endblock form %}
+
 {% block content %}
-
-<style>
-
-    .order-history-container {
-        display: grid;
-        align-content: start;
-        gap: 1rem;
-        padding: 2rem 0;
-    }
-
-    .order-history-brand-name-container {
-        justify-self: center;
-        margin-bottom: 1rem;
-        /* border: 2px solid red; */
-    }
-
-    .order-history-brand-name {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .order-history-brand-name > h1 {
-        font-size: 2.7rem;
-        letter-spacing: 0.04rem;
-        font-weight: 700;
-        color: var(--orange-50);
-        font-family: 'Lobster', 'Roboto', sans-serif;
-        text-shadow: 2px 2px 3px rgb(150, 150, 150);
-    }
-
-    .order-history-brand-name > p {
-        color: var(--purple-20);
-        letter-spacing: 0.07rem;
-        font-weight: 500;
-        font-size: 16px;
-        text-shadow: 2px 2px 3px rgb(150, 150, 150);
-    }
-
-    .order-history-header-container {
-        width: 95%;
-        max-width: 1000px;
-        margin: 0 auto;
-        display: grid;
-        background: var(--purple-30);
-        color: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
-    }
-
-    .order-history-header {
-        color: rgb(255, 255, 255);
-        letter-spacing: 0.05rem;
-        padding: 1rem 1.3rem 0.65rem 1.3rem;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-size: 1.7rem;
-    }
-
-    .order-history-user-info-container {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-        padding: 1rem 1.3rem 0.65rem 1.3rem;
-    }
-
-    .order-history-user-profile-image {
-        width: 75px;
-        aspect-ratio: 1/1;
-        
-    }
-    .order-history-user-profile-image > img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 50%;
-    }
-
-    .order-history-user-profile-info {
-        display: grid;
-        gap: 0.2rem;
-    }
-
-    .order-history-user-profile-info > p {
-        letter-spacing: 0.05rem;
-        color: var(--black-85)
-    }
-
-    .order-history-text {
-        letter-spacing: 0.07rem;
-        line-height: 1.4;
-        color: rgb(230, 230, 230);
-        max-width: 600px;
-    }
-
-    .receipts {
-        width: 95%;
-        max-width: 1000px;
-        margin: 0 auto;
-        display: grid;
-        align-content: start;
-        border-radius: 10px;
-        gap: 1rem;
-    }
-
-    .receipt {
-        display: grid;
-        align-content: start;
-        gap: 1rem;
-        padding: 1.3rem 0;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 6px -1px rgb(214, 214, 214);
-    }
-
-    .receipts-info {
-        display: grid;
-        gap: 0.5rem;
-        padding: 0 1.3rem;
-        color: var(--black-15);
-    }
-
-    .receipts-receipt-id {
-        color: var(--purple-35) !important;
-        font-weight: 700 !important;
-        font-size: 1.3rem;
-    }
-
-    .receipts-receipt-id > span {
-        font-weight: 700 !important;
-    }
-
-    .receipts-info > * {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        font-weight: 500;
-    }
-
-    .receipts-info > * > span {
-        font-weight: initial;
-    }
-
-    .receipts-products-ordered {
-        display: grid;
-        gap: 0.5rem;
-        padding: 0 1.3rem;
-    }
-
-    .receipts-product-ordered {
-        display: grid;
-        gap: 0.5rem;
-        background: var(--black-95);
-        padding: 1rem;
-        border-radius: 5px;
-    }
-
-    .receipt-products-ordered-header {
-        letter-spacing: 0.05rem;
-        color: var(--purple-35)
-    }
-
-    .receipts-product-ordered > * {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        font-weight: 500;
-        color: var(--black-10);
-    }
-
-    .receipts-product-ordered > * > span {
-        font-weight: initial;
-    }
-
-    .receipts-product-ordered > * > a {
-        color: var(--blue-50)
-    }
-
-    .receipts-amount-paid {
-        display: grid;
-        gap: 0.5rem;
-        padding: 0 1.3rem;
-    }
-
-    .receipts-amount-paid-header {
-        letter-spacing: 0.05rem;
-        color: var(--purple-35) !important
-    }
-
-    .receipts-amount-paid > * {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        color: var(--black-5);
-        letter-spacing: 0.05rem;
-    }
-
-    .receipts-amount-paid > * > span {
-        font-weight: initial;
-    }
-</style>
-
-
-
 
     <div class="order-history-container">
         <div class="order-history-brand-name-container">
@@ -225,8 +24,15 @@
                 <p>THE PLACE TO SHOP</p>
             </a>
         </div>
+       
         <div class="order-history-header-container">
-            <h2 class="order-history-header">Order History</h2>
+            <div class="order-history-header-text">
+                <h2 class="order-history-header">Order History</h2>
+                <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
+                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                    <span class="material-symbols-outlined">arrow_right_alt</span>
+                </a>
+            </div>
             <div class="order-history-user-info-container">
                 <div class="order-history-user-profile-image">
                     <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
@@ -239,33 +45,43 @@
                     </p>
                     <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
                 </div>
+                 <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
+                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                </a>
             </div>
         </div>
         <div class="receipts">
             {% for receipt in receipts %}
                 <div class="receipt">
                     <div class="receipts-info">
-                        <h3 class="receipts-receipt-id">Receipt ID:<span>{{ receipt.id }}</span></h3>
-                        <p class="receipts-receipt-text">Customer:<span>{{ receipt.customer.username }}</span></p>
-                        <p class="receipts-receipt-text">Ordered date:<span>{{ receipt.created }}</span></p>
+                        <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
+                        <p class="receipts-receipt-text">Receipt ID:<span>{{ receipt.id }}</span></p>
+                        <p class="receipts-receipt-text">Customer Name:<span>
+                            {{ request.user.shippingaddress_set.all.first.first_name }} 
+                            {{ request.user.shippingaddress_set.all.first.last_name }}
+                            </span>
+                        </p>
+                        <p class="receipts-receipt-text">Purchased Date:<span>{{ receipt.created }}</span></p>
+                        {% comment %}
                         <p class="receipts-receipt-text">URL to receipt sent:<span>{{ receipt.sent }}</span></p>
                         <p class="receipts-receipt-text">Receipt sent date:<span>{{ receipt.receipt_sent_date }}</span></p>
+                        {% endcomment %}
                     </div>
                     <div class="receipts-products-ordered">
-                        <h3 class="receipt-products-ordered-header">Products ordered</h3>
+                        <h3 class="receipt-products-ordered-header">Purchased Items</h3>
                         {% for order in receipt.checkout.order.all %}
                             <div class="receipts-product-ordered">
-                                <p>Name:<span>{{ order.product.name }}</span></p>
-                                <p>Quantity:<span>{{ order.quantity }}</span></p>
+                                <p class="receipts-product-text">Name:<span>{{ order.product.name }}</span></p>
+                                <p class="receipts-product-text">Quantity:<span>{{ order.quantity }}</span></p>
                                 {% if order.product.get_discount_price %}
-                                    <p>Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
-                                    <p>Orginal price:<span>P{{ order.product.price_str_format }}</span></p>
+                                    <p class="receipts-product-text">Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
+                                    <p class="receipts-product-text">Orginal price:<span>P{{ order.product.price_str_format }}</span></p>
                                 {% else %}
-                                    <p>Price:<span>P{{ order.product.price_str_format }}</span></p>
+                                    <p class="receipts-product-text">Price:<span>P{{ order.product.price_str_format }}</span></p>
                                 {% endif %}
-                                <p>Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}">click to see the product</a></p>
+                                <p class="receipts-product-text">Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">click to see your purchase</a></p>
                                 {% for item in receipt.checkout.order.all %}
-                                    {% if item.product.id == order.product.id %}
+                                    {% if item.id == order.id %}
                                         <h4 class="receipt-products-order-total">Total:<span id="order_total">{{ item.get_order_total }}</span></h4>
                                     {% endif %}
                                 {% endfor %}
@@ -279,7 +95,7 @@
                         {% endif %}
                         <h4 class="receipts-amount-paid-text">Sub-total:<span>P{{ receipt.sub_total }}</span></h4>
                         <h4 class="receipts-amount-paid-text">VAT:<span>P{{ receipt.tax }}</span></h4>
-                        <h4 class="receipts-amount-paid-text">Total:<span>P{{ receipt.total }}</span></h4>
+                        <h4 class="receipts-amount-paid-total">Total:<span>P{{ receipt.total }}</span></h4>
                     </div>
                 </div>
             {% endfor %}
@@ -289,6 +105,8 @@
     <script>
         
         const IdorderTotal = document.querySelectorAll('#order_total')
+
+        const receipts = document.querySelectorAll('.receipt')
 
         IdorderTotal.forEach((order) => {
             let content = order.textContent
