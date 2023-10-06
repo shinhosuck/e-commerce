@@ -2293,9 +2293,9 @@ basket.html
 
 }
 
-/* ========
-basket.html
-=========== */
+/* ===============
+order_history.html
+================== */
 .order-history-container {
     display: grid;
     align-content: start;
@@ -2487,7 +2487,7 @@ basket.html
     letter-spacing: 0.05rem;
     color: var(--purple-35);
     text-wrap: balance;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
 .receipts-product-ordered {
@@ -2540,7 +2540,7 @@ basket.html
 .receipts-amount-paid-header {
     letter-spacing: 0.05rem;
     color: var(--purple-35) !important;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
 .receipts-amount-paid-text {
