@@ -5,9 +5,10 @@
     Successful payment
 {% endblock title %}
 
-
-{% block banner %}
-{% endblock banner %}
+{% comment %}
+    {% block banner %}
+    {% endblock banner %}
+{% endcomment %}
 
 {% block content %}
 
@@ -21,7 +22,7 @@
 
     .success-payment-receipt-info {
         width: 95%;
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
         background: var(--purple-30);
         padding: 1rem;
@@ -108,7 +109,7 @@
 
     .success-payment-wrapper {
         width: 95%;
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
         display: grid;
         gap: 0.8rem;
@@ -268,6 +269,13 @@
 
         .payment-successful-amount-received-header {
             font-size: 1.3rem;
+        }
+    }
+
+    @media screen and (min-width: 1000px) {
+        
+        .success-payment-main {
+            padding: 2rem 0;
         }
     }
 

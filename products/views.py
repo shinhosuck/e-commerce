@@ -489,22 +489,7 @@ def email_receipt_view(request, id):
         'customer': receipt.customer,
         'receipt_id': id
     }
-    # if email_receipt:
-    #     html = render_to_string('products/email_receipt.html', context)
-    #     address = ShippingAddress.objects.filter(customer=receipt.customer).first()
-    #     email_from = settings.EMAIL_HOST_USER
-    #     send_mail(
-    #         subject = 'Your ordered items',
-    #         message = f'''
-    #             Thank you for shopping at AiAi Market. Here is your receipt:
-    #         ''',
-    #         recipient_list = [address.email],
-    #         from_email = email_from,
-    #         html_message = html
-    #     )
-    #     messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
-    #     return redirect('products:product-list')
-
+    
     html = render_to_string('products/email_receipt.html', context)
     address = ShippingAddress.objects.filter(customer=receipt.customer).first()
     email_from = settings.EMAIL_HOST_USER

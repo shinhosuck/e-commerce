@@ -10,8 +10,11 @@
     {% endblock navbar %}
 {% endcomment %}
 
-{% block banner %}
-{% endblock banner %}
+{% comment %}
+    {% block banner %}
+    {% endblock banner %}
+{% endcomment %}
+
 
 {% comment %}
     {% block form %}
@@ -21,13 +24,14 @@
 {% block content %}
 
     <div class="order-history-container">
+        {% comment %}
         <div class="order-history-brand-name-container">
             <a class="order-history-brand-name" href="{% url 'products:product-home' %}">
                 <h1>AiAi Market</h1>
                 <p>THE PLACE TO SHOP</p>
             </a>
         </div>
-       
+        {% endcomment %}
         <div class="order-history-header-container">
             <div class="order-history-header-text">
                 <h2 class="order-history-header">Order History</h2>
@@ -78,23 +82,37 @@
                                 Your Purchase
                             {% endif %} 
                         </h3>
+                        <div class="receipts-products-table-headers">
+                            <h4 class="receipts-products-table-header">Name</h4>
+                            <h4 class="receipts-products-table-header">Qty</h4>
+                            <h4 class="receipts-products-table-header">Price</h4>
+                            {% comment %}
+                            <h4 class="receipts-products-table-header">Old Price</h4>
+                            {% endcomment %}
+                            <h4 class="receipts-products-table-header">Total</h4>
+                        </div>
                         {% for order in receipt.checkout.order.all %}
-                            <div class="receipts-product-ordered">
-                                <p class="receipts-product-text">Name:<span>{{ order.product.name }}</span></p>
-                                <p class="receipts-product-text">Quantity:<span>{{ order.quantity }}</span></p>
+                            <a href="{{ order.product.get_absolute_url }}" target="_blank" class="receipts-product-ordered">
+                                <p class="receipts-product-text">{{ order.product.name }}</p>
+                                <p class="receipts-product-text">{{ order.quantity }}</p>
                                 {% if order.product.get_discount_price %}
-                                    <p class="receipts-product-text">Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
-                                    <p class="receipts-product-text">Orginal price:<span>P{{ order.product.price_str_format }}</span></p>
+                                    <p class="receipts-product-text">P{{ order.product.discount_price_str_format }}</p>
+                                    {% comment %}
+                                    <p class="receipts-product-text">P{{ order.product.price_str_format }}</p>
+                                    {% endcomment %}
                                 {% else %}
-                                    <p class="receipts-product-text">Price:<span>P{{ order.product.price_str_format }}</span></p>
+                                    <p class="receipts-product-text">P{{ order.product.price_str_format }}</p>
+                                    {% comment %}
+                                    <p class="receipts-product-text">n/a</p>
+                                    {% endcomment %}
                                 {% endif %}
-                                <p class="receipts-product-text">Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">click to see your purchase</a></p>
+                                <!-- <p class="receipts-product-text">Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">click to see your purchase</a></p> -->
                                 {% for item in receipt.checkout.order.all %}
                                     {% if item.id == order.id %}
-                                        <h4 class="receipt-products-order-total">Total:<span id="order_total">{{ item.get_order_total }}</span></h4>
+                                        <p class="receipts-product-text receipt-products-order-total">{{ item.get_order_total }}</p>
                                     {% endif %}
                                 {% endfor %}
-                            </div>
+                            </a>
                         {% endfor %}
                     </div>
                     <div class="receipts-amount-paid">
@@ -113,15 +131,46 @@
 
     <script>
         
-        const IdorderTotal = document.querySelectorAll('#order_total')
+        const orderTotal = document.querySelectorAll('.receipt-products-order-total')
 
-        const receipts = document.querySelectorAll('.receipt')
+        const receiptsProductsTableHeaders = document.querySelector('.receipts-products-table-headers')
+        const receiptsProductsTableChildren = receiptsProductsTableHeaders.querySelectorAll('h4')
 
-        IdorderTotal.forEach((order) => {
+        const receiptProductOrdered = [...document.querySelectorAll('.receipts-product-ordered')]
+        const receiptProductChildren = []
+
+
+        receiptProductOrdered.map((item) => {
+            receiptProductChildren.push([...item.querySelectorAll('p')])
+        })
+
+        receiptProductChildren.map((item) => {
+            item.map((i, index) => {
+                console.log(i)
+                let headerWidth = receiptsProductsTableChildren[index].offsetWidth
+                i.style.flexGrow = '1'
+                i.style.flexShrink = '1'
+                i.style.flexBasis = `${headerWidth}px`
+            })
+        })
+
+        window.addEventListener('resize', (e) => {
+            receiptProductChildren.map((item) => {
+                item.map((i, index) => {
+                    let headerWidth = receiptsProductsTableChildren[index].offsetWidth
+                    i.style.flexGrow = '1'
+                    i.style.flexShrink = '1'
+                    i.style.flexBasis = `${headerWidth}px`
+                })
+            })
+        })
+
+        orderTotal.forEach((order) => {
             let content = order.textContent
             let newContent = `P${content.slice(0, -6)},${content.slice(-6,)}`
             order.textContent = newContent
         })
 
+        
     </script>
 {% endblock content %}
