@@ -1,70 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'index.html' %}
 
-     <!-- google font -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap">
-     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <title>Email Receipt</title>
+
+
+{% block content %}
 
     <style>
-        ::before,
-        ::after,
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
+        .receipt-email-container {
+            display: grid;
+        }
+
+        .receipt-email-content {
+            display: grid;
+            gap: 1rem;
+            width: 95%;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1.3rem;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .receipt-info-header {
+            font-size: 1.7rem;
+            letter-spacing: 0.05rem;
+            color: var(--purple-30)
+        }
+
+        .email-receipt-order-header,
+        .email-receipt-summary-header {
+            font-size: 1.25rem;
+            letter-spacing: 0.05rem;
+            color: var(--purple-30)
+        }
+
+        .receipt-customer-info-container,
+        .receipt-purchased-info-container,
+        .receipt-payment-summary-info-container{
+            display: grid;
+            gap: 0.5rem
+        }
+
+        .receipt-customer-info-container > *,
+        .receipt-purchased-info-container > *,
+        .receipt-payment-summary-info-container > * {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            letter-spacing: 0.05rem;
+            font-weight: 500;
+        }
+
+        .receipt-customer-info-container > * > span,
+        .receipt-purchased-info-container > * > span,
+        .receipt-payment-summary-info-container > * > span {
+            font-weight: initial;
+        }
+
+        .receipt-purchased-info-container {
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px -1px rgb(161, 161, 161);
         }
     </style>
-</head>
-<body>
-    <div style="display:grid; align-items:start;width:90%;margin: 0 auto;border: 1px solid rgb(87, 87, 87);padding: 1rem 2rem; border-radius: 10px;">
-        <h2 class="receipt-info-header">Your Receipt</h2>
-        <h4 class="receipt-info-text">Username:<span>{{ customer.username }} </span></h4>
-        <h4 class="receipt-info-text">Customer:
-            <span>
-                {{ customer.shippingaddress_set.all.first.first_name }} 
-                {{ customer.shippingaddress_set.all.first.last_name }} 
-            </span>
-        </h4>
-        <h4 class="receipt-info-text">Receipt ID:<span>{{ receipt_id }}</span></h4>
-        <h2 class="email-receipt-order-header">
-            {% if orders.count > 1 %}
-                Your Purchases
-            {% else %}
-                Your Purchase
-            {% endif %}
-        </h2>
-        {% for order in orders %}
-            <p class="receipt-text">Name:<span>{{ order.product.name }}</span></p>
-            <p class="receipt-text">Quantity:<span>{{ order.quantity }}</span></p>
-            {% if order.product.get_discount_price %}
-                <p class="receipt-text">Price:<span>P{{ order.product.discount_price_str_format}}</span></p>
-                <p class="receipt-text">Original Price:<span>P{{ order.product.price_str_format}}</span></p>
-                {% for amount in discount_amount %}
-                    {% if amount.id == order.product.id %}
-                        <p class="receipt-text">Discount:<span>P{{ amount.discount }}</span></p>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <p class="receipt-text">Price:<span>P{{ order.product.price_str_format}}</span></p>
-            {% endif %}
-            {% for total in order_total %}
-                {% if total.id == order.id %}
-                    <h3 class="receipt-order-total">Total:<span>P{{ total.total }}</span></h3>
+
+    <div class="receipt-email-container">
+        <div class="receipt-email-content">
+            <h2 class="receipt-info-header">Your Receipt</h2>
+            <div class="receipt-customer-info-container">
+                <h4 class="receipt-info-text">Username:<span>{{ customer.username }} </span></h4>
+                <h4 class="receipt-info-text">Customer:
+                    <span>
+                        {{ customer.shippingaddress_set.all.first.first_name }} 
+                        {{ customer.shippingaddress_set.all.first.last_name }} 
+                    </span>
+                </h4>
+                <h4 class="receipt-info-text">Order ID:<span>{{ receipt_id }}</span></h4>
+                <h4 class="receipt-info-text">Order Data:<span>{{ date }}</span></h4>
+            </div>
+            <h2 class="email-receipt-order-header">
+                {% if orders.count > 1 %}
+                    Purchases
+                {% else %}
+                    Purchase
                 {% endif %}
+            </h2>
+            {% for order in orders %}
+                <div class="receipt-purchased-info-container">
+                    <p class="receipt-text">Name:<span>{{ order.product.name }}</span></p>
+                    <p class="receipt-text">Quantity:<span>{{ order.quantity }}</span></p>
+                    {% if order.product.get_discount_price %}
+                        <p class="receipt-text">Price:<span>P{{ order.product.discount_price_str_format}}</span></p>
+                        <p class="receipt-text">Original Price:<span>P{{ order.product.price_str_format}}</span></p>
+                        {% for amount in discount_amount %}
+                            {% if amount.id == order.product.id %}
+                                <p class="receipt-text">Discount:<span>P{{ amount.discount }}</span></p>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p class="receipt-text">Price:<span>P{{ order.product.price_str_format}}</span></p>
+                    {% endif %}
+                    {% for total in order_total %}
+                        {% if total.id == order.id %}
+                            <h4 class="receipt-order-total">Total:<span>P{{ total.total }}</span></h4>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endfor %}
-        {% endfor %}
-        <h2 class="email-receipt-summary-header">Payment Summary</h2>
-        <h4 class="email-receipt-summary-text">Sub-total:<span>P{{ sub_total }}</span></h4>
-        <h4 class="email-receipt-summary-text">VAT:<span>P{{ vat }}</span></h4>
-        <h4 class="email-receipt-summary-total">Total:<span>P{{ total }}</span></h4>
+            <h2 class="email-receipt-summary-header">Payment Summary</h2>
+            <div class="receipt-payment-summary-info-container">
+                <h4 class="email-receipt-summary-text">Sub-total:<span>P{{ sub_total }}</span></h4>
+                <h4 class="email-receipt-summary-text">VAT:<span>P{{ vat }}</span></h4>
+                <h4 class="email-receipt-summary-total">Total:<span>P{{ total }}</span></h4>
+            </div>
+        </div>
     </div>
 
+{% endblock content %}
 
-</body>
-</html>
+
+
+

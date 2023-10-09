@@ -5,33 +5,10 @@
     Order history
 {% endblock title %}
 
-{% comment %}
-    {% block navbar %}
-    {% endblock navbar %}
-{% endcomment %}
-
-{% comment %}
-    {% block banner %}
-    {% endblock banner %}
-{% endcomment %}
-
-
-{% comment %}
-    {% block form %}
-    {% endblock form %}
-{% endcomment %}
 
 {% block content %}
 
     <div class="order-history-container">
-        {% comment %}
-        <div class="order-history-brand-name-container">
-            <a class="order-history-brand-name" href="{% url 'products:product-home' %}">
-                <h1>AiAi Market</h1>
-                <p>THE PLACE TO SHOP</p>
-            </a>
-        </div>
-        {% endcomment %}
         <div class="order-history-header-container">
             <div class="order-history-header-text">
                 <h2 class="order-history-header">Order History</h2>
@@ -60,53 +37,40 @@
         <div class="receipts">
             {% for receipt in receipts %}
                 <div class="receipt">
-                    <div class="receipts-info">
-                        <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
-                        <p class="receipts-receipt-text">Receipt ID:<span>{{ receipt.id }}</span></p>
-                        <p class="receipts-receipt-text">Customer Name:<span>
-                            {{ request.user.shippingaddress_set.all.first.first_name }} 
-                            {{ request.user.shippingaddress_set.all.first.last_name }}
-                            </span>
-                        </p>
-                        <p class="receipts-receipt-text">Purchased Date:<span>{{ receipt.created }}</span></p>
-                        {% comment %}
-                        <p class="receipts-receipt-text">URL to receipt sent:<span>{{ receipt.sent }}</span></p>
-                        <p class="receipts-receipt-text">Receipt sent date:<span>{{ receipt.receipt_sent_date }}</span></p>
-                        {% endcomment %}
+                    <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
+                    <div class="receipt-info-header-container">
+                        <div class="receipt-info-header">
+                            <h4>Order ID</h4>
+                            <p>{{ receipt.id }}</p>
+                        </div>
+                        <div class="receipt-info-header">
+                            <h4>Customer</h4>
+                            <p>
+                                {{ request.user.shippingaddress_set.all.first.first_name }} 
+                                {{ request.user.shippingaddress_set.all.first.last_name }}
+                            </p>
+                        </div>
+                        <div class="receipt-info-header">
+                            <h4>Order Date</h4>
+                            <p>{{ receipt.created }}</p>
+                        </div>
                     </div>
                     <div class="receipts-products-ordered">
-                        <h3 class="receipt-products-ordered-header">
-                            {% if receipt.checkout.order.all.count > 1 %}
-                                Your Purchases 
-                            {% else %}
-                                Your Purchase
-                            {% endif %} 
-                        </h3>
                         <div class="receipts-products-table-headers">
                             <h4 class="receipts-products-table-header">Name</h4>
                             <h4 class="receipts-products-table-header">Qty</h4>
                             <h4 class="receipts-products-table-header">Price</h4>
-                            {% comment %}
-                            <h4 class="receipts-products-table-header">Old Price</h4>
-                            {% endcomment %}
                             <h4 class="receipts-products-table-header">Total</h4>
                         </div>
                         {% for order in receipt.checkout.order.all %}
-                            <a href="{{ order.product.get_absolute_url }}" target="_blank" class="receipts-product-ordered">
+                            <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
                                 <p class="receipts-product-text">{{ order.product.name }}</p>
                                 <p class="receipts-product-text">{{ order.quantity }}</p>
                                 {% if order.product.get_discount_price %}
                                     <p class="receipts-product-text">P{{ order.product.discount_price_str_format }}</p>
-                                    {% comment %}
-                                    <p class="receipts-product-text">P{{ order.product.price_str_format }}</p>
-                                    {% endcomment %}
                                 {% else %}
                                     <p class="receipts-product-text">P{{ order.product.price_str_format }}</p>
-                                    {% comment %}
-                                    <p class="receipts-product-text">n/a</p>
-                                    {% endcomment %}
                                 {% endif %}
-                                <!-- <p class="receipts-product-text">Product URL:<a href="{{ domain }}{{ order.product.get_absolute_url }}" target="_blank">click to see your purchase</a></p> -->
                                 {% for item in receipt.checkout.order.all %}
                                     {% if item.id == order.id %}
                                         <p class="receipts-product-text receipt-products-order-total">{{ item.get_order_total }}</p>
@@ -115,14 +79,25 @@
                             </a>
                         {% endfor %}
                     </div>
-                    <div class="receipts-amount-paid">
-                        <h3 class="receipts-amount-paid-header">Amount Paid</h3>
+                    <div class="receipts-amount-paid-container">
                         {% if not receipt.saving == 'None' %}
-                            <h4 class="receipts-amount-paid-text">Savings:<span>P{{ receipt.saving }}</span></h4>
+                        <div class="receipts-amount-paid">
+                            <h4>Savings</h4>
+                            <p>P{{ receipt.saving }}</p>
+                        </div>
                         {% endif %}
-                        <h4 class="receipts-amount-paid-text">Sub-total:<span>P{{ receipt.sub_total }}</span></h4>
-                        <h4 class="receipts-amount-paid-text">VAT:<span>P{{ receipt.tax }}</span></h4>
-                        <h4 class="receipts-amount-paid-total">Total:<span>P{{ receipt.total }}</span></h4>
+                        <div class="receipts-amount-paid">
+                            <h4>Sub-total</h4>
+                            <p>P{{ receipt.sub_total }}</p>
+                        </div>
+                        <div class="receipts-amount-paid">
+                            <h4>VAT</h4>
+                            <p>P{{ receipt.tax }}</p>
+                        </div>
+                        <div class="receipts-amount-paid">
+                            <h4>Total</h4>
+                            <p>P{{ receipt.total }}</p>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -139,14 +114,13 @@
         const receiptProductOrdered = [...document.querySelectorAll('.receipts-product-ordered')]
         const receiptProductChildren = []
 
-
+       
         receiptProductOrdered.map((item) => {
             receiptProductChildren.push([...item.querySelectorAll('p')])
         })
 
         receiptProductChildren.map((item) => {
             item.map((i, index) => {
-                console.log(i)
                 let headerWidth = receiptsProductsTableChildren[index].offsetWidth
                 i.style.flexGrow = '1'
                 i.style.flexShrink = '1'
@@ -171,6 +145,5 @@
             order.textContent = newContent
         })
 
-        
     </script>
 {% endblock content %}

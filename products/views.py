@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.utils.html import strip_tags
 from django.utils import timezone
 from .context_processors import get_basket_total
 from .models import (
@@ -459,8 +460,6 @@ def success_view(request):
 
 
 def email_receipt_view(request, id):
-
-    email_receipt = request.GET.get('str')
     
     try:
         receipt = CheckoutReceipt.objects.get(id=id)
@@ -471,7 +470,7 @@ def email_receipt_view(request, id):
     order_total = [{'id':order.id, 'total':f'{order.get_order_total():,.2f}'} for order in receipt.checkout.order.all()]
     sub_total = f'{receipt.checkout.total_amount_due:,.2f}'
     vat = f'{float(receipt.checkout.total_amount_due)*.12:,.2f}'
-    total = f"{Decimal(sub_total.replace(',',''))+Decimal(vat.replace(',','')):,.2f}"
+    total = f"{Decimal(sub_total.replace(',','')) + Decimal(vat.replace(',','')):,.2f}"
     discount_amount = []
 
     for order in receipt.checkout.order.all():
@@ -487,20 +486,33 @@ def email_receipt_view(request, id):
         'vat': vat,
         'total': total,
         'customer': receipt.customer,
-        'receipt_id': id
+        'receipt_id': id,
+        'date': receipt.created
     }
     
-    html = render_to_string('products/email_receipt.html', context)
+    html_message = render_to_string('products/email_receipt.html', context)
+    plain_message = strip_tags(html_message)
     address = ShippingAddress.objects.filter(customer=receipt.customer).first()
     email_from = settings.EMAIL_HOST_USER
-    send_mail(
-        subject = 'Your ordered items',
-        message = f'''
-            Thank you for shopping at AiAi Market. Here is your receipt:
-        ''',
-        recipient_list = [address.email],
+    
+    message = EmailMultiAlternatives(
+        subject = 'Your order',
+        body = plain_message,
         from_email = email_from,
-        html_message = html
+        to = [address.email],
     )
+    message.attach_alternative(html_message, 'text/html')
+    message.send()
+
+    # send_mail(
+    #     subject = 'Your ordered items',
+    #     message = f'''
+    #         Thank you for shopping at AiAi Market. Here is your receipt:
+    #     ''',
+    #     recipient_list = [address.email],
+    #     from_email = email_from,
+    #     html_message = html
+    # )
+
     messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
