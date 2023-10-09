@@ -55,25 +55,40 @@
                             <p>{{ receipt.created }}</p>
                         </div>
                     </div>
-                    <div class="receipts-products-ordered">
-                        <div class="receipts-products-table-headers">
-                            <h4 class="receipts-products-table-header">Name</h4>
-                            <h4 class="receipts-products-table-header">Qty</h4>
-                            <h4 class="receipts-products-table-header">Price</h4>
-                            <h4 class="receipts-products-table-header">Total</h4>
-                        </div>
+                    <div class="receipts-product-ordered-container">
                         {% for order in receipt.checkout.order.all %}
                             <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
-                                <p class="receipts-product-text">{{ order.product.name }}</p>
-                                <p class="receipts-product-text">{{ order.quantity }}</p>
+                                <div class="receipts-products-table-header">
+                                    <h4>Order Item</h4>
+                                    <p>{{ forloop.counter }} of {{ receipt.checkout.order.count }}</p>
+                                </div>
+                                <div class="receipts-products-table-header">
+                                    <h4>Name</h4>
+                                    <p>{{ order.product.name }}</p>
+                                </div>
+                                <div class="receipts-products-table-header">
+                                    <h4>Qty</h4>
+                                    <p>{{ order.quantity }}</p>
+                                </div>
+                                
                                 {% if order.product.get_discount_price %}
-                                    <p class="receipts-product-text">P{{ order.product.discount_price_str_format }}</p>
+                                    <div class="receipts-products-table-header">
+                                        <h4>Price</h4>
+                                        <p>P{{ order.product.discount_price_str_format }}</p>
+                                    </div>
+                                    
                                 {% else %}
-                                    <p class="receipts-product-text">P{{ order.product.price_str_format }}</p>
+                                    <div class="receipts-products-table-header">
+                                        <h4>Price</h4>
+                                        <p>P{{ order.product.price_str_format }}</p>
+                                    </div>
                                 {% endif %}
                                 {% for item in receipt.checkout.order.all %}
                                     {% if item.id == order.id %}
-                                        <p class="receipts-product-text receipt-products-order-total">{{ item.get_order_total }}</p>
+                                        <div class="receipts-products-table-header">
+                                            <h4>Total</h4>
+                                            <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                                        </div>
                                     {% endif %}
                                 {% endfor %}
                             </a>
@@ -106,38 +121,7 @@
 
     <script>
         
-        const orderTotal = document.querySelectorAll('.receipt-products-order-total')
-
-        const receiptsProductsTableHeaders = document.querySelector('.receipts-products-table-headers')
-        const receiptsProductsTableChildren = receiptsProductsTableHeaders.querySelectorAll('h4')
-
-        const receiptProductOrdered = [...document.querySelectorAll('.receipts-product-ordered')]
-        const receiptProductChildren = []
-
-       
-        receiptProductOrdered.map((item) => {
-            receiptProductChildren.push([...item.querySelectorAll('p')])
-        })
-
-        receiptProductChildren.map((item) => {
-            item.map((i, index) => {
-                let headerWidth = receiptsProductsTableChildren[index].offsetWidth
-                i.style.flexGrow = '1'
-                i.style.flexShrink = '1'
-                i.style.flexBasis = `${headerWidth}px`
-            })
-        })
-
-        window.addEventListener('resize', (e) => {
-            receiptProductChildren.map((item) => {
-                item.map((i, index) => {
-                    let headerWidth = receiptsProductsTableChildren[index].offsetWidth
-                    i.style.flexGrow = '1'
-                    i.style.flexShrink = '1'
-                    i.style.flexBasis = `${headerWidth}px`
-                })
-            })
-        })
+        const orderTotal = document.querySelectorAll('.receipt-order-total')
 
         orderTotal.forEach((order) => {
             let content = order.textContent
@@ -145,5 +129,23 @@
             order.textContent = newContent
         })
 
+        const receiptsProductOrdered = document.querySelectorAll('.receipts-product-ordered')
+
+
+        // const touchStart = function() {
+        //     console.log('hello')
+        // }
+
+        // const touchEnd = function() {
+        //     console.log('hello')
+        // }
+
+        // receiptsProductOrdered.forEach((order) => {
+        //     order.addEventListener('touchstart', touchStart, false)
+        // })
+
+        // receiptsProductOrdered.forEach((order) => {
+        //     order.addEventListener('touchend', touchEnd, false)
+        // })
     </script>
 {% endblock content %}
