@@ -38,6 +38,7 @@
             {% for receipt in receipts %}
                 <div class="receipt">
                     <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
+                    <!-- For mobile screen -->
                     <div class="receipt-info-header-container">
                         <div class="receipt-info-header">
                             <h4>Order ID</h4>
@@ -55,6 +56,23 @@
                             <p>{{ receipt.created }}</p>
                         </div>
                     </div>
+                    <!-- For large screen -->
+                    <div class="lg-receipt-info-header-container">
+                        <div class="receipt-info-header">
+                            <h4>Order ID</h4>
+                            <h4>Customer</h4>
+                            <h4>Order Date</h4>
+                        </div>
+                        <div class="receipt-info-text">
+                            <p>{{ receipt.id }}</p>
+                            <p>
+                                {{ request.user.shippingaddress_set.all.first.first_name }} 
+                                {{ request.user.shippingaddress_set.all.first.last_name }}
+                            </p>
+                            <p>{{ receipt.created }}</p>
+                        </div>
+                    </div>
+                    <!-- For mobile screen  -->
                     <div class="receipts-product-ordered-container">
                         {% for order in receipt.checkout.order.all %}
                             <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
@@ -94,6 +112,34 @@
                             </a>
                         {% endfor %}
                     </div>
+                    <!-- For large screen -->
+                    <div class="lg-receipts-product-ordered-container">
+                        <div class="receipts-products-table-header">
+                            <h4>Order</h4>
+                            <h4>Name</h4>
+                            <h4>Qty</h4>
+                            <h4>Price</h4>
+                            <h4>Total</h4>
+                        </div>
+                        {% for order in receipt.checkout.order.all %}
+                            <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
+                                <p>{{ forloop.counter }} of {{ receipt.checkout.order.count }}</p>
+                                <p>{{ order.product.name }}</p>
+                                <p>{{ order.quantity }}</p>
+                                {% if order.product.get_discount_price %}
+                                    <p>P{{ order.product.discount_price_str_format }}</p>
+                                {% else %}
+                                    <p>P{{ order.product.price_str_format }}</p>
+                                {% endif %}
+                                {% for item in receipt.checkout.order.all %}
+                                    {% if item.id == order.id %}
+                                        <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <!-- For mobile screen -->
                     <div class="receipts-amount-paid-container">
                         {% if not receipt.saving == 'None' %}
                         <div class="receipts-amount-paid">
@@ -111,6 +157,25 @@
                         </div>
                         <div class="receipts-amount-paid">
                             <h4>Total</h4>
+                            <p>P{{ receipt.total }}</p>
+                        </div>
+                    </div>
+                    <!-- For large screen -->
+                    <div class="lg-receipts-amount-paid-container">
+                        <div class="receipts-amount-paid">
+                            <h4>Savings</h4>
+                            <h4>Sub-total</h4>
+                            <h4>VAT</h4>
+                            <h4>Total</h4>
+                        </div>
+                        <div class="receipts-amount-paid-text">
+                            {% if not receipt.saving == 'None' %}
+                                <p>P{{ receipt.saving }}</p>
+                            {% else %}
+                                <p>n/a</p>
+                            {% endif %}
+                            <p>P{{ receipt.sub_total }}</p>
+                            <p>P{{ receipt.tax }}</p>
                             <p>P{{ receipt.total }}</p>
                         </div>
                     </div>
