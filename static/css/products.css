@@ -20,7 +20,15 @@
     --purple-50: hsl(280, 80%, 50%);
     --purple-55: hsl(280, 80%, 55%);
     --purple-60: hsl(280, 80%, 60%);
+    --purple-65: hsl(280, 100%, 65%);
     --purple-70: hsl(280, 100%, 70%);
+    --purple-75: hsl(280, 100%, 75%);
+    --purple-80: hsl(280, 100%, 80%);
+    --purple-85: hsl(280, 100%, 85%);
+    --purple-90: hsl(280, 100%, 90%);
+    --purple-93: hsl(280, 100%, 93%);
+    --purple-95: hsl(280, 100%, 95%);
+    --purple-97: hsl(280, 100%, 97%);
 
     --blue-50: hsl(251, 100%, 50%);
     --blue-55: hsl(251, 100%, 55%);
@@ -2398,10 +2406,10 @@ order_history.html
 
 .receipt {
     display: grid;
-    gap: 1rem;
     background: white;
     align-content: start;
     padding: 1rem;
+    gap: 1rem;
     border-radius: 10px;
 }
 
@@ -2427,7 +2435,7 @@ order_history.html
 
 .receipt-info-header-container {
     display: grid;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .lg-receipt-info-header-container {
@@ -2441,17 +2449,17 @@ order_history.html
     padding: 1rem;
     font-size: 1rem;
     color: var(--black-5);
-    background: hsl(0, 0%, 90%);
+    background: hsl(0, 0%, 85%);
 }
 
 .receipt-info-header:first-child {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .receipt-info-header:last-child {
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .receipt-info-header:nth-child(even) {
@@ -2469,7 +2477,7 @@ order_history.html
 
 .receipts-product-ordered {
     display: grid;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 @media (hover) {
@@ -2493,17 +2501,17 @@ order_history.html
    gap: 0.5rem;
    padding: 1rem;
    color: black;
-   background: hsl(0, 0%, 90%);
+   background: hsl(0, 0%, 85%);
 }
 
 .receipts-products-table-header:first-child {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .receipts-products-table-header:last-child {
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .receipts-products-table-header:nth-child(even) {
@@ -2512,7 +2520,7 @@ order_history.html
 
 .receipts-amount-paid-container {
     display: grid;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .lg-receipts-amount-paid-container {
@@ -2524,17 +2532,17 @@ order_history.html
     grid-template-columns: 30% 1fr;
     gap: 0.5rem;
     padding: 1rem;
-    background: hsl(0, 0%, 90%);
+    background: hsl(0, 0%, 85%);
 }
 
 .receipts-amount-paid:first-child {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .receipts-amount-paid:last-child {
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .receipts-amount-paid:nth-child(even) {
@@ -2590,26 +2598,35 @@ order_history.html
 }
 
 @media screen and (min-width: 800px) {
+
+    .receipt {
+        gap: 0;
+        padding: 1.3rem;
+    }
+
+    .receipt-counter {
+        margin-bottom: 1rem;
+    }
+
     .receipt-info-header-container {
         display: none;
     }
     
     .lg-receipt-info-header-container {
         display: grid;
-        border-radius: 5px;
         color: rgb(0, 0, 0);
+        border-top-left-radius: 10px !important;
+        border-top-right-radius: 10px !important;
     }
 
     .receipt-info-header {
         grid-template-columns: repeat(3, 1fr);
-        background: hsl(0, 0%, 80%);
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
-
-    .receipt-info-header:last-child {
-        border-bottom-right-radius: 0px;
-        border-bottom-left-radius: 0px;
+        background: hsl(0, 0%, 70%) !important;
+        color: rgb(0, 0, 0);
+        border-top-left-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+        letter-spacing: 0.05rem;
+        padding: 1rem;
     }
 
     .receipt-info-text {
@@ -2618,8 +2635,7 @@ order_history.html
         background: hsl(0, 0%, 95%);
         gap: 0.5rem;
         padding: 1rem;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        letter-spacing: 0.05rem;
     }
 
     .receipts-product-ordered-container {
@@ -2638,9 +2654,11 @@ order_history.html
         align-items: start;
         gap: 0.5rem;
         padding: 1rem;
-        background: hsl(0, 0%, 80%);
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
+        background: hsl(0, 0%, 70%);
+        color: rgb(0, 0, 0);
+        letter-spacing: 0.05rem;
+        border-top-left-radius: 0px !important;
+        border-top-right-radius: 0px !important;
     }
 
     .receipts-products-table-header > * {
@@ -2655,16 +2673,11 @@ order_history.html
         color: var(--black-5);
         grid-template-columns: repeat(5, 1fr);
         background: hsl(0, 0%, 95%) !important;
+        letter-spacing: 0.05rem;
     }
 
     .receipts-product-ordered:nth-child(odd) {
-        background: hsl(0, 0%, 90%) !important;
-    }
-
-    .receipts-product-ordered:last-child {
-        border-bottom: none;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        background: hsl(0, 0%, 93%) !important;
     }
 
     .receipts-amount-paid-container {
@@ -2673,15 +2686,19 @@ order_history.html
 
     .lg-receipts-amount-paid-container {
         display: grid;
-        border-radius: 5px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
         color: rgb(0, 0, 0);
     }
 
     .receipts-amount-paid {
-        background: hsl(0, 0%, 80%);
+        background: hsl(0, 0%, 70%);
+        color: rgb(0, 0, 0);
+        letter-spacing: 0.05rem;
         grid-template-columns: repeat(4, 1fr);
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
+        border-top-left-radius: 0px !important;
+        border-top-right-radius: 0px !important;
+        padding: 1rem;
     }
 
     .receipts-amount-paid:last-child {
@@ -2694,9 +2711,10 @@ order_history.html
         grid-template-columns: repeat(4, 1fr);
         gap: 0.5rem;
         padding: 1rem;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
         background: hsl(0, 0%, 95%);
+        letter-spacing: 0.05rem;
     }
 }
 

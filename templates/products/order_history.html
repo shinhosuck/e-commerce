@@ -77,8 +77,8 @@
                         {% for order in receipt.checkout.order.all %}
                             <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
                                 <div class="receipts-products-table-header">
-                                    <h4>Order Item</h4>
-                                    <p>{{ forloop.counter }} of {{ receipt.checkout.order.count }}</p>
+                                    <h4>Order</h4>
+                                    <p>{{ forloop.counter }}</p>
                                 </div>
                                 <div class="receipts-products-table-header">
                                     <h4>Name</h4>
@@ -123,7 +123,7 @@
                         </div>
                         {% for order in receipt.checkout.order.all %}
                             <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
-                                <p>{{ forloop.counter }} of {{ receipt.checkout.order.count }}</p>
+                                <p>{{ forloop.counter }}</p>
                                 <p>{{ order.product.name }}</p>
                                 <p>{{ order.quantity }}</p>
                                 {% if order.product.get_discount_price %}
