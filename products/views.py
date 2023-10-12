@@ -327,13 +327,6 @@ def payment_cancel_view(request):
 @login_required
 def payment_success_view(request, id):
 
-    random_checkout = request.GET.get('q')
-    if random_checkout:
-        checkout = CheckoutReceipt.objects.order_by('?').first()
-        print(checkout)
-
-
-    DOMAIN = 'http://127.0.0.1:8000'
     DOMAIN = f'http://{request.get_host()}/'
 
     customer = request.user
@@ -342,14 +335,14 @@ def payment_success_view(request, id):
 
     context = {
         'domain': DOMAIN,
-        'basket_total': get_basket_total(request),
+        'basket_total': get_basket_total(request) # from context processors,
     }
 
     discount_amount = []
     order_total = []
 
     if not orders.exists() and not checkout_obj:
-        messages.error(request, 'You do not have any pending orders.')
+        messages.info(request, 'You do not have pending payment')
         return redirect('products:order-history')
     
     for item in checkout_obj.order.all():
@@ -393,7 +386,7 @@ def payment_success_view(request, id):
     context['receipt_id']= receipt.id
     context['customer'] = receipt.customer
     context['orders'] = receipt.checkout.order.all()
-    context['email'] = address.email,
+    context['email'] = address.email
     context['order_date'] = receipt.created
 
     for order in orders:
@@ -437,14 +430,19 @@ def stripe_webhook(request):
 def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
+
+    if not receipts.exists():
+        messages.info(request, 'You do not have order history')
+        return redirect('products:product-list')
+    
     context= {'receipts': receipts}
     order_total = []
+
     for receipt in receipts:
         orders = receipt.checkout.order.all()
         for order in orders:
             order_total.append({'id':order.product.id, 'total':f'{order.get_order_total():,.2f}'})
     context['order_total'] = order_total
-    
     return render(request, 'products/order_history.html', context)
 
 

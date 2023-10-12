@@ -155,7 +155,7 @@
                 <h4>VAT: P{{ vat }}</h4>
                 <h4>Total: P{{ total }}</h4>
                 <!-- coming from context_processor get_basket_total() -->
-                <form class="checkout-form" action="{% url 'products:checkout' %}?str={{ sub_total }}" method="POST">
+                <form class="checkout-form" action="{% url 'products:checkout' %}" method="POST">
                     {% csrf_token %}
                     <button class="purchase-btn" type="submit" id="checkout-button">Purchase</button>
                 </form>

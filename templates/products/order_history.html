@@ -171,7 +171,7 @@
                             <h4>Total</h4>
                         </div>
                         <div class="receipts-amount-paid-text">
-                            {% if not receipt.saving == 'None' %}
+                            {% if not receipt.saving == '[]' %}
                                 <p>P{{ receipt.saving }}</p>
                             {% else %}
                                 <p>n/a</p>
@@ -198,21 +198,5 @@
 
         const receiptsProductOrdered = document.querySelectorAll('.receipts-product-ordered')
 
-
-        // const touchStart = function() {
-        //     console.log('hello')
-        // }
-
-        // const touchEnd = function() {
-        //     console.log('hello')
-        // }
-
-        // receiptsProductOrdered.forEach((order) => {
-        //     order.addEventListener('touchstart', touchStart, false)
-        // })
-
-        // receiptsProductOrdered.forEach((order) => {
-        //     order.addEventListener('touchend', touchEnd, false)
-        // })
     </script>
 {% endblock content %}
