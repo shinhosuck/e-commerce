@@ -79,6 +79,10 @@
         border-radius: 10px;
     }
 
+    .lg-payment-success-customer-info-container {
+        display: none;
+    }
+
     .payment-success-customer-info {
         display: grid;
         grid-template-columns: 30% 1fr;
@@ -103,6 +107,10 @@
     .success-payment-order-receipts {
         display: grid;
         gap: 1rem;
+    }
+
+    .lg-success-payment-order-receipts {
+        display: none;
     }
 
     .success-payment-order-receipt {
@@ -137,6 +145,10 @@
         border-radius: 10px;
     }
 
+    .lg-payment-success-amount-received-container {
+        display: none;
+    }
+
     .payment-amount-received-text {
         padding: 1rem;
         display: grid;
@@ -158,30 +170,107 @@
         border-bottom-right-radius: 10px;
     }
 
-    @media screen and (min-width: 500px) {
-
-        .payment-successful-header {
-            text-align: start;
+   
+    @media screen and (min-width: 800px) {
+        .success-payment-wrapper {
+            gap: 0;
+            padding: 1.3rem;
         }
 
-        .payment-successful-text {
-            text-align: start;
+        .payment-success-customer-info-container {
+            display: none;
         }
 
-        .payment-successful-order-history-btn {
-            justify-self: start;
+        .success-payment-order-receipt {
+            display: none;
         }
 
-    }
-
-    @media screen and (min-width: 700px) {
-
-        .success-payment-receipt-info {
-            padding: 1rem 1.3rem;
+        .payment-successful-amount-received-container {
+            display: none;
         }
 
-        .payment-successful-header {
-            font-size: 1.7rem;
+        .lg-payment-success-customer-info-container {
+            display: grid;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .payment-success-customer-info-header {
+            display: grid;
+            gap: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 1rem;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            background: hsl(0, 0%, 70%)
+        }
+
+        .payment-success-customer-info-text {
+            display: grid;
+            gap: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 1rem;
+            background: hsl(0, 0%, 95%)
+        }
+
+        .lg-success-payment-order-receipts {
+            display: grid;
+        }
+
+        .success-payment-order-headers {
+            display: grid;
+            gap: 0.5rem;
+            padding: 1rem;
+            grid-template-columns: repeat(5, 1fr);
+            background: hsl(0, 0%, 70%)
+        }
+
+        .lg-success-payment-order-text {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+            color: rgb(0, 0, 0);
+            background: hsl(0, 0%, 95%)
+        }
+
+        .lg-success-payment-order-text:nth-child(odd) {
+            background: hsl(0, 0%, 93%)
+        }
+
+        @media (hover) {
+            .lg-success-payment-order-text:hover {
+                background: var(--purple-45) !important;
+                color: white;
+            }
+            .lg-success-payment-order-text:nth-child(odd):hover {
+                background: var(--purple-45) !important;
+                color: white;
+            }
+        }
+
+        .lg-payment-success-amount-received-container {
+            display: grid;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .payment-amount-received-headers {
+            display: grid;
+            gap: 0.5rem;
+            padding: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+            background: hsl(0, 0%, 70%)
+        }
+
+        .lg-payment-amount-received-text {
+            display: grid;
+            gap: 0.5rem;
+            padding: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background: hsl(0, 0%, 95%)
         }
     }
 
@@ -205,6 +294,7 @@
             <a class="payment-successful-order-history-btn" href="{% url 'products:order-history' %}">See Order History</a>
         </div>
         <div class="success-payment-wrapper">
+            <!-- For mobile screen -->
             <div class="payment-success-customer-info-container">
                 <div class="payment-success-customer-info">
                     <h4>Order ID</h4>
@@ -213,11 +303,43 @@
                 </div>
                 <div class="payment-success-customer-info">
                     <h4>Customer</h4>
-                    <p>{{ customer }}</p>
+                    <p>
+                        {% if customer %}
+                            {{ customer }}
+                        {% else %}
+                            {{ cutomer.shippingaddress_set.all.first.first_name }} 
+                            {{ cutomer.shippingaddress_set.all.first.last_name }}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="payment-success-customer-info">
+                    <h4>Order Date</h4>
+                    <p>{{ order_data }}</p>
+                </div>
+            </div>
+            <!-- For large screen -->
+            <div class="lg-payment-success-customer-info-container">
+                <div class="payment-success-customer-info-header">
+                    <h4>Order ID</h4>
+                    <h4>Customer</h4>
+                    <h4>Order Date</h4>
+                </div>
+                <div class="payment-success-customer-info-text">
+                    <p>{{ receipt_id }}</p>
+                    <p>
+                        {% if customer %}
+                            {{ customer }}
+                        {% else %}
+                            {{ cutomer.shippingaddress_set.all.first.first_name }} 
+                            {{ cutomer.shippingaddress_set.all.first.last_name }}
+                        {% endif %}
+                    </p>
+                    <p>{{ order_data }}</p>
                 </div>
             </div>
             <div class="success-payment-order-receipts">
                 {% for order in orders %}
+                    <!-- For mobile screen -->
                     <a class="success-payment-order-receipt" target="_blank" href="{{ order.product.get_absolute_url }}">
                         <div class="success-payment-order-text">
                             <h4>Order</h4>
@@ -253,13 +375,46 @@
                     </a>
                 {% endfor %}
             </div>
+            <!-- For large screen -->
+            <div class="lg-success-payment-order-receipts">
+                <div class="success-payment-order-headers">
+                    <h4>Order</h4>
+                    <h4>Name</h4>
+                    <h4>Qty</h4>
+                    <h4>Price</h4>
+                    <h4>Total</h4>
+                </div>
+                {% for order in orders %}
+                    <a href="{{ order.product.get_absolute_url }}" class="lg-success-payment-order-text" target="_blank">
+                        <p>{{ forloop.counter }}</p>
+                        <p>{{ order.product.name }}</p>
+                        <p>{{ order.quantity }}</p>
+                        {% if order.product.get_discount_price %}
+                            <p>P{{ order.product.get_discount_price}}</p>
+                        {% else %}
+                            <p>P{{ order.product.price_str_format}}</p>
+                        {% endif %}
+                        {% comment %}
+                            {% for obj in order_total %}
+                                {% if obj.id == order.id %}
+                                    <p>P{{ obj.total }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endcomment %}
+                        <p>P{{ order.get_order_total }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+            <!-- For mobile screen -->
             <div class="payment-successful-amount-received-container">
-                {% if basket_total.discount_amount %}
-                    <div class="payment-amount-received-text">
-                        <h4>Savings</h4>
+                <div class="payment-amount-received-text">
+                    <h4>Savings</h4>
+                    {% if basket_total.discount_amount %}
                         <p>P{{ basket_total.discount_amount }}</p>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <p>n/a</p>
+                    {% endif %}
+                </div>
                 <div class="payment-amount-received-text">
                     <h4>Sub-total</h4>
                     <p>P{{ basket_total.sub_total }}</p>
@@ -270,6 +425,25 @@
                 </div>
                 <div class="payment-amount-received-text">
                     <h4>Total</h4>
+                    <p>P{{ basket_total.total }}</p>
+                </div>
+            </div>
+            <!-- For large screen -->
+            <div class="lg-payment-success-amount-received-container">
+                <div class="payment-amount-received-headers">
+                    <h4>Savings</h4>
+                    <h4>Sub-total</h4>
+                    <h4>VAT</h4>
+                    <h4>Total</h4>
+                </div>
+                <div class="lg-payment-amount-received-text">
+                    {% if basket_total.discount_amount %}
+                        <p>P{{ basket_total.discount_amount }}</p>
+                    {% else %}
+                        <p>n/a</p>
+                    {% endif %}
+                    <p>P{{ basket_total.sub_total }}</p>
+                    <p>P{{ basket_total.vat }}</p>
                     <p>P{{ basket_total.total }}</p>
                 </div>
             </div>

@@ -391,9 +391,10 @@ def payment_success_view(request, id):
     context['discount_amount'] = discount_amount
     context['order_total'] = order_total
     context['receipt_id']= receipt.id
-    context['customer'] = receipt.customer.username
+    context['customer'] = receipt.customer
     context['orders'] = receipt.checkout.order.all()
-    context['email'] = address.email
+    context['email'] = address.email,
+    context['order_date'] = receipt.created
 
     for order in orders:
         order.open = False
@@ -401,6 +402,7 @@ def payment_success_view(request, id):
     checkout_obj.open = False
     checkout_obj.checkout_date = timezone.now()
     checkout_obj.save()
+
     return render(request, 'products/payment_success.html', context)
 
 

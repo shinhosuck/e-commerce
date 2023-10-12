@@ -2491,10 +2491,6 @@ order_history.html
     }
 }
 
-.hover {
-    outline: 2px solid var(--purple-60)
-}
-
 .receipts-products-table-header {
    display: grid;
    grid-template-columns: 30% 1fr;

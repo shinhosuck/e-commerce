@@ -141,12 +141,14 @@
                     </div>
                     <!-- For mobile screen -->
                     <div class="receipts-amount-paid-container">
-                        {% if not receipt.saving == 'None' %}
                         <div class="receipts-amount-paid">
                             <h4>Savings</h4>
-                            <p>P{{ receipt.saving }}</p>
+                            {% if not receipt.saving == 'None' %}
+                                <p>P{{ receipt.saving }}</p>
+                            {% else %}
+                                <p>n/a</p>
+                            {% endif %}
                         </div>
-                        {% endif %}
                         <div class="receipts-amount-paid">
                             <h4>Sub-total</h4>
                             <p>P{{ receipt.sub_total }}</p>
