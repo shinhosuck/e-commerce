@@ -451,11 +451,12 @@ def success_view(request):
     random_checkout = request.GET.get('q')
     if random_checkout:
         receipt = CheckoutReceipt.objects.order_by('?').first()
-        context['orders'] = receipt.checkout.order.all()
-        context['receipt_id'] = receipt.id
-        context['customer'] = receipt.customer
-        context['domain'] = f'http://{request.get_host()}/'
-        context['email'] = ShippingAddress.objects.filter(customer=receipt.customer).first().email
+        if receipt:
+            context['orders'] = receipt.checkout.order.all()
+            context['receipt_id'] = receipt.id
+            context['customer'] = receipt.customer
+            context['domain'] = f'http://{request.get_host()}/'
+            context['email'] = ShippingAddress.objects.filter(customer=receipt.customer).first().email
     return render(request, 'products/payment_success.html', context)
 
 

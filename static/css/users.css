@@ -4,45 +4,44 @@ USER_REGISTER.HTML
 ================== */
 
 .user-register-form-wrapper {
-    padding: 1rem 0;
+    min-height: 100vh;
+    display: grid;
+    align-content: start;
+    gap: 3rem;
+    padding: 2rem 0;
 }
 
 .register-form {
     width: 95%;
-    max-width: 500px;
+    max-width: 450px;
     margin: 0 auto;
+    display: grid;
+    gap: 1rem;
     padding: 1rem;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.800);
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 0px 10px -1px rgb(201, 201, 201);
 }
 
 .register-form > h2 {
     letter-spacing: 0.05rem;
-    color: rgb(255, 255, 255);
+    color: var(--black-5);
     font-size: 1.25rem;
-    border-radius: 5px;
-    padding: 0.8rem;
-    margin-bottom: 0.5rem;
-    background: var(--purple-40);
 }
 
 .username-container,
 .password1-container,
 .password2-container,
 .register-form-button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    gap: 0.8rem;
 }
 
 .username-container > input,
 .password1-container > input,
 .password2-container > input {
     padding: 0.8rem 1rem;
-    border-radius: 5px;
+    border-radius: 10px;
     letter-spacing: 0.05rem;
     color: var(--black-15);
     font-size: 1rem;
@@ -87,12 +86,6 @@ USER_REGISTER.HTML
    display: block !important;
 }
 
-.register-form-button-container {
-    display: grid;
-    gap: 0.5rem;
-    margin-top: 0.3rem
-}
-
 .register-button {
     padding: 0.9rem 1rem;
     text-align: center;
@@ -104,79 +97,124 @@ USER_REGISTER.HTML
     font-size: 1rem;
 }
 
-.shop-without-registering-button {
-    padding: 0.9rem 1rem;
-    text-align: center;
-    letter-spacing: 0.05rem;
-    background: var(--black-30);
-    color: rgb(255, 255, 255);
-    border-radius: 25px;
-    border: none;
-    font-size: 1rem;
-}
-
 .already-registered {
-    margin-top: 0.3rem;
     letter-spacing: 0.05rem;
     color: var(--black-20)
 }
 
 .already-registered > a {
     letter-spacing: 0.05rem;
-    color: var(--purple-50);
+    color: var(--purple-40);
     text-decoration: underline;
     font-weight: 500;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 700px) {
     .user-register-form-wrapper {
-        padding: 2rem 0;
+        padding: 5rem 0;
     }
 }
 
 /*
-==================
-USER_REGISTER.HTML
-================== */
+===============
+USER_LOGIN.HTML
+=============== */
 
 .user-login-form-wrapper {
-    padding: 1rem 0;
+    min-height: 100vh;
+    display: grid;
+    align-content: start;
+    gap: 3rem;
+    padding: 2rem 0;
 }
 
-.login-form {
+.user-login-brand-name-container {
     width: 95%;
     max-width: 500px;
     margin: 0 auto;
-    padding: 1rem;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgb(190, 190, 190);
+}
+
+.user-login-brand-name > h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--red-52);
+    font-family: 'Lobster', 'Roboto', sans-serif;
+}
+
+.user-login-brand-name > p {
+    color: var(--black-5)
+}
+
+.user-login-nav-bar {
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
     gap: 1rem;
+    justify-content: center;
+}
+
+.user-login-nav-bar > a {
+    letter-spacing: 0.05rem;
+    text-align: center;
+    color: var(--black-5);
+}
+
+@media (hover) {
+    .user-login-nav-bar > a:hover {
+        color: var(--purple-45);
+        text-decoration: underline;
+    }
+}
+
+.active-user-login-nav-link {
+    color: var(--purple-50) !important;
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.user-login-form-contents {
+    width: 95%;
+    max-width: 450px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
     border-radius: 10px;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 20px -1px rgb(209, 209, 209);
+    box-shadow: 0px 0px 10px -1px rgb(201, 201, 201);
 }
 
 .login-form-header {
     letter-spacing: 0.05rem;
-    background: var(--purple-40);
-    color: white;
-    font-size: 1.25rem;
-    padding: 0.8rem;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
+    color: var(--black-5);
+    font-size: 1.3rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
 
+.login-form {
+    display: grid;
+    gap: 1rem;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .login-form > label {
     letter-spacing: 0.05rem;
     font-weight: 500;
+    color: var(--black-20)
 }
 
 .login-form > input {
     letter-spacing: 0.05rem;
     font-size: 1rem;
     padding: 0.8rem 1rem;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid var(--black-70);
 }
 
@@ -195,17 +233,8 @@ USER_REGISTER.HTML
     color: rgb(255, 255, 255);
     background: var(--orange-50);
     text-align: center;
-}
-
-.shop-without-logging-in-button {
-    letter-spacing: 0.05rem;
-    font-size: 1rem;
-    padding: 0.9rem 1rem;
-    border-radius: 25px;
-    border: none;
-    color: rgb(255, 255, 255);
-    background: var(--black-30);
-    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s linear;
 }
 
 .login-form > input:focus {
@@ -220,13 +249,12 @@ USER_REGISTER.HTML
 
 .not-yet-registered > a{
     letter-spacing: 0.05rem;
-    color: var(--purple-50);
-    text-decoration: underline;
+    color: var(--purple-40);
     font-weight: 500;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 700px) {
     .user-login-form-wrapper {
-        padding: 2rem 0;
+        padding: 5rem 0;
     }
 }

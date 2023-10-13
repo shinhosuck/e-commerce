@@ -6,14 +6,36 @@
 {% endblock title%}
 
 
+{% block navbar %}
+{% endblock navbar%}
+
 {% block banner %}
 {% endblock banner %}
+
+{% block form %}
+{% endblock form %}
 
 
 {% block content %}
 
     <div class="user-register-form-wrapper">
-        <form class="register-form show-register-form" action="" method="POST">
+
+        {% with request.resolver_match.url_name as url_name %}
+            <nav class="user-login-nav-bar">
+                <a class="{% if url_name == 'product-list' %}active-user-login-nav-link{% endif %}" href="{% url 'products:product-list' %}">Products</a>
+                <a class="{% if url_name == 'user-login' %}active-user-login-nav-link{% endif %}" href="{% url 'users:user-login' %}">Login</a>
+                <a class="{% if url_name == 'user-register' %}active-user-login-nav-link{% endif %}" href="{% url 'users:user-register' %}">Register</a>
+            </nav>
+        {% endwith %}
+
+        <div class="user-login-brand-name-container">
+            <a class="user-login-brand-name"  href="{% url 'products:product-home' %}">
+                <h1>AiAi Market</h1>
+                <p>THE PLACE TO SHOP</p>
+            </a>
+        </div>
+
+        <form class="register-form" action="" method="POST">
             <h2>Please Register</h2>
             {% csrf_token %}
             <div class="username-container">
@@ -28,16 +50,12 @@
                 {{ form.password1.help_text}}
                 {{ form.password2.errors}}
             </div>
-        
             <div class="password2-container">
                 {{ form.password2.label_tag}}
                 {{ form.password2}}
                 <p class="password2-help-text">{{ form.password2.help_text}}</p>
             </div>
-            <div class="register-form-button-container">
-                <button class="register-button" type="submit">Register</button>
-                <a href="{% url 'products:product-list' %}" class="shop-without-registering-button" type="submit">Shop Without Registering</a>
-            </div>
+            <button class="register-button" type="submit">Register</button>
             <p class="already-registered">Already registered? <a href="{% url 'users:user-login' %}">Login</a></p>
         </form>
     </div>
@@ -84,3 +102,6 @@
 
 {% block scrollbar %}
 {% endblock scrollbar %}
+
+{% block footer %}
+{% endblock footer %}
