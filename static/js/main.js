@@ -141,9 +141,9 @@ navLinkSearchButton.addEventListener('click', (e) => {
     searchFormWrapper.classList.toggle('show-search-form-wrapper')
 })
 
-searchFormCloseButton.addEventListener('click', (e) => {
-    searchFormWrapper.classList.toggle('show-search-form-wrapper')
-})
+// searchFormCloseButton.addEventListener('click', (e) => {
+//     searchFormWrapper.classList.toggle('show-search-form-wrapper')
+// })
 
 mobileNavLinkSearchButton.addEventListener('click', (e) => {
     searchFormWrapper.classList.toggle('show-search-form-wrapper')
