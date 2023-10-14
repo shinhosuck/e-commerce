@@ -15,7 +15,7 @@
         <form class="create-form" action="{% url 'products:product-create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="product-create-input-container">
-                <h2 class="create-your-product-header">Create Your Product</h2>
+                <h2 class="create-your-product-header">Add Your Product</h2>
                 <div class="product-category-input">
                     {{ product_form.category.label_tag}}
                     <p>{{ product_form.category }}</p>
@@ -54,13 +54,15 @@
                     {{ image_form.image.label_tag }}
                     <p>{{ image_form.image }}</p>
                     <ul class="image-upload-warning">
-                        <li>required.</li>
-                        <li>three images are allowed.</li>
+                        <li>maxium & minium 3 images.</li>
                     </ul>
                 </div>
                 <div class="product-description-input">
                     {{ product_form.description.label_tag}}
                     <p>{{ product_form.description}}</p>
+                    <ul class="image-upload-warning">
+                        <li>maxium characters 50.</li>
+                    </ul>
                 </div>
                 <div class="product-detail-textarea">
                     {{ product_form.detail.label_tag}}
@@ -116,22 +118,22 @@
     
 
         const idName = document.querySelector('#id_name')
-        idName.placeholder = 'Name of the product'
+        idName.placeholder = 'Product name'
 
         const idBrand = document.querySelector('#id_brand')
-        idBrand.placeholder = 'Product company name'
+        idBrand.placeholder = 'Brand name'
 
         const idSellerOrganization = document.querySelector('#id_seller_organization')
-        idSellerOrganization.placeholder = 'Your organization name'
+        idSellerOrganization.placeholder = 'Your organization'
 
         const idPrice = document.querySelector('#id_price')
-        idPrice.placeholder = 'Must be in php format. Example: 0.00'
+        idPrice.placeholder = 'P0.00'
 
         const idDescription = document.querySelector('#id_description')
-        idDescription.placeholder = 'Description of the product. Max: 50chars'
+        idDescription.placeholder = 'Description'
 
         const idDetail = document.querySelector('#id_detail')
-        idDetail.placeholder = 'Detail of the product'
+        idDetail.placeholder = 'Product detail'
 
     </script>
 

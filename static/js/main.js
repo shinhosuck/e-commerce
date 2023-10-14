@@ -17,6 +17,7 @@ const navLinkSearchButton = document.querySelector('.nav-link-search-button')
 const searchIcon = document.querySelector('.search-icon')
 const searchFormWrapper = document.querySelector('.search-form-wrapper')
 const searchFormCloseButton = document.querySelector('.search-form-close-btn')
+const mobileSearchFormContainer = document.querySelector('.mobile-search-form-container')
 
 // user drop-down menu navigation bar
 const toggleUserNavbar = document.querySelector('.toggle-user-navbar')
@@ -146,6 +147,7 @@ searchFormCloseButton.addEventListener('click', (e) => {
 
 mobileNavLinkSearchButton.addEventListener('click', (e) => {
     searchFormWrapper.classList.toggle('show-search-form-wrapper')
+    mobileSearchFormContainer.classList.toggle('show-mobile-search-form-container')
     mobileNavLinks.classList.remove('show-mobile-nav-bar')
     mobileNavBackgroundLayout.style.display = 'none'
     body.style.overflow = 'auto'
@@ -174,6 +176,7 @@ if(toggleUserNavbar) {
 
 window.addEventListener('resize', (e) => {
     searchFormWrapper.classList.remove('show-search-form-wrapper')
+    mobileSearchFormContainer.classList.remove('show-mobile-search-form-container')
     if(loggedInUserNavLinks){
         loggedInUserNavLinks.classList.remove('show-logged-in-user-nav-links')
     }

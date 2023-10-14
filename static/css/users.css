@@ -216,6 +216,7 @@ USER_LOGIN.HTML
     padding: 0.8rem 1rem;
     border-radius: 10px;
     border: 1px solid var(--black-70);
+    color: var(--black-15);
 }
 
 .login-form-button-container {

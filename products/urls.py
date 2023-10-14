@@ -17,7 +17,6 @@ from .views import (
     payment_success_view,
     stripe_webhook,
     order_history_view,
-    success_view,
     email_receipt_view
 )
 
@@ -44,6 +43,5 @@ urlpatterns = [
     path('payment/cancel/', payment_cancel_view, name='payment-cancel'),
     path('stripe/webhook/', stripe_webhook, name='stripe-webhook'),
     path('order/history/', order_history_view, name='order-history'),
-    path('payment/success/', success_view, name='success'),
     path('email/receipt/<uuid:id>/', email_receipt_view, name='email-receipt'),
 ]

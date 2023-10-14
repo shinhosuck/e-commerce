@@ -446,20 +446,6 @@ def order_history_view(request):
     return render(request, 'products/order_history.html', context)
 
 
-def success_view(request):
-    context = {}
-    random_checkout = request.GET.get('q')
-    if random_checkout:
-        receipt = CheckoutReceipt.objects.order_by('?').first()
-        if receipt:
-            context['orders'] = receipt.checkout.order.all()
-            context['receipt_id'] = receipt.id
-            context['customer'] = receipt.customer
-            context['domain'] = f'http://{request.get_host()}/'
-            context['email'] = ShippingAddress.objects.filter(customer=receipt.customer).first().email
-    return render(request, 'products/payment_success.html', context)
-
-
 def email_receipt_view(request, id):
     
     try:
