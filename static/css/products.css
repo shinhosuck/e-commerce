@@ -131,7 +131,7 @@ BANNER SLIDER
     height: 100%;
     /* background: linear-gradient(to right, rgba(0, 0, 0, 0.101), 
     rgba(0, 0, 0, 0.301),rgba(0, 0, 0, 0.101)); */
-    background: rgba(17, 0, 37, 0.35);
+    background: rgba(17, 0, 37, 0.4);
 }
 
 .img-banner-content-container {
@@ -139,25 +139,27 @@ BANNER SLIDER
     width: 90%;
     margin: 0 auto;
     display: grid;
+    margin-top: 2rem;
     align-items: center;
 }
 
 .img-banner-text{
-    width: 80%;
+    width: 60%;
     margin: 0 auto;
     text-align: center;
     display: grid;
     align-content: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter:blur(4px)
 }
 
 .img-banner-h1-header {
     letter-spacing: 0.05rem;
     font-size: 1.8rem;
     color: white;
-    line-height: 1.2;
+    line-height: 1.3;
     text-wrap: balance;
 }
 
@@ -168,6 +170,7 @@ BANNER SLIDER
     line-height: 1.4;
     max-width: 450px;
     margin: 0 auto;
+    display: none;
 }
 
 .more-info {
@@ -235,11 +238,20 @@ BANNER SLIDER
     display: flex;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 350px) {
+
     .img-banner-text{
         gap: 1.3rem;
+        width: 80%;
     }
 
+    .img-banner-paragraph {
+        display: grid;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    
     .banner-arrow-left {
         border-radius: 10px;
         width: 40px;
@@ -279,7 +291,7 @@ BANNER SLIDER
     }
 
     .img-banner-text{
-        width: 70%;
+        width: 60%;
         margin: 0 auto;
     }
 }
@@ -309,6 +321,9 @@ BANNER SLIDER
 }
 
 @media screen and (min-width: 1100px) {
+    .img-banner-content-container {
+        margin-top: 0;
+    }
 
     .banner-img-container > .large-img {
         display: block;
@@ -1933,17 +1948,41 @@ PRODUCT_DETAIL.HTML/PRODUCT DETAIL
 /* ========================
 BASKET.HTML/CUSTOMER BASKET
 =========================== */
+
+.product-basket-content-container {
+    display: grid;
+}
+
 .product-basket-wrapper {
-    display: flex;
-    flex-direction: column;
+    width: 95%;
+    max-width: 1000px;
+    margin: 1rem auto;
+    display: grid;
     gap: 1rem;
-    padding: 2rem 0;
+    padding: 1.3rem;
+    border-radius: 10px;
+    background: white;
+}
+
+.product-basket-nav-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-basket-nav-bar > a {
+    letter-spacing: 0.05rem;
+    color: var(--black-5);
+    font-weight: 500;
+}
+
+.active-product-basket-nav-link {
+    color: var(--purple-50) !important;
+    text-decoration: underline;
+    font-weight: 700;
 }
 
 .product-basket-header {
-    width: 95%;
-    max-width: 1000px;
-    margin: 0 auto;
     letter-spacing: 0.05rem;
     color: var(--black-10);
     font-size: 1.25rem;
@@ -1951,26 +1990,23 @@ BASKET.HTML/CUSTOMER BASKET
 }
 
 .basket-list {
-    width: 95%;
-    max-width: 1000px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    justify-content: start;
+    gap: 1rem;
 }
 
+/* Large screen basket product */
 .basket-product {
     display: none;
 }
 
 .small-screen-basket-product {
     display: grid;
-    justify-content: start;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1rem;
-    background: white;
+    align-items: start;
+    background: rgb(255, 255, 255);
     border-radius: 10px;
+    box-shadow: 0px 0px 6px -1px rgb(201, 201, 201);
 }
 
 @media (hover) {
@@ -1988,17 +2024,17 @@ BASKET.HTML/CUSTOMER BASKET
 
 .basket-product-info-container {
     display: grid;
-    align-items: end;
-    gap: 1rem;
+    gap: 0.5rem;
+    padding: 1rem;
 }
 
 .basket-product-info {
     display: grid;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .basket-product-name {
-    font-size: 1rem;
+    font-size: 1.2rem;
     letter-spacing: 0.05rem;
     color: var(--black-10);
     line-height: 1.3;
@@ -2008,14 +2044,22 @@ BASKET.HTML/CUSTOMER BASKET
 
 .basket-product-price-and-discount {
     display: grid;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
-.basket-product-price {
+.small-screen-basket-product-price {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
     letter-spacing: 0.05rem;
-    color: var(--purple-50);
+    color: var(--black-5);
     font-size: 1rem;
     text-align: center;
+    font-weight: 500;
+}
+
+.small-screen-basket-product-price > span {
+    color: var(--purple-40)
 }
 
 .basket-price-discount-container {
@@ -2027,38 +2071,56 @@ BASKET.HTML/CUSTOMER BASKET
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.3rem
+    gap: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.basket-price-line-through > span {
+    color: var(--red-60) !important;
+    font-weight: bold;
+}
+
+.basket-price-discount-container > span {
+    color: var(--red-60) !important;
 }
 
 .basket-product-discount-price {
     letter-spacing: 0.05rem;
-    font-size: 0.9rem;
     color: gray;
     text-decoration: line-through;
 }
 
-.basket-price-discount-container> span {
+.basket-price-discount-container > span {
     color: rgb(31, 31, 31);
     font-size: 0.9rem;
     font-weight: 700;
 }
 
 .small-screen-total-price {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
     letter-spacing: 0.05rem;
-    color: var(--purple-50);
+    color: var(--black-5);
     text-align: center;
+    font-size: 1.1rem;
 }
 
 .small-screen-total-price > span {
-    color: var(--black-25)
+    color: var(--purple-40)
 }
 
 .basket-total-product {
-    display: flex;
-    align-items: stretch;
+    margin-top: 1rem;
+    display: grid;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 0.5rem;
+}
+
+.basket-total-product > div {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .basket-minus-item,
@@ -2067,44 +2129,49 @@ BASKET.HTML/CUSTOMER BASKET
 }
 
 .basket-minus-item,
-.basket-add-item,
+.basket-add-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.basket-minus-item,
+.basket-add-item {
+    width: 30px;
+    aspect-ratio: 1/1;
+    text-align: center;
+    border: none;
+    padding: 0.3rem;
+}
+
 .quantity {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-}
-
-.quantity {
-    border: 1px solid rgb(197, 197, 197);
     padding: 0 0.4rem;
     padding-right: 0.2rem;
     font-size: 0.9rem;
     letter-spacing: 0.05rem;
-    color: rgb(59, 59, 59)
-}
-
-.basket-minus-item,
-.quantity > input,
-.basket-add-item {
-    width: 25px;
-    aspect-ratio: 1/1;
-    text-align: center;
-    border: none;
+    color: rgb(59, 59, 59);
+    border-radius: 8px;
+    border: 1px solid rgb(197, 197, 197);
 }
 
 .quantity > input {
     width: 20px;
     aspect-ratio: 1/1;
-    border-radius: 5px;
     font-size: 1rem;
+    padding: 0;
+    text-align: center;
+    border: none;
 }
 
 .update-or-delete {
-    padding: 0.4rem 0.5rem;
+    padding: 0.7rem 0.5rem;
     letter-spacing: 0.05rem;
-    border-radius: 5px;
-    background: var(--black-50);
+    border-radius: 25px;
+    background: var(--orange-50);
     color: white;
     border: none;
     font-size: 0.9rem;
@@ -2112,55 +2179,66 @@ BASKET.HTML/CUSTOMER BASKET
 }
 
 .basket-sub-total-container {
-    width: 95%;
-    max-width: 1000px;
-    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: end;
+    justify-content: end;
 }
 
 .basket-sub-total {
     width: 100%;
     max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.3rem;
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 10px;
+    padding: 1.3rem;
+    box-shadow: 0px 0px 6px -1px rgb(201, 201, 201);
 }
 
-.basket-order-summary {
+.basket-order-summary-header {
     letter-spacing: 0.05rem;
-    color: var(--black-10);
-    border-bottom: 1px solid var(--black-85);
-    padding-bottom: 0.5rem;
-    font-size: 1.25rem;
+    color: var(--black-5);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
 }
 
-.basket-sub-total-info {
-    display: grid;
-    gap: 0.5rem;
+.basket-sub-total > div {
+    background: hsl(0, 0%, 80%);
+}
+
+.basket-sub-total > div:nth-child(2) {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.basket-sub-total > div:nth-child(even) {
+    background: hsl(0, 0%, 90%);
+}
+
+.basket-sub-total > div:nth-child(6) {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.basket-sub-total > div:last-child {
+    background: white !important;
 }
 
 .sub-total-basket-quantity,
 .sub-total-basket-savings,
 .sub-total-basket-subtotal {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding-bottom: 0.2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
     letter-spacing: 0.05rem;
-    color: var(--black-25);
+    color: var(--black-5);
+    padding: 1rem;
 }
 
 .sub-total-btns {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 .sub-total-btns > a {
@@ -2177,54 +2255,46 @@ BASKET.HTML/CUSTOMER BASKET
 }
 
 @media screen and (min-width: 450px) {
-    .small-screen-basket-product {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 3rem;
-        padding: 1.3rem;
-        border-radius: 10px;
-    }
 
-    .basket-product-link {
-        flex: 0 0 40%
+    .small-screen-basket-product {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
     }
 
     .basket-product-info-container {
-        gap: 0.8rem;
-    }
-
-    .basket-product-info {
-        gap: 0.8rem;
+        padding: 0;
+        align-items: start;
     }
 }
 
-@media screen and (min-width: 750px) {
-    .product-basket-header {
-        font-size: 1.5rem;
-    }
+@media screen and (min-width: 835px) {
 
     .small-screen-basket-product {
         display: none;
     }
 
+    .product-basket-wrapper {
+        margin: 2rem auto;
+    }
+
     .product-basket-header {
-        width: 95%;
-        max-width: 1000px;
-        margin: 0 auto;
+        font-size: 1.5rem;
     }
 
     .basket-product {
         display: flex;
-        align-items: center;
-        padding: 1rem;
+        align-items: start;
+        gap: 1rem;
+        padding: 1.3rem;
         background: white;
         border-radius: 10px;
+        box-shadow: 0px 0px 6px -1px rgb(201, 201, 201);
     }
     
     .basket-product-info-container {
         display: flex;
-        align-items: center;
+        align-items: start;
         gap: 1rem;
         width: 350px;
     }
@@ -2249,7 +2319,7 @@ BASKET.HTML/CUSTOMER BASKET
     .basket-product-info {
         display: flex;
         flex-direction: column;
-        gap: 0.3rem;
+        gap: 0.5rem;
     }
     
     .basket-product-name {
@@ -2270,8 +2340,8 @@ BASKET.HTML/CUSTOMER BASKET
     .basket-product-price {
         letter-spacing: 0.05rem;
         font-weight: 500;
-        color: var(--purple-50);
-        font-size: 1.05rem;
+        color: var(--purple-40);
+        font-size: 1rem;
         text-align: start;
     }
     
@@ -2300,7 +2370,8 @@ BASKET.HTML/CUSTOMER BASKET
         display: flex;
         align-items: stretch;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.7rem;
+        margin: 0;
     }
     
     .basket-minus-item,
@@ -2314,7 +2385,7 @@ BASKET.HTML/CUSTOMER BASKET
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 5px;
+        border-radius: 7px;
     }
     
     .quantity {
@@ -2345,8 +2416,8 @@ BASKET.HTML/CUSTOMER BASKET
     .update-or-delete {
         padding: 0.4rem 0.5rem;
         letter-spacing: 0.05rem;
-        border-radius: 5px;
-        background: var(--black-50);
+        border-radius: 8px;
+        background: var(--orange-50);
         color: white;
         border: none;
         font-size: 0.9rem;
@@ -2355,8 +2426,8 @@ BASKET.HTML/CUSTOMER BASKET
     
     .total-price {
         letter-spacing: 0.05rem;
-        color: var(--purple-50);
-        margin-top: 0.5rem
+        color: var(--purple-40);
+        font-size: 1.1rem;
     }
 
 }

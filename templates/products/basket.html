@@ -9,88 +9,39 @@
 
 
 {% block content %}
-
-<div class="product-basket-wrapper">
-    <h2 class="product-basket-header">{{ request.user }}'s cart</h2>
-    <div class="basket-list">
-        {% for order in query_set %}
-            <div class="basket-product">
-                <a href="{{ order.product.get_absolute_url }}" class="basket-product-info-container">
-                    <div class="basket-product-image">
-                        <img src="{{ order.product.get_product_image_url }}" alt="">
-                    </div>
-                    <div class="basket-product-info">
-                        <h4 class="basket-product-name">
-                            {{ order.product.name }} 
-                        </h4>
-                        <div class="basket-product-price-and-discount">
-                            {% if order.product.get_discount_price %}
-                                <p class="basket-product-price">P{{ order.product.discount_price_str_format }}</p>
-                                <div class="basket-price-discount-container">
-                                    <p class="basket-product-discount-price">P{{ order.product.price_str_format }}</p>
-                                    <span>-10%</span>
-                                </div>
-                            {% else %}
-                                <p class="basket-product-price">P{{ order.product.price_str_format }}</p>
-                            {% endif %}
+<div class="product-basket-content-container">
+    <div class="product-basket-wrapper">
+        <div class="product-basket-nav-bar">
+            {% with request.resolver_match.url_name as url_name %}
+                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% endif %}" href="{% url 'products:history' %}">Order History</a>
+            {% endwith %}
+        </div>
+        <h2 class="product-basket-header">{{ request.user.username }}'s cart</h2>
+        <div class="basket-list">
+            {% for order in query_set %}
+                <div class="basket-product">
+                    <a class="basket-product-info-container" href="{{ order.product.get_absolute_url }}">
+                        <div class="basket-product-image">
+                            <img src="{{ order.product.get_product_image_url }}" alt="">
                         </div>
-                    </div>
-                </a>
-                <form class="basket-total-product" action="{% url 'products:update-basket' order.product.id %}" method="GET">
-                    <button type="button"class="basket-minus-item">
-                        <span class="material-symbols-outlined">
-                            remove
-                        </span>
-                    </button>
-                    <div class="quantity">
-                        Qty:
-                        <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
-                    </div>
-                    <button  type="button" class="basket-add-item">
-                        <span class="material-symbols-outlined">
-                            add
-                        </span>
-                    </button>
-                    <button class='update-or-delete' type="submit">Remove</button>
-                </form>
-                {% for obj in order_total %}
-                    {% if order.product.id == obj.id %}
-                        <h4 class="total-price">P{{ obj.order_total }}</h4>
-                         <!-- coming from context_processor order_total -->
-                    {% endif %}
-                {% endfor %}
-            </div>
-
-            <!-- Small screen -->
-            <div class="small-screen-basket-product">
-                <a href="{{ order.product.get_absolute_url }}" class="basket-product-link">
-                    <img src="{{ order.product.get_product_image_url }}" alt="">
-                </a>
-                <div class="basket-product-info-container">
-                    <div class="basket-product-info">
-                        <h4 class="basket-product-name">
-                            {{ order.product.name }} 
-                        </h4>
-                        <div class="basket-product-price-and-discount">
-                            {% if order.product.get_discount_price %}
-                                <div class="basket-price-discount-container">
-                                    <p class="basket-product-price"><span style="color: rgb(27, 27, 27)">Price:</span> P{{ order.product.discount_price_str_format }}</p>
-                                    <div class="basket-price-line-through">
+                        <div class="basket-product-info">
+                            <h4 class="basket-product-name">
+                                {{ order.product.name }} 
+                            </h4>
+                            <div class="basket-product-price-and-discount">
+                                {% if order.product.get_discount_price %}
+                                    <p class="basket-product-price">P{{ order.product.discount_price_str_format }}</p>
+                                    <div class="basket-price-discount-container">
                                         <p class="basket-product-discount-price">P{{ order.product.price_str_format }}</p>
                                         <span>-10%</span>
                                     </div>
-                                </div>
-                            {% else %}
-                                <p class="basket-product-price"><span style="color: rgb(27, 27, 27)">Price:</span> P{{ order.product.price_str_format }}</p>
-                            {% endif %}
+                                {% else %}
+                                    <p class="basket-product-price">P{{ order.product.price_str_format }}</p>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    {% for obj in order_total %}
-                        {% if order.product.id == obj.id %}
-                            <h4 class="small-screen-total-price"><span>Total: </span>P{{ obj.order_total }}</h4>
-                            <!-- coming from context_processor order_total -->
-                        {% endif %}
-                    {% endfor %}
+                    </a>
                     <form class="basket-total-product" action="{% url 'products:update-basket' order.product.id %}" method="GET">
                         <button type="button"class="basket-minus-item">
                             <span class="material-symbols-outlined">
@@ -99,7 +50,7 @@
                         </button>
                         <div class="quantity">
                             Qty:
-                            <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="1">
+                            <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
                         </div>
                         <button  type="button" class="basket-add-item">
                             <span class="material-symbols-outlined">
@@ -108,14 +59,70 @@
                         </button>
                         <button class='update-or-delete' type="submit">Remove</button>
                     </form>
+                    {% for obj in order_total %}
+                        {% if order.product.id == obj.id %}
+                            <h4 class="total-price">P{{ obj.order_total }}</h4>
+                            <!-- coming from context_processor order_total -->
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-    <div class="basket-sub-total-container">
-        <div class="basket-sub-total">
-            <h2 class="basket-order-summary">Order Summary</h2>
-            <div class="basket-sub-total-info">
+
+                <!-- Small screen -->
+                <div class="small-screen-basket-product">
+                    <a href="{{ order.product.get_absolute_url }}" class="basket-product-link">
+                        <img src="{{ order.product.get_product_image_url }}" alt="">
+                    </a>
+                    <div class="basket-product-info-container">
+                        <div class="basket-product-info">
+                            <h4 class="basket-product-name">
+                                {{ order.product.name }} 
+                            </h4>
+                            <div class="basket-product-price-and-discount">
+                                {% if order.product.get_discount_price %}
+                                    <div class="basket-price-discount-container">
+                                        <p class="small-screen-basket-product-price">Price:<span>P{{ order.product.discount_price_str_format }}</span></p>
+                                        <div class="basket-price-line-through">
+                                            <p class="basket-product-discount-price">P{{ order.product.price_str_format }}</p>
+                                            <span>-10%</span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <p class="small-screen-basket-product-price">Price:<span>P{{ order.product.price_str_format }}</span></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% for obj in order_total %}
+                            {% if order.product.id == obj.id %}
+                                <h4 class="small-screen-total-price">Total:<span>P{{ obj.order_total }}</span></h4>
+                                <!-- coming from context_processor order_total -->
+                            {% endif %}
+                        {% endfor %}
+                        <form class="basket-total-product" action="{% url 'products:update-basket' order.product.id %}" method="GET">
+                            <div>
+                                <button type="button"class="basket-minus-item">
+                                    <span class="material-symbols-outlined">
+                                        remove
+                                    </span>
+                                </button>
+                                <div class="quantity">
+                                    Qty:
+                                    <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="1">
+                                </div>
+                                <button  type="button" class="basket-add-item">
+                                    <span class="material-symbols-outlined">
+                                        add
+                                    </span>
+                                </button>
+                            </div>
+                            <button class='update-or-delete' type="submit">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="basket-sub-total-container">
+            <div class="basket-sub-total">
+                <h2 class="basket-order-summary-header">Order Summary</h2>
                 <div class="sub-total-basket-quantity">
                     <h4>Quantity</h4>
                     {% if num_of_product > 1 %}
@@ -138,7 +145,7 @@
                     <!-- coming from context_processors.py -->
                 </div>
                 <div class="sub-total-basket-subtotal">
-                    <h4>VAT<small style="color: rgb(87, 87, 87); font-size: 14px;">12%</small></h4>
+                    <h4>VAT<small>12%</small></h4>
                     <p>P{{ vat }}</p>
                     <!-- coming from context_processors.py -->
                 </div>
@@ -147,15 +154,14 @@
                     <p>P{{ total }}</p>
                     <!-- coming from context_processors.py -->
                 </div>
-            </div>
-            <div class="sub-total-btns">
-                <a class="basket-checkout-btn" href="{% url 'products:shipping-address' %}">Go to Checkout</a>
-                <a class="basket-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
+                <div class="sub-total-btns">
+                    <a class="basket-checkout-btn" href="{% url 'products:shipping-address' %}">Go to Checkout</a>
+                    <a class="basket-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
 

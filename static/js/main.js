@@ -176,7 +176,7 @@ if(toggleUserNavbar) {
 
 window.addEventListener('resize', (e) => {
     searchFormWrapper.classList.remove('show-search-form-wrapper')
-    mobileSearchFormContainer.classList.remove('show-mobile-search-form-container')
+    // mobileSearchFormContainer.classList.remove('show-mobile-search-form-container')
     if(loggedInUserNavLinks){
         loggedInUserNavLinks.classList.remove('show-logged-in-user-nav-links')
     }

@@ -503,3 +503,7 @@ def email_receipt_view(request, id):
 
     messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
+
+
+def history_view(request):
+    return render(request, 'products/history.html', {})
