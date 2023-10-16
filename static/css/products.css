@@ -1967,10 +1967,10 @@ BASKET.HTML/CUSTOMER BASKET
 .product-basket-nav-bar {
     display: flex;
     gap: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.product-basket-nav-bar > a {
+.product-basket-nav-link {
     letter-spacing: 0.05rem;
     color: var(--black-5);
     font-weight: 500;
@@ -1980,6 +1980,13 @@ BASKET.HTML/CUSTOMER BASKET
     color: var(--purple-50) !important;
     text-decoration: underline;
     font-weight: 700;
+}
+
+@media (hover) {
+    .product-basket-nav-link:hover {
+        color: var(--purple-45);
+        text-decoration: underline;
+    }
 }
 
 .product-basket-header {
@@ -2469,6 +2476,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     font-size: 1.4rem;
     text-align: center;
     text-wrap: balance;
+    text-transform: capitalize;
 }
 
 .order-history-user-info-container {
@@ -2703,7 +2711,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     .order-history-continue-shopping-btn-large {
         display: flex;
         align-items: center;
-        color: var(--orange-80);
+        /* color: var(--orange-80); */
+        color: rgb(255, 255, 255);
         letter-spacing: 0.05rem;
     }
 

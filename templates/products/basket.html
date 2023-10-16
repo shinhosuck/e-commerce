@@ -13,11 +13,38 @@
     <div class="product-basket-wrapper">
         <div class="product-basket-nav-bar">
             {% with request.resolver_match.url_name as url_name %}
-                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
-                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% endif %}" href="{% url 'products:history' %}">Order History</a>
+                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
             {% endwith %}
         </div>
-        <h2 class="product-basket-header">{{ request.user.username }}'s cart</h2>
+        <!-- <h2 class="product-basket-header">{{ request.user.username }}'s cart</h2> -->
+
+        <div class="order-history-header-container" style="width:100%;">
+            <div class="order-history-header-text">
+                <h2 class="order-history-header">{{ request.user.username }}'s Cart</h2>
+                <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
+                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                    <span class="material-symbols-outlined">arrow_right_alt</span>
+                </a>
+            </div>
+            <div class="order-history-user-info-container">
+                <div class="order-history-user-profile-image">
+                    <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
+                </div>
+                <div class="order-history-user-profile-info">
+                    <p class="order-history-username">{{ request.user.username }}</p>
+                    <p>
+                        {{ request.user.shippingaddress_set.all.first.first_name }} 
+                        {{ request.user.shippingaddress_set.all.first.last_name }}
+                    </p>
+                    <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                </div>
+                <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
+                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                </a>
+            </div>
+        </div>
+
         <div class="basket-list">
             {% for order in query_set %}
                 <div class="basket-product">

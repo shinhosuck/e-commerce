@@ -12,90 +12,121 @@
     <style>
 
         .payment-center-wrapper {
-            min-height: 100vh;
+            display: grid;
+        }
+
+        .payment-center-contents {
             width: 95%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem 0;
-            display: flex; 
-            flex-direction: column;
+            max-width: 1000px;
+            margin: 1rem auto;
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            padding: 1rem;
+            display: grid;
+            gap: 1rem;
         }
 
         .purchase-items {
-            background: white;
-            padding: 1.3rem;
-            border-radius: 10px;
+            display: none;
+        }
 
-            display: flex;
-            flex-direction: column;
+        .sm-purchase-items {
+            display: grid;
             gap: 1rem;
         }
 
-        .purchase-items > h2 {
+        .sm-purchase-item {
+            display: grid;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px -1px rgb(201, 201, 201);
+        }
+
+        .sm-purchased {
+            display: grid;
+            grid-template-columns: 30% 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            color: hsl(0, 0%, 5%);
+            letter-spacing: 0.05rem;
+            background: hsl(0, 0%, 90%);
+        }
+
+        .sm-purchased:first-child {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .sm-purchased:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .sm-purchased:nth-child(even) {
+            background: hsl(0, 0%, 80%);
+        }
+
+        .purchase-items-total-amount-container {
+            display: flex;
+            justify-content: end;
+        }
+
+        .purchase-item-total-amount-content {
+            width: 100%;
+            max-width: 500px;
+            display: grid;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0px 0px 10px -1px rgb(201, 201, 201);
+        }
+
+        .purchase-item-total-amount-header-text {
+            color: hsl(0, 0%, 5%);
+            font-size: 1.3rem;
             letter-spacing: 0.05rem;
             margin-bottom: 1rem;
-            font-size: 22px;
-            color: rgb(37, 37, 37);
         }
 
-        .purchased-item-headers {
+        .purchase-item-total-amount-header {
             display: grid;
-            border-bottom: 1px solid rgb(209, 209, 209);
-        }
-
-        .purchased-item-headers > ul {
-            list-style-type: none;
-            display: grid;
+            grid-template-columns: 30% 1fr;
             gap: 1rem;
-            grid-template-columns: repeat(4, 1fr);
+            padding: 1rem;
+            letter-spacing: 0.05rem;
+            color: hsl(0, 0%, 5%);
+            background: hsl(0, 0%, 90%)
         }
 
-        .purchased-item-headers > ul > li {
-            text-transform: capitalize;
+        .purchase-item-total-amount-header > h4:first-child {
             font-weight: bold;
-            letter-spacing: 0.05rem;
-            word-break: break-word;
-            padding-bottom: 0.2rem;
         }
 
-        .purchase-item {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            border-bottom: 1px solid rgb(209, 209, 209);
+        .purchase-item-total-amount-header:nth-child(even) {
+            background: hsl(0, 0%, 80%)
         }
 
-        .purchase-item > p {
-            letter-spacing: 0.05rem;
-            color: rgb(37, 37, 37);
-            word-break: break-word;
-            padding-bottom: 0.2rem;
+        .purchase-item-total-amount-header:nth-child(2) {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
-        .purchase-items-total-amount {
-            align-self: end;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .purchase-items-total-amount > h3 {
-            color: rgb(43, 43, 43);
-            font-weight: 500 !important;
-            font-size: 17px;
+        .purchase-item-total-amount-header:nth-child(6) {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         .checkout-form {
-            margin-top: 0.5rem;
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.5rem;
         }
 
         .purchase-btn {
-            width: 100%;
-            background: orangered;
-            color: white;
-            padding: 0.6rem 2rem;
-            border-radius: 5px;
+            background: rgb(255, 69, 0);
+            color: rgb(255, 255, 255);
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
             border: none;
             font-size: 1rem;
             letter-spacing: 0.05rem;
@@ -103,64 +134,205 @@
             text-align: center;
         }
 
-        @media screen and (max-width: 552px) {
-            .purchased-item-headers > ul > li {
-                letter-spacing: initial;
-                font-size: 0.9rem;
-            }
-            .purchase-item > p {
-                letter-spacing: initial;
-                font-size: 0.9rem;
-            }
+        .checkout-form-continue-shopping-btn {
+            background: rgb(132, 0, 255);
+            color: rgb(255, 255, 255);
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1rem;
+            letter-spacing: 0.05rem;
+            cursor: pointer;
+            text-align: center;
         }
         
+        @media screen and (min-with: 800px) {
+            .purchase-items {
+                background: white;
+                padding: 1.3rem;
+                border-radius: 10px;
+
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .purchase-items > h2 {
+                letter-spacing: 0.05rem;
+                margin-bottom: 1rem;
+                font-size: 22px;
+                color: rgb(37, 37, 37);
+            }
+
+            .purchased-item-headers {
+                display: grid;
+                border-bottom: 1px solid rgb(209, 209, 209);
+            }
+
+            .purchased-item-headers > ul {
+                list-style-type: none;
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .purchased-item-headers > ul > li {
+                text-transform: capitalize;
+                font-weight: bold;
+                letter-spacing: 0.05rem;
+                word-break: break-word;
+                padding-bottom: 0.2rem;
+            }
+
+            .purchase-item {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                border-bottom: 1px solid rgb(209, 209, 209);
+            }
+
+            .purchase-item > p {
+                letter-spacing: 0.05rem;
+                color: rgb(37, 37, 37);
+                word-break: break-word;
+                padding-bottom: 0.2rem;
+            }
+        }
+
     </style>
 
     <div class="payment-center-wrapper">
-        <div class="purchase-items">
-            <h2>Checkout summary</h2>
-            <div class="purchased-item-headers">
-                <ul>
-                    <li>Name</li>
-                    <li>Price</li>
-                    <li>Quantity</li>
-                    <li>Total</li>
-                </ul>
+        <div class="payment-center-contents">
+
+            <div class="order-history-header-container" style="width:100%;">
+                <div class="order-history-header-text">
+                    <h2 class="order-history-header">Checkout Summary</h2>
+                    <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
+                        <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                        <span class="material-symbols-outlined">arrow_right_alt</span>
+                    </a>
+                </div>
+                <div class="order-history-user-info-container">
+                    <div class="order-history-user-profile-image">
+                        <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
+                    </div>
+                    <div class="order-history-user-profile-info">
+                        <p class="order-history-username">{{ request.user.username }}</p>
+                        <p>
+                            {{ request.user.shippingaddress_set.all.first.first_name }} 
+                            {{ request.user.shippingaddress_set.all.first.last_name }}
+                        </p>
+                        <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                    </div>
+                    <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
+                        <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                    </a>
+                </div>
             </div>
-            {% for item in query_set %}
-                <a href="{{ item.product.get_absolute_url }}" class="purchase-item">
-                    <p>{{ item.product.name }}</p>
-                    {% if item.product.get_discount_price %}
-                        <p>P{{ item.product.discount_price_str_format }}</p>
-                        <!-- from Product model method -->
-                    {% else %}
-                        <p>P{{ item.product.price_str_format }}</p>
-                    {% endif %}
-                    <p>{{ item.quantity }}</p>
-                    {% for order in order_total %}
-                        {% if item.product.id == order.id%}
-                            <p>P{{ order.order_total }}</p>
+
+            <!-- For large screen -->
+            <div class="purchase-items">
+                <div class="purchased-item-headers">
+                    <ul>
+                        <li>Name</li>
+                        <li>Price</li>
+                        <li>Quantity</li>
+                        <li>Total</li>
+                    </ul>
+                </div>
+                {% for item in query_set %}
+                    <a class="purchase-item" href="{{ item.product.get_absolute_url }}">
+                        <p>{{ item.product.name }}</p>
+                        {% if item.product.get_discount_price %}
+                            <p>P{{ item.product.discount_price_str_format }}</p>
+                            <!-- from Product model method -->
+                        {% else %}
+                            <p>P{{ item.product.price_str_format }}</p>
                         {% endif %}
-                    {% endfor %}
-                    <!-- from Order model method -->
-                </a>
-            {% endfor %}
-            <div class="purchase-items-total-amount">
-                <h4>Number of items: {{ num_of_product }}</h4>
-                {% if discount_amount %}
-                    <h4>Total savings: P{{ discount_amount }}</h4>
-                    <!-- coming from context_processor get_basket_total() -->
-                {% endif %}
-                <h4>Sub-total: P{{ sub_total }}</h4>
-                <h4>VAT: P{{ vat }}</h4>
-                <h4>Total: P{{ total }}</h4>
-                <!-- coming from context_processor get_basket_total() -->
-                <form class="checkout-form" action="{% url 'products:checkout' %}" method="POST">
-                    {% csrf_token %}
-                    <button class="purchase-btn" type="submit" id="checkout-button">Purchase</button>
-                </form>
+                        <p>{{ item.quantity }}</p>
+                        {% for order in order_total %}
+                            {% if item.product.id == order.id%}
+                                <p>P{{ order.order_total }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- from Order model method -->
+                    </a>
+                {% endfor %}
             </div>
-           
+
+            <!-- For mobile screen -->
+            <div class="sm-purchase-items">
+                {% for item in query_set %}
+                    <a href="{{ item.product.get_absolute_url }}" class="sm-purchase-item">
+                        <div class="sm-purchased">
+                            <h4>Order</h4>
+                            <p>{{ forloop.counter }}</p>
+                        </div>
+                        <div class="sm-purchased">
+                            <h4>Name</h4>
+                            <p>{{ item.product.name }}</p>
+                        </div>
+                        <div class="sm-purchased">
+                            <h4>Price</h4>
+                            {% if item.product.get_discount_price %}
+                                <p>P{{ item.product.discount_price_str_format }}</p>
+                                <!-- from Product model method -->
+                            {% else %}
+                                <p>P{{ item.product.price_str_format }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="sm-purchased">
+                            <h4>Quantity</h4>
+                            <p>{{ item.quantity }}</p>
+                        </div>
+                        <div class="sm-purchased">
+                            <h4>Total</h4>
+                            {% for order in order_total %}
+                                {% if item.product.id == order.id%}
+                                    <p>P{{ order.order_total }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="purchase-items-total-amount-container">
+                <div class="purchase-item-total-amount-content">
+                    <h2 class="purchase-item-total-amount-header-text">Amount Due</h2>
+                    <div class="purchase-item-total-amount-header">
+                        <h4>Quantity</h4>
+                        <p>{{ num_of_product }}</p>
+                    </div>
+                    <div class="purchase-item-total-amount-header">
+                        <h4>Savings</h4>
+                        {% if discount_amount %}
+                            <p>P{{ discount_amount }}</p>
+                        {% else %}
+                            <p>n/a</p>
+                        {% endif %}
+                    </div>
+                    <div class="purchase-item-total-amount-header">
+                        <h4>Sub-total</h4>
+                        <p>P{{ sub_total }}</p>
+                    </div>
+                    <div class="purchase-item-total-amount-header">
+                        <h4>VAT</h4>
+                        <p>P{{ vat }}</p>
+                    </div>
+                    <div class="purchase-item-total-amount-header">
+                        <h4>Total</h4>
+                        <p>P{{ total }}</p>
+                    </div>
+                    <!-- coming from context_processor get_basket_total() -->
+
+                    <form class="checkout-form" action="{% url 'products:checkout' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="purchase-btn" type="submit" id="checkout-button">Purchase</button>
+                        <a href="{% url 'products:product-list' %}" class="checkout-form-continue-shopping-btn">Continue Shopping</a>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     

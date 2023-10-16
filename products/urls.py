@@ -18,7 +18,6 @@ from .views import (
     stripe_webhook,
     order_history_view,
     email_receipt_view,
-    history_view
 )
 
 
@@ -45,5 +44,4 @@ urlpatterns = [
     path('stripe/webhook/', stripe_webhook, name='stripe-webhook'),
     path('order/history/', order_history_view, name='order-history'),
     path('email/receipt/<uuid:id>/', email_receipt_view, name='email-receipt'),
-    path('history/', history_view, name='history')
 ]

@@ -431,10 +431,6 @@ def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
 
-    if not receipts.exists():
-        messages.info(request, 'You do not have order history')
-        return redirect('products:product-list')
-    
     context= {'receipts': receipts}
     order_total = []
 
@@ -504,6 +500,3 @@ def email_receipt_view(request, id):
     messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
 
-
-def history_view(request):
-    return render(request, 'products/history.html', {})
