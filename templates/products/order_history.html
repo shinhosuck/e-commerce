@@ -8,85 +8,15 @@
 
 {% block content %}
 
-
-    <style>
-
-        .no-order-history-contents {
-            background: white;
-            min-height: 100vh;
-            width: 95%;
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 10px;
-            padding: 1rem;
-            display: grid;
-            align-content: start;
-            gap: 2rem
-        }
-
-        .order-history-nav-bar {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .order-history-nav-link {
-            letter-spacing: 0.05rem;
-            text-align: center;
-            color: var(--black-5);
-            font-weight: 500;
-        }
-
-        @media (hover) {
-            .order-history-nav-link:hover {
-                color: var(--purple-45);
-                text-decoration: underline;
-            }
-        }
-
-        .active-order-history-nav-link {
-            color: var(--purple-50) !important;
-            text-decoration: underline;
-            font-weight: 700;
-        }
-
-        .no-order-history-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 3rem;
-        }
-
-        .no-order-history-text {
-            text-align: center;
-            letter-spacing: 0.05rem;
-            color: var(--black-5);
-            font-size: 1.5rem;
-        }
-
-        .no-order-history-continue-shopping {
-            letter-spacing: 0.05rem;
-            color: white;
-            background: orangered;
-            border-radius: 25px;
-            padding: 0.8rem 1rem;
-            text-align: center;
-        }
-
-        @media screen and (min-width:800px) {
-            .no-order-history-contents {
-                padding: 1.3rem;
-            }
-        }
-    </style>
-   
     <div class="order-history-container">
         {% if not receipts %}
             <div class="no-order-history-contents">
                 <div class="order-history-nav-bar">
                     {% with request.resolver_match.url_name as url_name %}
-                        <a class="{% if url_name == 'product-basket' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
-                        <a class="{% if url_name == 'order-history' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+                        <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                        <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
+                        <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
+                        <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
                     {% endwith %}
                 </div>
 
@@ -104,11 +34,16 @@
                         </div>
                         <div class="order-history-user-profile-info">
                             <p class="order-history-username">{{ request.user.username }}</p>
-                            <p>
-                                {{ request.user.shippingaddress_set.all.first.first_name }} 
-                                {{ request.user.shippingaddress_set.all.first.last_name }}
-                            </p>
-                            <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                            {% if request.user.shippingaddress_set.all.first %}
+                                <p>
+                                    {{ request.user.shippingaddress_set.all.first.first_name }} 
+                                    {{ request.user.shippingaddress_set.all.first.last_name }}
+                                </p>
+                                <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                            {% else %}
+                                <p>Name: n/a</p>
+                                <p>Email: n/a</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -119,180 +54,196 @@
                 </div>
             </div>
         {% else %}
-            <div class="order-history-header-container">
-                <div class="order-history-header-text">
-                    <h2 class="order-history-header">Order History</h2>
-                    <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
-                        <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                        <span class="material-symbols-outlined">arrow_right_alt</span>
-                    </a>
+            <div class="order-history-contents">
+                <div class="order-history-nav-bar">
+                    {% with request.resolver_match.url_name as url_name %}
+                        <a class="{% if url_name == 'product-basket' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                        <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
+                        <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
+                        <a class="{% if url_name == 'order-history' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+                    {% endwith %}
                 </div>
-                <div class="order-history-user-info-container">
-                    <div class="order-history-user-profile-image">
-                        <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
+                <div class="order-history-header-container">
+                    <div class="order-history-header-text">
+                        <h2 class="order-history-header">{{ request.user.username }}'s Order History</h2>
+                        <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
+                            <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                            <span class="material-symbols-outlined">arrow_right_alt</span>
+                        </a>
                     </div>
-                    <div class="order-history-user-profile-info">
-                        <p class="order-history-username">{{ request.user.username }}</p>
-                        <p>
-                            {{ request.user.shippingaddress_set.all.first.first_name }} 
-                            {{ request.user.shippingaddress_set.all.first.last_name }}
-                        </p>
-                        <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
-                    </div>
-                    <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
-                        <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                    </a>
-                </div>
-            </div>
-            <div class="receipts">
-                {% for receipt in receipts %}
-                    <div class="receipt">
-                        <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
-                        <!-- For mobile screen -->
-                        <div class="receipt-info-header-container">
-                            <div class="receipt-info-header">
-                                <h4>Order ID</h4>
-                                <p>{{ receipt.id }}</p>
-                            </div>
-                            <div class="receipt-info-header">
-                                <h4>Customer</h4>
+                    <div class="order-history-user-info-container">
+                        <div class="order-history-user-profile-image">
+                            <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
+                        </div>
+                        <div class="order-history-user-profile-info">
+                            <p class="order-history-username">{{ request.user.username }}</p>
+                            {% if request.user.shippingaddress_set.all.first %}
                                 <p>
                                     {{ request.user.shippingaddress_set.all.first.first_name }} 
                                     {{ request.user.shippingaddress_set.all.first.last_name }}
                                 </p>
-                            </div>
-                            <div class="receipt-info-header">
-                                <h4>Order Date</h4>
-                                <p>{{ receipt.created }}</p>
-                            </div>
+                                <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                            {% else %}
+                                <p>Name: n/a</p>
+                                <p>Email: n/a</p>
+                            {% endif %}
                         </div>
-                        <!-- For large screen -->
-                        <div class="lg-receipt-info-header-container">
-                            <div class="receipt-info-header">
-                                <h4>Order ID</h4>
-                                <h4>Customer</h4>
-                                <h4>Order Date</h4>
+                        <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
+                            <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="receipts">
+                    {% for receipt in receipts %}
+                        <div class="receipt">
+                            <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
+                            <!-- For mobile screen -->
+                            <div class="receipt-info-header-container">
+                                <div class="receipt-info-header">
+                                    <h4>Order ID</h4>
+                                    <p>{{ receipt.id }}</p>
+                                </div>
+                                <div class="receipt-info-header">
+                                    <h4>Customer</h4>
+                                    <p>
+                                        {{ request.user.shippingaddress_set.all.first.first_name }} 
+                                        {{ request.user.shippingaddress_set.all.first.last_name }}
+                                    </p>
+                                </div>
+                                <div class="receipt-info-header">
+                                    <h4>Order Date</h4>
+                                    <p>{{ receipt.created }}</p>
+                                </div>
                             </div>
-                            <div class="receipt-info-text">
-                                <p>{{ receipt.id }}</p>
-                                <p>
-                                    {{ request.user.shippingaddress_set.all.first.first_name }} 
-                                    {{ request.user.shippingaddress_set.all.first.last_name }}
-                                </p>
-                                <p>{{ receipt.created }}</p>
+                            <!-- For large screen -->
+                            <div class="lg-receipt-info-header-container">
+                                <div class="receipt-info-header">
+                                    <h4>Order ID</h4>
+                                    <h4>Customer</h4>
+                                    <h4>Order Date</h4>
+                                </div>
+                                <div class="receipt-info-text">
+                                    <p>{{ receipt.id }}</p>
+                                    <p>
+                                        {{ request.user.shippingaddress_set.all.first.first_name }} 
+                                        {{ request.user.shippingaddress_set.all.first.last_name }}
+                                    </p>
+                                    <p>{{ receipt.created }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <!-- For mobile screen  -->
-                        <div class="receipts-product-ordered-container">
-                            {% for order in receipt.checkout.order.all %}
-                                <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
-                                    <div class="receipts-products-table-header">
-                                        <h4>Order</h4>
-                                        <p>{{ forloop.counter }}</p>
-                                    </div>
-                                    <div class="receipts-products-table-header">
-                                        <h4>Name</h4>
-                                        <p>{{ order.product.name }}</p>
-                                    </div>
-                                    <div class="receipts-products-table-header">
-                                        <h4>Qty</h4>
-                                        <p>{{ order.quantity }}</p>
-                                    </div>
-                                    
-                                    {% if order.product.get_discount_price %}
+                            <!-- For mobile screen  -->
+                            <div class="receipts-product-ordered-container">
+                                {% for order in receipt.checkout.order.all %}
+                                    <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
                                         <div class="receipts-products-table-header">
-                                            <h4>Price</h4>
-                                            <p>P{{ order.product.discount_price_str_format }}</p>
+                                            <h4>Order</h4>
+                                            <p>{{ forloop.counter }}</p>
+                                        </div>
+                                        <div class="receipts-products-table-header">
+                                            <h4>Name</h4>
+                                            <p>{{ order.product.name }}</p>
+                                        </div>
+                                        <div class="receipts-products-table-header">
+                                            <h4>Qty</h4>
+                                            <p>{{ order.quantity }}</p>
                                         </div>
                                         
-                                    {% else %}
-                                        <div class="receipts-products-table-header">
-                                            <h4>Price</h4>
-                                            <p>P{{ order.product.price_str_format }}</p>
-                                        </div>
-                                    {% endif %}
-                                    {% for item in receipt.checkout.order.all %}
-                                        {% if item.id == order.id %}
+                                        {% if order.product.get_discount_price %}
                                             <div class="receipts-products-table-header">
-                                                <h4>Total</h4>
-                                                <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                                                <h4>Price</h4>
+                                                <p>P{{ order.product.discount_price_str_format }}</p>
+                                            </div>
+                                            
+                                        {% else %}
+                                            <div class="receipts-products-table-header">
+                                                <h4>Price</h4>
+                                                <p>P{{ order.product.price_str_format }}</p>
                                             </div>
                                         {% endif %}
-                                    {% endfor %}
-                                </a>
-                            {% endfor %}
-                        </div>
-                        <!-- For large screen -->
-                        <div class="lg-receipts-product-ordered-container">
-                            <div class="receipts-products-table-header">
-                                <h4>Order</h4>
-                                <h4>Name</h4>
-                                <h4>Qty</h4>
-                                <h4>Price</h4>
-                                <h4>Total</h4>
+                                        {% for item in receipt.checkout.order.all %}
+                                            {% if item.id == order.id %}
+                                                <div class="receipts-products-table-header">
+                                                    <h4>Total</h4>
+                                                    <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </a>
+                                {% endfor %}
                             </div>
-                            {% for order in receipt.checkout.order.all %}
-                                <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
-                                    <p>{{ forloop.counter }}</p>
-                                    <p>{{ order.product.name }}</p>
-                                    <p>{{ order.quantity }}</p>
-                                    {% if order.product.get_discount_price %}
-                                        <p>P{{ order.product.discount_price_str_format }}</p>
-                                    {% else %}
-                                        <p>P{{ order.product.price_str_format }}</p>
-                                    {% endif %}
-                                    {% for item in receipt.checkout.order.all %}
-                                        {% if item.id == order.id %}
-                                            <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                            <!-- For large screen -->
+                            <div class="lg-receipts-product-ordered-container">
+                                <div class="receipts-products-table-header">
+                                    <h4>Order</h4>
+                                    <h4>Name</h4>
+                                    <h4>Qty</h4>
+                                    <h4>Price</h4>
+                                    <h4>Total</h4>
+                                </div>
+                                {% for order in receipt.checkout.order.all %}
+                                    <a class="receipts-product-ordered" href="{{ order.product.get_absolute_url }}" target="_blank">
+                                        <p>{{ forloop.counter }}</p>
+                                        <p>{{ order.product.name }}</p>
+                                        <p>{{ order.quantity }}</p>
+                                        {% if order.product.get_discount_price %}
+                                            <p>P{{ order.product.discount_price_str_format }}</p>
+                                        {% else %}
+                                            <p>P{{ order.product.price_str_format }}</p>
                                         {% endif %}
-                                    {% endfor %}
-                                </a>
-                            {% endfor %}
+                                        {% for item in receipt.checkout.order.all %}
+                                            {% if item.id == order.id %}
+                                                <p class="receipt-order-total">{{ item.get_order_total }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <!-- For mobile screen -->
+                            <div class="receipts-amount-paid-container">
+                                <h2 class="receipt-amount-paid-header-text">Amount Paid</h2>
+                                <div class="receipts-amount-paid">
+                                    <h4>Savings</h4>
+                                    {% if not receipt.saving == 'None' %}
+                                        <p>P{{ receipt.saving }}</p>
+                                    {% else %}
+                                        <p>n/a</p>
+                                    {% endif %}
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>Sub-total</h4>
+                                    <p>P{{ receipt.sub_total }}</p>
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>VAT</h4>
+                                    <p>P{{ receipt.tax }}</p>
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>Total</h4>
+                                    <p>P{{ receipt.total }}</p>
+                                </div>
+                            </div>
+                            <!-- For large screen -->
+                            <div class="lg-receipts-amount-paid-container">
+                                <div class="receipts-amount-paid">
+                                    <h4>Savings</h4>
+                                    <h4>Sub-total</h4>
+                                    <h4>VAT</h4>
+                                    <h4>Total</h4>
+                                </div>
+                                <div class="receipts-amount-paid-text">
+                                    {% if not receipt.saving == '[]' %}
+                                        <p>P{{ receipt.saving }}</p>
+                                    {% else %}
+                                        <p>n/a</p>
+                                    {% endif %}
+                                    <p>P{{ receipt.sub_total }}</p>
+                                    <p>P{{ receipt.tax }}</p>
+                                    <p>P{{ receipt.total }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <!-- For mobile screen -->
-                        <div class="receipts-amount-paid-container">
-                            <div class="receipts-amount-paid">
-                                <h4>Savings</h4>
-                                {% if not receipt.saving == 'None' %}
-                                    <p>P{{ receipt.saving }}</p>
-                                {% else %}
-                                    <p>n/a</p>
-                                {% endif %}
-                            </div>
-                            <div class="receipts-amount-paid">
-                                <h4>Sub-total</h4>
-                                <p>P{{ receipt.sub_total }}</p>
-                            </div>
-                            <div class="receipts-amount-paid">
-                                <h4>VAT</h4>
-                                <p>P{{ receipt.tax }}</p>
-                            </div>
-                            <div class="receipts-amount-paid">
-                                <h4>Total</h4>
-                                <p>P{{ receipt.total }}</p>
-                            </div>
-                        </div>
-                        <!-- For large screen -->
-                        <div class="lg-receipts-amount-paid-container">
-                            <div class="receipts-amount-paid">
-                                <h4>Savings</h4>
-                                <h4>Sub-total</h4>
-                                <h4>VAT</h4>
-                                <h4>Total</h4>
-                            </div>
-                            <div class="receipts-amount-paid-text">
-                                {% if not receipt.saving == '[]' %}
-                                    <p>P{{ receipt.saving }}</p>
-                                {% else %}
-                                    <p>n/a</p>
-                                {% endif %}
-                                <p>P{{ receipt.sub_total }}</p>
-                                <p>P{{ receipt.tax }}</p>
-                                <p>P{{ receipt.total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
     </div>

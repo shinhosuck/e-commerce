@@ -78,13 +78,13 @@
         letter-spacing: 0.05rem;
         padding: 0.8rem 1rem;
         color: rgb(255, 255, 255);
-        background: rgb(255, 69, 0);
+        background: var(--orange-50);
         border: none;
         border-radius: 25px;
     }
 
     .address-continue-shopping-btn {
-        background: rgb(131, 13, 242);
+        background: var(--purple-40);
         text-align: center;
         font-size: 1rem;
         letter-spacing: 0.05rem;
@@ -100,11 +100,6 @@
             margin: 2rem auto;
         }
 
-        .order-history-header-container {
-            display: flex;
-            justify-content: space-between;
-        }
-
         .shipping-address-form {
             grid-template-columns: repeat(2, 1fr);
         }
@@ -115,29 +110,55 @@
 
 <div class="shipping-address-form-wrapper">
     <div class="shipping-address-form-contents">
-        <h2 class="shipping-address-form-header">Shipping Address</h2>
-        <div class="order-history-header-container" style="width:100%; padding:1rem;">
+
+        <!-- From basket.html -->
+        <div class="product-basket-nav-bar">
+            {% with request.resolver_match.url_name as url_name %}
+                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
+                <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
+                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+            {% endwith %}
+        </div>
+        <!-- End -->
+
+        <!-- From order_history.html -->
+        <div class="order-history-header-container">
+            <div class="order-history-header-text">
+                {% if request.user.shippingaddress_set.all.first %}
+                    <h2 class="order-history-header">{{ request.user.username }}'s Address</h2>
+                {% else %}
+                    <h2 class="order-history-header">Add Your Address</h2>
+                {% endif %}
+                <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
+                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
+                    <span class="material-symbols-outlined">arrow_right_alt</span>
+                </a>
+            </div>
             <div class="order-history-user-info-container">
                 <div class="order-history-user-profile-image">
                     <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
                 </div>
                 <div class="order-history-user-profile-info">
                     <p class="order-history-username">{{ request.user.username }}</p>
-                    <p>
-                        {{ request.user.shippingaddress_set.all.first.first_name }} 
-                        {{ request.user.shippingaddress_set.all.first.last_name }}
-                    </p>
-                    <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                    {% if request.user.shippingaddress_set.all.first %}
+                        <p>
+                            {{ request.user.shippingaddress_set.all.first.first_name }} 
+                            {{ request.user.shippingaddress_set.all.first.last_name }}
+                        </p>
+                        <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
+                    {% else %}
+                        <p>Name: n/a</p>
+                        <p>Email: n/a</p>
+                    {% endif %}
                 </div>
                 <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
                     <p class="order-history-continue-shopping" href="">Continue Shopping</p>
                 </a>
             </div>
-            <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
-                <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                <span class="material-symbols-outlined">arrow_right_alt</span>
-            </a>
         </div>
+        <!-- End -->
+
         <form class="shipping-address-form" action="" method="POST">
             {% csrf_token %}
             <div class="address-inputs">
@@ -179,10 +200,17 @@
                     {{ form.zip_code.label_tag }}
                     {{ form.zip_code }}
                 </div>
-                <div class="address-btns">
-                    <button class="address-continue-to-checkout-btn" type="submit">Continue to checkout</button>
-                    <a class="address-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue shopping</a>
-                </div>
+                {% if orders %}
+                    <div class="address-btns">
+                        <button class="address-continue-to-checkout-btn" type="submit">Continue to checkout</button>
+                        <a class="address-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue shopping</a>
+                    </div>
+                {% else %}
+                    <div class="address-btns">
+                        <button class="address-continue-to-checkout-btn" type="submit">Save Address</button>
+                        <a class="address-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue shopping</a>
+                    </div>
+                {% endif %}
             </div>
         </form>
     </div>

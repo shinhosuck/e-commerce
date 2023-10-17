@@ -209,11 +209,6 @@ def basket_view(request):
     user = request.user
     query_set = user.order_set.all().filter(open=True)
     context = {'query_set': query_set}
-
-    if not query_set.exists():
-        messages.info(request, 'Your basket is empty.')
-        return redirect('products:product-list')
-    
     return render(request, 'products/basket.html', context)
 
 
@@ -237,17 +232,26 @@ def update_basket_view(request, id):
 
 @login_required
 def customer_address_view(request):
+    user = request.user
+    orders = user.order_set.filter(open=True) 
     instance = ShippingAddress.objects.filter(customer=request.user).first()
     form = ShippingAddressForm(instance=instance)
-    context = {'form': form}
+    context = {
+        'form': form,
+        'orders': orders
+    }
 
     if request.method == 'POST':
         form = ShippingAddressForm(request.POST, instance=instance)
         if form.is_valid():
             shipping_address = form.save()
-            shipping_address.customer = request.user
+            shipping_address.customer = user
             shipping_address.save()
-            return redirect('products:checkout-summary')
+            if user.order_set.all():
+                return redirect('products:checkout-summary')
+            else:
+                messages.info(request, 'Your address has been saved.')
+                return redirect('products:product-list')
         else:
             context['form'] = form
     return render(request, 'products/address.html', context)
@@ -255,11 +259,17 @@ def customer_address_view(request):
 
 @login_required 
 def checkout_summary_view(request):
-    query_set = Order.objects.filter(customer=request.user, open=True)
+    user = request.user
+    query_set = Order.objects.filter(customer=user, open=True)
+    address = user.shippingaddress_set.all().first()
 
-    if not query_set.exists():
-        messages.error(request, 'You do not have any pending orders.')
-        return redirect('products:product-list')
+    # if not address:
+    #     messages.warning(request, f'{user.username}, please add your shipping address!')
+    #     return redirect('products:shipping-address')
+
+    # if not query_set.exists():
+    #     messages.error(request, 'You do not have any pending orders.')
+    #     return redirect('products:product-list')
     
     context = {'query_set': query_set}
     return render(request, 'products/checkout_summary.html', context)
@@ -430,7 +440,6 @@ def stripe_webhook(request):
 def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
-
     context= {'receipts': receipts}
     order_total = []
 
