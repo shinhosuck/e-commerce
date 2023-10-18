@@ -25,6 +25,7 @@
                     <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
                     <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
                     <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+                    <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                 {% endwith %}
             </div>
             <!-- End -->
@@ -74,6 +75,7 @@
                     <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
                     <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
                     <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+                    <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                 {% endwith %}
             </div>
            
@@ -214,7 +216,7 @@
             <div class="basket-sub-total-container">
                 <div class="basket-sub-total">
                     <h2 class="basket-order-summary-header">Order Summary</h2>
-                    <div class="sub-total-basket-quantity">
+                    <div class=" basket-order-summary-text sub-total-basket-quantity">
                         <h4>Quantity</h4>
                         {% if num_of_product > 1 %}
                             <p>{{ num_of_product }} items</p>
@@ -224,23 +226,23 @@
                         <!-- coming from context_processors.py -->
                     </div>
                     {% if discount_amount %}
-                        <div class="sub-total-basket-savings">
+                        <div class=" basket-order-summary-text sub-total-basket-savings">
                             <h4>Saved</h4>
                             <p>P{{ discount_amount }}</p> 
                             <!-- coming from context_processors.py -->
                         </div>
                     {% endif %}
-                    <div class="sub-total-basket-subtotal">
+                    <div class=" basket-order-summary-text sub-total-basket-subtotal">
                         <h4>Sub-total</h4>
                         <p>P{{ sub_total }}</p>
                         <!-- coming from context_processors.py -->
                     </div>
-                    <div class="sub-total-basket-subtotal">
+                    <div class=" basket-order-summary-text sub-total-basket-subtotal">
                         <h4>VAT<small>12%</small></h4>
                         <p>P{{ vat }}</p>
                         <!-- coming from context_processors.py -->
                     </div>
-                    <div class="sub-total-basket-subtotal">
+                    <div class=" basket-order-summary-text sub-total-basket-subtotal">
                         <h4>Total</h4>
                         <p>P{{ total }}</p>
                         <!-- coming from context_processors.py -->

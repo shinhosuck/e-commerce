@@ -11,22 +11,24 @@
 {% block content %}
 
     <div class="categories-wrapper">
-        <div class="categories-header-container">
-            <h2 class="categories-header">Categories</h2>
-            <p>
-                It is a long established fact that a reader will be distracted 
-                by the readable content of a page when looking at its layout.
-            </p>
-        </div>
-        <div class="categories">
-            {% for cat in category %}
-            <a href="{% url 'products:product-search' %}?q={{ cat.name }}" class="category">
-                <h3 class="category-name">{{ cat.name }}</h3>
-                <div class="category-img">
-                    <img class="img" src="{{ cat.image.url }}" alt="">
-                </div>
-            </a>
-            {% endfor %}
+        <div class="categories-contents">
+            <div class="categories-header-container">
+                <h2 class="categories-header">Categories</h2>
+                <p>
+                    It is a long established fact that a reader will be distracted 
+                    by the readable content of a page when looking at its layout.
+                </p>
+            </div>
+            <div class="categories">
+                {% for cat in category %}
+                <a href="{% url 'products:product-search' %}?q={{ cat.name }}" class="category">
+                    <h3 class="category-name">{{ cat.name }}</h3>
+                    <div class="category-img">
+                        <img class="img" src="{{ cat.image.url }}" alt="">
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

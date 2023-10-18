@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import UserProfileUpdateForm, UserUpdateForm, UserEmailForm
-
+from django.contrib.auth.decorators import login_required
 
 
 def user_register_view(request):
@@ -29,6 +29,7 @@ def user_register_view(request):
             context['form'] = form
             # print(form.error_messages)
     return render(request, 'users/user_register.html', context)
+
 
 
 def user_login_view(request):
@@ -64,7 +65,7 @@ def user_logout_view(request):
             return redirect('users:user-login')
         return render(request, 'users/user_logout.html', context=None)
 
-
+@login_required
 def user_profile_view(request):
     user = request.user
     profile = user.userprofile

@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     # local apps
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',

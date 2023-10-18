@@ -6,21 +6,190 @@
     Seller page
 {% endblock title %}
 
-
+{% block banner %}
+{% endblock banner %}
 
 {% block content %}
 
     <style>
 
-        .seller-wrapper {
+        .seller-form-wrapper {
             min-height: 100vh;
+            display: grid;
+            align-items: start;
+        }
+
+        .seller-sign-up-form-contents {
+            width: 95%;
+            max-width: 1000px;
+            margin: 1rem auto;
+            display: grid;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .seller-form-header {
+            font-size: 1.25;
+            letter-spacing: 0.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .seller-sign-up-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .seller-form-content-wrapper {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .seller-sign-up-form-content {
+            display: grid;
+            gap: 0.5rem
+        }
+
+        .seller-sign-up-form-content > label {
+            color: var(--black-5);
+            font-weight: 500;
+            letter-spacing: 0.05rem;
+        }
+
+        .seller-sign-up-form-content > input[type='text'] {
+             /* make it responsive */
+            box-sizing: border-box;
+            width: 100%;
+            /* end */
+            padding: 0.8rem 1rem;
+            border: 1px solid hsl(0, 0%, 80%);
+            border-radius: 10px;
+            font-size: 1rem;
+            letter-spacing: 0.05rem;
+        }
+
+        .seller-sign-up-form-content > input[type='email'] {
+             /* make it responsive */
+            box-sizing: border-box;
+            width: 100%;
+            /* end */
+            padding: 0.8rem 1rem;
+            border: 1px solid hsl(0, 0%, 80%);
+            border-radius: 10px;
+            font-size: 1rem;
+            letter-spacing: 0.05rem;
+        }
+
+        .seller-sign-up-form-content > input:focus {
+            outline: 2px solid var(--black-70);
+        }
+
+        .seller-sign-up-form-content > select {
+            padding: 0.8rem 1rem;
+            border: 1px solid hsl(0, 0%, 80%);
+            border-radius: 10px;
+            background: white;
+        }
+
+        .seller-sign-up-form-content > select:focus {
+            outline: 2px solid var(--black-70);
+        }
+
+        .seller-form-btn {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .seller-form-register-btn {
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            color: white;
+            background: var(--orange-50);
+            font-size: 1rem;
+            border: none;
+            letter-spacing: 0.05rem
+        }
+
+        .seller-form-cancel-btn {
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            color: white;
+            background: var(--black-40);
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 0.05rem
+        }
+
+        @media screen and (min-width: 700px) {
+            .seller-sign-up-form-contents {
+                width: 95%;
+                max-width: 1000px;
+                margin: 5rem auto; 
+                border-radius: 10px;
+            }
+
+            .seller-sign-up-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
     </style>
 
 
-    <div class="seller-wrapper">
-        <h1>Page in progress</h1>
+    <div class="seller-form-wrapper">
+        <div class="seller-sign-up-form-contents">
+            <h2 class="seller-form-header">Register to Sell on AiAi Market</h2>
+            <form class="seller-sign-up-form" action="" method="POST">
+                {% csrf_token %}
+                <div class="seller-form-content-wrapper">
+                    <div class="seller-sign-up-form-content">
+                        {{ form.organization_name.label_tag }}
+                        {{ form.organization_name }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.phone_number.label_tag }}
+                        {{ form.phone_number }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.address.label_tag }}
+                        {{ form.address }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.city.label_tag }}
+                        {{ form.city }}
+                    </div>
+                </div>
+                <div class="seller-form-content-wrapper">
+                    <div class="seller-sign-up-form-content">
+                        {{ form.state.label_tag }}
+                        {{ form.state }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.province.label_tag }}
+                        {{ form.province }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.country.label_tag }}
+                        {{ form.country }}
+                    </div>
+                    <div class="seller-sign-up-form-content">
+                        {{ form.postal_code.label_tag }}
+                        {{ form.postal_code }}
+                    </div>
+                    <div class="seller-form-btn">
+                        <button class="seller-form-register-btn" type="submit">Register</button>
+                        <a href="" class="seller-form-cancel-btn">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
 {% endblock content %}

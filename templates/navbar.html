@@ -31,12 +31,14 @@
                         </a>
                         <a class="nav-link {% if url_name == 'user-profile' %}active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                         <a class="nav-link {% if url_name == 'order-history' %}active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
-                        <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                        {% comment %}
+                            <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                        {% endcomment %}
                         <a class="nav-link {% if url_name == 'user-logout' %}active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </div>
             {% endif %}
-            <a href="{% url 'sellers:sellers-seller' %}" class="nav-link">Sell on AiAi Market</a>
+            <a href="{% url 'sellers:seller-signup' %}" class="nav-link">Sell on AiAi Market</a>
             <button type="button" class="nav-link nav-link-search-button">
                 Search
                 <span class="material-symbols-outlined search-icon">search</span>
@@ -78,10 +80,12 @@
             {% else %}
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-profile' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'order-history' %}mobile-active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
-                <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                {% comment %}
+                    <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                {% endcomment %}
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-logout' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
             {% endif %}
-            <a class="mobile-nav mobile-nav-link" href="{% url 'sellers:sellers-seller' %}">Sell on market</a>
+            <a class="mobile-nav mobile-nav-link" href="{% url 'sellers:seller-signup' %}">Sell on market</a>
         </nav>
     {% endwith %}
     <div class="mobile-nav-background-layout"></div>

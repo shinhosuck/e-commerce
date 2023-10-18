@@ -136,7 +136,7 @@ BANNER SLIDER
 
 .img-banner-content-container {
     height: 100%;
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
     display: grid;
     margin-top: 2rem;
@@ -144,15 +144,15 @@ BANNER SLIDER
 }
 
 .img-banner-text{
-    width: 60%;
+    width: 100% !important;
     margin: 0 auto;
     text-align: center;
     display: grid;
     align-content: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 0.5rem;
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter:blur(4px)
+    -webkit-backdrop-filter:blur(4px);
 }
 
 .img-banner-h1-header {
@@ -170,7 +170,7 @@ BANNER SLIDER
     line-height: 1.4;
     max-width: 450px;
     margin: 0 auto;
-    display: none;
+    /* display: none; */
 }
 
 .more-info {
@@ -576,7 +576,6 @@ INDEX.HTML
     .show-search-form-wrapper {
         max-height: 500px;
         opacity: 1;
-        /* border: 2px solid red; */
     }
 
     .search-form-close-btn {
@@ -878,16 +877,20 @@ HOME.HTML/CATEGRORIES
 ===================== */
 
 .categories-wrapper {
-    width: 95%;
-    margin: 0 auto;
     display: grid;
-    padding: 1rem 0;
+}
+
+.categories-contents {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
 }
 
 .categories-header-container {
     display: grid;
     gap: 0.5rem;
-    margin-bottom: 1rem;
     padding: 1rem;
     background: var(--purple-30);
     border-radius: 10px;
@@ -916,6 +919,7 @@ HOME.HTML/CATEGRORIES
     transition: transform 300ms ease-in-out;
     background: white;
     padding: 1rem;
+    box-shadow: 0px 0px 6px -1px rgb(195, 195, 195);
 }
 
 @media (hover) {
@@ -963,8 +967,16 @@ HOME.HTML/CATEGRORIES
 
 @media screen and (min-width: 600px) {
 
+    .categories-contents {
+        width: 95%;
+        margin: 1rem auto;
+        padding: 1.3rem;
+    }
+
     .categories-header-container {
         background: rgb(255, 255, 255);
+        padding: 0;
+        margin-bottom: 0.5rem;
     }
     
     .categories-header {
@@ -991,8 +1003,11 @@ HOME.HTML/CATEGRORIES
 }
 
 @media screen and (min-width: 1000px) {
-    .categories-wrapper {
-        padding: 2rem 0;
+
+    .categories-contents {
+        width: 90%;
+        padding: 1.5rem;
+        margin: 2rem auto;
     }
 
     .categories-header {
@@ -1041,7 +1056,7 @@ PRODUCT_CREATE.HTML/PRODUCT CREATE
     display: grid;
     gap: 1rem;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 10px -1px rgb(201, 201, 201);
+    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
 }
 
 .product-create-input-container {
@@ -1167,7 +1182,7 @@ PRODUCT_CREATE.HTML/PRODUCT CREATE
 
 .create-form-btns > a {
     padding: 0.9rem 1rem;
-    background: var(--black-30);
+    background: var(--black-40);
     color: rgb(255, 255, 255);
     text-align: center;
     letter-spacing: 0.05rem;
@@ -1202,16 +1217,17 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 }
 
 .product-list-wrapper {
-    width: 95%;
-    margin: 1rem auto 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
     gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-bottom: 2px solid lightgray;
 }
 
 .product-list-wrapper:last-child {
-    margin-bottom: 1rem;
+    border-bottom: none;
 }
 
 .product-list-header-container {
@@ -1274,7 +1290,7 @@ PRODUCT_LIST.HTML/PRODUCT LIST
     background: white;
     border-radius: 10px;
     transition: transform 300ms ease-in-out;
-    box-shadow: 0px 0px 8px -1px rgb(196, 196, 196);
+    box-shadow: 0px 0px 6px -1px rgb(195, 195, 195);
 }
 
 @media (hover) {
@@ -1384,12 +1400,20 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 @media screen and (min-width: 600px) {
    
     .product-list-wrapper {
-        background: white;
+        width: 95%;
+        margin: 1rem auto 0 auto;
         padding: 1.3rem;
+        padding-bottom: 1.3rem;
         border-radius: 10px;
         margin: 1rem auto 0 auto;
         gap: 1rem;
+        border-bottom: none;
     }
+
+    .product-list-wrapper:last-child {
+        margin-bottom: 1rem;
+    }
+    
 
     .product-list-header-container {
         padding: 0;
@@ -1954,13 +1978,10 @@ BASKET.HTML/CUSTOMER BASKET
 }
 
 .product-basket-wrapper {
-    /* width: 95%;
-    max-width: 1000px;
-    margin: 1rem auto; */
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    background: white;
+    background: rgb(255, 255, 255);
 }
 
 .product-basket-nav-bar {
@@ -2207,8 +2228,12 @@ BASKET.HTML/CUSTOMER BASKET
     margin-bottom: 1rem;
 }
 
-.basket-sub-total > div {
+.basket-order-summary-text {
     background: hsl(0, 0%, 80%);
+}
+
+.basket-sub-total > div:nth-child(odd) {
+    background: hsl(0, 0%, 90%);
 }
 
 .basket-sub-total > div:nth-child(2) {
@@ -2216,19 +2241,16 @@ BASKET.HTML/CUSTOMER BASKET
     border-top-right-radius: 10px;
 }
 
-.basket-sub-total > div:nth-child(even) {
-    background: hsl(0, 0%, 90%);
+.basket-sub-total > div:last-child {
+    background: white;
 }
 
-.basket-sub-total > div:nth-child(5) {
+.basket-sub-total > div:nth-last-child(2) {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     font-size: 1.2rem;
     font-weight: bold;
-}
-
-.basket-sub-total > div:last-child {
-    background: white !important;
+    
 }
 
 .sub-total-basket-quantity,
@@ -2553,7 +2575,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 .order-history-header-container {
     display: grid;
     align-items: start;
-    gap: 1rem;
+    gap: 0.5rem;
     padding: 1rem;
     background: var(--purple-30);
     color: white;
@@ -2572,7 +2594,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 .order-history-header {
     color: rgb(255, 255, 255);
     letter-spacing: 0.05rem;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     text-align: center;
     text-wrap: balance;
     text-transform: capitalize;
@@ -2685,7 +2707,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     padding: 1rem;
     font-size: 1rem;
     color: var(--black-5);
-    background: hsl(0, 0%, 85%);
+    background: hsl(0, 0%, 80%);
 }
 
 .receipt-info-header:first-child {
@@ -2699,7 +2721,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 }
 
 .receipt-info-header:nth-child(even) {
-    background: hsl(0, 0%, 95%)
+    background: hsl(0, 0%, 90%)
 }
 
 .receipts-product-ordered-container {
@@ -2733,7 +2755,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
    gap: 0.5rem;
    padding: 1rem;
    color: black;
-   background: hsl(0, 0%, 85%);
+   background: hsl(0, 0%, 80%);
 }
 
 .receipts-products-table-header:first-child {
@@ -2747,7 +2769,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 }
 
 .receipts-products-table-header:nth-child(even) {
-    background: hsl(0, 0%, 95%)
+    background: hsl(0, 0%, 90%)
 }
 
 .receipts-amount-paid-container {
@@ -2771,7 +2793,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     grid-template-columns: 30% 1fr;
     gap: 0.5rem;
     padding: 1rem;
-    background: hsl(0, 0%, 85%);
+    background: hsl(0, 0%, 80%)
 }
 
 .receipts-amount-paid:nth-child(2) {
@@ -2782,10 +2804,12 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 .receipts-amount-paid:last-child {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.receipts-amount-paid:nth-child(even) {
-    background: hsl(0, 0%, 95%)
+.receipts-amount-paid:nth-child(odd) {
+    background: hsl(0, 0%, 90%)
 }
 
 @media screen and (min-width: 530px) {
@@ -2799,29 +2823,12 @@ ORDER_HISTORY.HTML/ORDER HISTORY
         margin: 1rem auto;
         border-radius: 10px;
     }
-}
-
-@media screen and (min-width: 800px) {
-
-    .order-history-contents {
-        margin: 2rem auto;
-        padding: 1.3rem;
-    }
-
-    .order-history-header-container {
-        padding: 1.3rem;
-    }
-
-    .order-history-header {
-        font-size: 1.7rem;
-    }
 
     .order-history-continue-shopping-btn-small {
         display: none;
     }
 
     .order-history-header {
-        font-size: 1.5rem;
         text-align: start;
     }
 
@@ -2848,6 +2855,18 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
     .order-history-user-profile-info > p {
         text-align: start;
+    }
+}
+
+@media screen and (min-width: 800px) {
+
+    .order-history-contents {
+        margin: 2rem auto;
+        padding: 1.3rem;
+    }
+
+    .order-history-header-container {
+        padding: 1.3rem;
     }
 
     .receipt {
@@ -2927,7 +2946,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     }
 
     .receipts-product-ordered:nth-child(odd) {
-        background: hsl(0, 0%, 93%) !important;
+        background: hsl(0, 0%, 90%) !important;
     }
 
     .receipts-amount-paid-container {
@@ -2938,11 +2957,11 @@ ORDER_HISTORY.HTML/ORDER HISTORY
         display: grid;
         border-bottom-right-radius: 10px;
         border-bottom-left-radius: 10px;
-        color: rgb(0, 0, 0);
+        color: var(--black-5);
     }
 
     .receipts-amount-paid {
-        background: hsl(0, 0%, 70%);
+        background: hsl(0, 0%, 70%) !important;
         color: rgb(0, 0, 0);
         letter-spacing: 0.05rem;
         grid-template-columns: repeat(4, 1fr);
