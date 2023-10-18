@@ -9,6 +9,9 @@
 
 
 {% block content %}
+
+
+
 <div class="product-basket-content-container">
 
     <!-- Cart is empty -->
@@ -24,7 +27,7 @@
                     <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
                 {% endwith %}
             </div>
-            <!-- Ens -->
+            <!-- End -->
 
             <!-- From order_history.html -->
             <div class="order-history-header-container" style="width:100%;">

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from .forms import UserProfileUpdateForm, UserUpdateForm, UserEmailForm
 
 
 
@@ -12,7 +13,11 @@ def user_register_view(request):
         return redirect('products:product-list')
     
     form = UserCreationForm()
-    context = {'form': form}
+    email_form = UserEmailForm
+    context = {
+        'form': form,
+        'email_form': email_form
+    }
 
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -22,7 +27,7 @@ def user_register_view(request):
             return redirect('users:user-login')
         else:
             context['form'] = form
-            print(form.error_messages)
+            # print(form.error_messages)
     return render(request, 'users/user_register.html', context)
 
 
@@ -58,3 +63,27 @@ def user_logout_view(request):
             logout(request)
             return redirect('users:user-login')
         return render(request, 'users/user_logout.html', context=None)
+
+
+def user_profile_view(request):
+    user = request.user
+    profile = user.userprofile
+    profile_form = UserProfileUpdateForm(instance=profile)
+    user_form = UserUpdateForm(instance=user)
+
+    context = {
+        'profile_form': profile_form,
+        'user_form': user_form
+    }
+
+    if request.method == 'POST':
+        profile_form = UserProfileUpdateForm(request.POST, instance=profile)
+        user_form = UserUpdateForm(request.POST, instance=user)
+        if profile_form.is_valid() and user_form.is_valid():
+            updated_prfile = profile_form.save()
+            update_user = user_form.save()
+            return redirect('products:product-list')
+        else:
+            context['profile_form'] = profile_form
+            context['user_form'] = user_form
+    return render(request, 'users/user_profile.html', context)
