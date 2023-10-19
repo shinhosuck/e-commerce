@@ -31,6 +31,7 @@ from django.conf import settings
 import stripe
 import json
 from decimal import Decimal
+from sellers.models import SellerSignUp
 
 
 
@@ -89,8 +90,14 @@ def product_detail_view(request, id):
 
 @login_required()
 def product_create_view(request):
-    query_set = ProductSubCategory.objects.all()
 
+    try:
+        request.user.sellersignup
+    except Exception as e:
+        messages.error(request, f'{e}. Please sign up to sell on AiAi Market')
+        return redirect('sellers:seller-signup')
+    
+    query_set = ProductSubCategory.objects.all()
     category_name = []
     sub_categories = []
 

@@ -6,74 +6,74 @@
     Create
 {% endblock title %}
 
- {% block banner %}
- {% endblock banner %}
-
+ 
 {% block content %}
 
     <div class="product-create-form-wrapper">
-        <form class="create-form" action="{% url 'products:product-create' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="product-create-input-container">
-                <h2 class="create-your-product-header">Add Your Product</h2>
-                <div class="product-category-input">
-                    {{ product_form.category.label_tag}}
-                    <p>{{ product_form.category }}</p>
+        <div class="product-create-form-contents">
+            <h2 class="create-your-product-header">Please Add Your Product</h2>
+            <form class="create-form" action="{% url 'products:product-create' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="product-create-input-container">
+                    <div class="product-category-input">
+                        {{ product_form.category.label_tag}}
+                        <p>{{ product_form.category }}</p>
+                    </div>
+                    <div class="product-sub-category-input">
+                        {{ product_form.sub_category.label_tag}}
+                        <p id="sub-category">{{ product_form.sub_category }}</p>
+                    </div>
+                    <div class="product-name-input">
+                        {{ product_form.name.label_tag}}
+                        <p>{{ product_form.name }}</p>
+                    </div>
+                    <div class="product-brand-input">
+                        {{ product_form.brand.label_tag}}
+                        <p>{{ product_form.brand }}</p>
+                    </div>
+                    <div class="product-seller-organization-input">
+                        {{ product_form.seller_organization.label_tag}}
+                        <p>{{ product_form.seller_organization }}</p>
+                    </div>
+                    <div class="product-image-input">
+                        {{ product_form.product_image.label_tag}}
+                        <p>{{ product_form.product_image }}</p>
+                    </div>
+                    <div class="product-price-input">
+                        {{ product_form.price.label_tag}}
+                        <p>{{ product_form.price }}</p>
+                    </div>
+                    <div class="product-available-input">
+                        {{ product_form.available.label_tag}}
+                        {{ product_form.available }}
+                    </div>
                 </div>
-                <div class="product-sub-category-input">
-                    {{ product_form.sub_category.label_tag}}
-                    <p id="sub-category">{{ product_form.sub_category }}</p>
+                <div class="product-create-input-container">
+                    <div class="product-image-input">
+                        {{ image_form.image.label_tag }}
+                        <p>{{ image_form.image }}</p>
+                        <ul class="image-upload-warning">
+                            <li>maxium & minium 3 images.</li>
+                        </ul>
+                    </div>
+                    <div class="product-description-input">
+                        {{ product_form.description.label_tag}}
+                        <p>{{ product_form.description}}</p>
+                        <ul class="image-upload-warning">
+                            <li>maxium characters 50.</li>
+                        </ul>
+                    </div>
+                    <div class="product-detail-textarea">
+                        {{ product_form.detail.label_tag}}
+                        <p>{{ product_form.detail}}</p>
+                    </div>
+                    <div class="create-form-btns">
+                        <button type="submit">Add Product</button>
+                        <a href="{% url 'products:product-list' %}">Cancel</a>
+                    </div>
                 </div>
-                <div class="product-name-input">
-                    {{ product_form.name.label_tag}}
-                    <p>{{ product_form.name }}</p>
-                </div>
-                <div class="product-brand-input">
-                    {{ product_form.brand.label_tag}}
-                    <p>{{ product_form.brand }}</p>
-                </div>
-                <div class="product-seller-organization-input">
-                    {{ product_form.seller_organization.label_tag}}
-                    <p>{{ product_form.seller_organization }}</p>
-                </div>
-                <div class="product-image-input">
-                    {{ product_form.product_image.label_tag}}
-                    <p>{{ product_form.product_image }}</p>
-                </div>
-                <div class="product-price-input">
-                    {{ product_form.price.label_tag}}
-                    <p>{{ product_form.price }}</p>
-                </div>
-                <div class="product-available-input">
-                    {{ product_form.available.label_tag}}
-                    {{ product_form.available }}
-                </div>
-            </div>
-            <div class="product-create-input-container">
-                <div class="product-image-input">
-                    {{ image_form.image.label_tag }}
-                    <p>{{ image_form.image }}</p>
-                    <ul class="image-upload-warning">
-                        <li>maxium & minium 3 images.</li>
-                    </ul>
-                </div>
-                <div class="product-description-input">
-                    {{ product_form.description.label_tag}}
-                    <p>{{ product_form.description}}</p>
-                    <ul class="image-upload-warning">
-                        <li>maxium characters 50.</li>
-                    </ul>
-                </div>
-                <div class="product-detail-textarea">
-                    {{ product_form.detail.label_tag}}
-                    <p>{{ product_form.detail}}</p>
-                </div>
-                <div class="create-form-btns">
-                    <button type="submit">Add Product</button>
-                    <a href="{% url 'products:product-list' %}">Cancel</a>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <script>

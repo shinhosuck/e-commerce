@@ -65,6 +65,7 @@ def user_logout_view(request):
             return redirect('users:user-login')
         return render(request, 'users/user_logout.html', context=None)
 
+
 @login_required
 def user_profile_view(request):
     user = request.user

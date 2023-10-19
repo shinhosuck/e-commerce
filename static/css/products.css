@@ -944,7 +944,7 @@ HOME.HTML/CATEGRORIES
 }
 
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 500px) {
     .categories {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
@@ -1043,31 +1043,33 @@ HOME.HTML/CATEGRORIES
 PRODUCT_CREATE.HTML/PRODUCT CREATE
 ================================== */
 .product-create-form-wrapper{
-    min-height: 100vh;
-    padding: 1rem 0;
+    display: grid;
+    align-items: start;
 }
 
-.create-form {
-    width: 95%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem;
-    border-radius: 10px;
+.product-create-form-contents {
     display: grid;
-    gap: 1rem;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
-}
-
-.product-create-input-container {
-    display: grid;
-    gap: 1rem;
 }
 
 .create-your-product-header {
     letter-spacing: 0.05rem;
     color: var(--black-5);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    padding: 1rem;
+    background: var(--purple-35);
+    color: white
+}
+
+.create-form {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.product-create-input-container {
+    display: grid;
+    gap: 1rem;
 }
 
 .image-upload-warning {
@@ -1107,11 +1109,11 @@ PRODUCT_CREATE.HTML/PRODUCT CREATE
 .product-detail-textarea > p > textarea{
     width: 100%;
     padding: 0.7rem 1rem;
-    border-radius: 5px;
+    border-radius: 10px;
     line-height: 1.5;
     font-size: 1rem;
     color: var(--black-15);
-    border: 1px solid var(--black-70);
+    border: 1px solid var(--black-80);
 }
 
 
@@ -1195,16 +1197,35 @@ textarea::placeholder{
     font-size: 1rem;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 800px) {
 
-    .product-create-form-wrapper{
-        padding: 5rem 0;
+    .product-create-form-contents {
+        width: 95%;
+        max-width: 1000px;
+        margin: 3rem auto;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+    }
+
+    .create-your-product-header {
+        padding: 1.5rem 1.3rem;
+        font-size: 1.5rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 
     .create-form {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.3rem;
         padding: 1.3rem;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .product-create-input-container {
+        padding: 1rem;
+        background: rgb(240, 240, 240);
+        border-radius: 10px;
     }
 }
 
@@ -1223,7 +1244,7 @@ PRODUCT_LIST.HTML/PRODUCT LIST
     gap: 1rem;
     padding: 1rem;
     background: white;
-    border-bottom: 2px solid lightgray;
+    border-bottom: 1px solid hsl(0, 0%, 90%);
 }
 
 .product-list-wrapper:last-child {
