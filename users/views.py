@@ -23,7 +23,7 @@ def user_register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, f'Username "{user.username}" has been suucessfully registered.')
+            messages.success(request, f'Username "{user.username}" has been successfully registered.')
             return redirect('users:user-login')
         else:
             context['form'] = form

@@ -15,7 +15,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Latest Product</h2>
-                    <a href="{% url 'products:product-search' %}?q=Latest product">
+                    <a href="{% url 'products:product-search' %}?q=latest">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt
@@ -29,7 +29,7 @@
             </div>
             <div class="product-list">
                 {% for product in query_set %}
-                    <a href="{{ product.get_absolute_url }}" class="product">
+                    <a class="product" href="{{ product.get_absolute_url }}">
                         <div class="product-image">
                             <img src="{{ product.get_product_image_url }}" alt="">
                         </div>
@@ -78,7 +78,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Most Popular</h2>
-                    <a href="{% url 'products:product-search' %}?q=Most popular">
+                    <a href="{% url 'products:product-search' %}?q=most popular">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt
@@ -138,7 +138,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Just For You</h2>
-                    <a href="{% url 'products:product-search' %}?q=Just for you">
+                    <a href="{% url 'products:product-search' %}?q=just for you">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt

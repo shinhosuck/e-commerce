@@ -38,6 +38,8 @@ from sellers.models import SellerSignUp
 stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
+
+
 def home_view(request):
     category = ProductCategory.objects.all()
     products = Product.objects.all()
@@ -190,9 +192,29 @@ def write_product_review_view(request, id):
     
 def product_search_view(request):
     q = request.GET.get('q')
-    query_set = Product.objects.filter(Q(category__name__icontains = q) | 
-            Q(sub_category__name__icontains = q) | Q(name__icontains = q))
-    context = {'query_set': query_set, 'q':q}
+    context = {'q': q.capitalize()}
+
+    # latest, most poplura, just for you
+    if q == 'latest':
+        query_set = Product.objects.all()
+        context['query_set'] = query_set
+    elif q == 'most popular':
+        query_set = [item for item in Product.objects.all() if item.num_of_times_solid >= 5]
+        context['query_set'] = query_set
+    elif q == 'just for you':
+        query_set = []
+        have_ordered = set(item.product.category.name for item in request.user.order_set.all())
+        if not have_ordered:
+            have_ordered = set(product.category.name for product in Product.objects.all())
+        for category in have_ordered:
+            items = [query_set.append(item) for item in Product.objects.filter(category__name__iexact = category)]
+        context['query_set'] = query_set
+    else:
+        # Category, sub-category, and produc name
+        query_set = Product.objects.filter(Q(category__name__icontains = q) | 
+                Q(sub_category__name__icontains = q) | Q(name__icontains = q))
+        context['query_set'] = query_set
+    
     return render(request, 'products/search_result.html', context)
 
 

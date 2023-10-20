@@ -5,6 +5,15 @@
         <h1>AiAi Market</h1>
         <p>THE PLACE TO SHOP</p>
     </a>
+
+    <form class="search-form" action="{% url 'products:product-search' %}" method="GET">
+        <input class="search-form-input" type="text", name='q' required placeholder="Search">
+        <button class="search-form-submit-btn" type="submit">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </form>
+
+
     {% with request.resolver_match.url_name as url_name %}
         <nav class="nav-links">
             <a class="nav-link {% if url_name == 'product-list' %}active-nav-link{% endif %}" href="{% url 'products:product-list' %}">Products</a>
@@ -31,14 +40,14 @@
                         </a>
                         <a class="nav-link {% if url_name == 'user-profile' %}active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                         <a class="nav-link {% if url_name == 'order-history' %}active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
-                        {% comment %}
+                        {% if request.user.sellersignup %}
                             <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
-                        {% endcomment %}
+                        {% endif %}
+                        <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-signup' %}">Sell on AiAi Market</a>
                         <a class="nav-link {% if url_name == 'user-logout' %}active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </div>
             {% endif %}
-            <a href="{% url 'sellers:seller-signup' %}" class="nav-link">Sell on AiAi Market</a>
             <button type="button" class="nav-link nav-link-search-button">
                 Search
                 <span class="material-symbols-outlined search-icon">search</span>
@@ -47,32 +56,24 @@
     {% endwith %}
 </div>
 
-<div class="search-form-wrapper">
-    <form class="search-form" action="{% url 'products:product-search' %}" method="GET">
-        <input class="search-form-input" type="text", name='q' required placeholder="Search">
-        <button class="search-form-submit-btn" type="submit">
-            <span class="material-symbols-outlined">search</span>
-        </button>
-    </form>
-    <!-- <span class="material-symbols-outlined search-form-close-btn">close</span> -->
-</div>
-
 <!-- Mobile screen  -->
 <div class="mobile-nav-bar-wrapper">
     <a class="mobile-brand-name" href="{% url 'products:product-home' %}">
         <h1>AiAi Market</h1>
         <p>THE PLACE TO SHOP</p>
     </a>
+    <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
+        <input class="mobile-search-form-input" type="text", name='q' required placeholder="Search">
+        <button class="mobile-search-form-submit-btn" type="submit">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </form>
     <div class="mobile-toggle-nav-btn">
         <span class="material-symbols-outlined mobile-menu-btn">menu</span>
     </div>
     {% with request.resolver_match.url_name as url_name %}
         <nav class="mobile-nav-links">
             <span class="material-symbols-outlined mobile-nav-close-btn">close</span>
-            <button type="button" class="mobile-nav mobile-nav-link-search-button  mobile-nav-link">
-                Search
-                <!-- <span class="material-symbols-outlined">search</span> -->
-            </button>
             <a class="mobile-nav mobile-nav-link {% if url_name == 'product-list' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-list' %}">Products</a>
             {% if not request.user.is_authenticated %}
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-login' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-login' %}">Login</a>
@@ -80,12 +81,12 @@
             {% else %}
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-profile' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'order-history' %}mobile-active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
-                {% comment %}
+                {% if request.user.sellersignup %}
                     <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
-                {% endcomment %}
+                {% endif %}
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-logout' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
             {% endif %}
-            <a class="mobile-nav mobile-nav-link" href="{% url 'sellers:seller-signup' %}">Sell on market</a>
+            <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-signup' %}">Sell on AiAi Market</a>
         </nav>
     {% endwith %}
     <div class="mobile-nav-background-layout"></div>

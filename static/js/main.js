@@ -10,14 +10,12 @@ const mobileNavLinks = document.querySelector('.mobile-nav-links')
 const mobileNavCloseBtn = document.querySelector('.mobile-nav-close-btn')
 const mobileToggleNavBtn = document.querySelector('.mobile-toggle-nav-btn')
 const mobileNavBackgroundLayout = document.querySelector('.mobile-nav-background-layout')
-const mobileNavLinkSearchButton = document.querySelector('.mobile-nav-link-search-button')
 
 // search form
 const navLinkSearchButton = document.querySelector('.nav-link-search-button')
 const searchIcon = document.querySelector('.search-icon')
-const searchFormWrapper = document.querySelector('.search-form-wrapper')
+const searchForm = document.querySelector('.search-form')
 const searchFormCloseButton = document.querySelector('.search-form-close-btn')
-const mobileSearchFormContainer = document.querySelector('.mobile-search-form-container')
 
 // user drop-down menu navigation bar
 const toggleUserNavbar = document.querySelector('.toggle-user-navbar')
@@ -44,13 +42,6 @@ const productDetailArrowUp = document.querySelector('.product-detail-arrow-up')
 const productDetailArrowDown = document.querySelector('.product-detail-arrow-down')
 const productDetailExtraImage = [...document.querySelectorAll('.product-detail-extra-image')]
 
-// product likes rating stars
-// const productLikeContainer = document.querySelectorAll('.product-like-container')
-
-
-
-
-
 const body = document.querySelector('body')
 
 /*
@@ -58,12 +49,14 @@ const body = document.querySelector('body')
 SCROLL UP AND DOWN
 ==================
 */ 
+
+// scrollable height = document.documentElement.scrollHeight
+
 if(scrollDown && scrollUp) {
     if((window.innerWidth - bodyWidth.clientWidth)/2 != 0) {
         scrollBtns.style.right = `${(window.innerWidth - bodyWidth.clientWidth)/2}px`
     }
 }
-
 
 if(scrollDown && scrollUp) {
     window.addEventListener('scroll', (e) => {
@@ -71,7 +64,7 @@ if(scrollDown && scrollUp) {
             scrollDown.style.display = 'none'
             scrollUp.style.display = 'none'
         }
-        else if(window.pageYOffset >= 300) {
+        else if(window.pageYOffset >= 500) {
             scrollDown.style.display = 'none'
             scrollUp.style.display = 'flex'
         }else if(window.pageYOffset <= 300 && window.pageYOffset > 0) {
@@ -95,19 +88,22 @@ MOBILE NAV LINKS
 ================
 */ 
 
-mobileToggleNavBtn.addEventListener('click', (e) => {
-    searchFormWrapper.classList.remove('show-search-form-wrapper')
-    mobileNavLinks.classList.add('show-mobile-nav-bar')
-    mobileNavBackgroundLayout.style.display = 'block'
-    body.style.overflow = 'hidden'
+if (mobileToggleNavBtn) {
+    mobileToggleNavBtn.addEventListener('click', (e) => {
+        mobileNavLinks.classList.add('show-mobile-nav-bar')
+        mobileNavBackgroundLayout.style.display = 'block'
+        body.style.overflow = 'hidden'
+    })
+}
+    
 
-})
-
-mobileNavCloseBtn.addEventListener('click', () => {
-    mobileNavLinks.classList.remove('show-mobile-nav-bar')
-    mobileNavBackgroundLayout.style.display = 'none'
-    body.style.overflow = 'auto'
-})
+if (mobileNavCloseBtn) {
+    mobileNavCloseBtn.addEventListener('click', () => {
+        mobileNavLinks.classList.remove('show-mobile-nav-bar')
+        mobileNavBackgroundLayout.style.display = 'none'
+        body.style.overflow = 'auto'
+    })
+}
 
 mobileNavs.forEach((nav) => {
     nav.addEventListener('click', (e) => {
@@ -124,7 +120,6 @@ DESKTOP NAV LINKS
 
 if (toggleUserNavbar) {
     toggleUserNavbar.addEventListener('click', (e) => {
-        searchFormWrapper.classList.remove('show-search-form-wrapper')
         loggedInUserNavLinks.classList.toggle('show-logged-in-user-nav-links')
         if(loggedInUserNavLinks.classList.contains('show-logged-in-user-nav-links')){
             loggedInNavbarArrowUp.style.display = 'flex'
@@ -138,20 +133,7 @@ if (toggleUserNavbar) {
 
 
 navLinkSearchButton.addEventListener('click', (e) => {
-    searchFormWrapper.classList.toggle('show-search-form-wrapper')
-})
-
-// searchFormCloseButton.addEventListener('click', (e) => {
-//     searchFormWrapper.classList.toggle('show-search-form-wrapper')
-// })
-
-mobileNavLinkSearchButton.addEventListener('click', (e) => {
-    searchFormWrapper.classList.toggle('show-search-form-wrapper')
-    mobileSearchFormContainer.classList.toggle('show-mobile-search-form-container')
-    mobileNavLinks.classList.remove('show-mobile-nav-bar')
-    mobileNavBackgroundLayout.style.display = 'none'
-    body.style.overflow = 'auto'
-
+    searchForm.classList.toggle('show-search-form')
 })
 
 if(toggleUserNavbar) {
@@ -175,8 +157,7 @@ if(toggleUserNavbar) {
 }
 
 window.addEventListener('resize', (e) => {
-    searchFormWrapper.classList.remove('show-search-form-wrapper')
-    // mobileSearchFormContainer.classList.remove('show-mobile-search-form-container')
+    searchForm.classList.remove('show-search-form')
     if(loggedInUserNavLinks){
         loggedInUserNavLinks.classList.remove('show-logged-in-user-nav-links')
     }

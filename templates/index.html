@@ -30,18 +30,6 @@
         {% endblock navbar%}
     </header>
     <main>
-        <!-- Search form for mobile device -->
-        {% block form %}
-            <div class="mobile-search-form-container">
-                <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
-                    <input class="mobile-search-input" type="text", name='q' required placeholder="Search">
-                    <button class="mobile-search-submit-btn" type="submit">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </form>
-            </div>
-        {% endblock form %}
-
         <div class="main-banner">
             {% block banner %}
                 {% include 'banner.html' %}

@@ -74,8 +74,8 @@
 
 html, body {
     scroll-behavior: smooth;
-    /* max-width: 1920px;
-    margin: 0 auto; */
+    max-width: 1920px;
+    margin: 0 auto;
   }
 
 a {
@@ -384,7 +384,8 @@ INDEX.HTML
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.7rem 0;
+    gap: 1rem;
+    padding: 1rem 0;
 }
 
 .mobile-brand-name {
@@ -394,20 +395,68 @@ INDEX.HTML
 }
 
 .mobile-brand-name > h1 {
-    font-size: 1.7rem;
-    letter-spacing: 0.04rem;
+    font-size: 1.35rem;
+    letter-spacing: 0.05rem;
     font-weight: 700;
     color: var(--orange-60);
     font-family: 'Lobster', 'Roboto', sans-serif;
 }
 
 .mobile-brand-name > p {
-    display: none;
+    /* display: none; */
     color: var(--black-95);
     font-weight: 500;
-    font-size: 13.5px;
+    font-size: 0.65rem;
     letter-spacing: 0.05rem;
 }
+
+/* Mobile form */
+.mobile-search-form {
+    flex: 1;
+    display: flex;
+    border-radius: 25px;
+}
+
+/* responsive input field */
+.mobile-search-form-input[type='text'] {
+    /* make it responsive */
+    box-sizing: border-box;
+    width: 100%;
+    /* end */
+    padding: 0.5rem 0.8rem;
+    padding-right: 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background: var(--black-90);
+    border: none;
+}
+
+.mobile-search-form-input:focus {
+    outline: none;
+}
+
+.mobile-search-form-input::placeholder {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+}
+
+.mobile-search-form-submit-btn {
+    padding: 0.5rem 0.4rem;
+    background: var(--black-90);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-search-form-submit-btn > span {
+    font-size: 1.3rem;
+}
+
+/* End form */
 
 .mobile-toggle-nav-btn {
     color: rgb(231, 231, 231);
@@ -473,163 +522,43 @@ INDEX.HTML
     background: rgba(0, 0, 0, 0.308)
 }
 
-.mobile-nav-link-search-button {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.8rem 1.3rem;
-    background: none;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    color: rgb(59, 59, 59);
-    -webkit-tap-highlight-color: transparent !important;
-}
-
-.search-form-wrapper {
-    display: none;
-}
-
-/* Mobile search form */
-.mobile-search-form-container {
-    display: none;
-}
-
-.show-mobile-search-form-container {
-    display: grid;
-}
-
-.mobile-search-form {
-    display: flex;
-    align-items: stretch;
-    width: 100%;
-}
-
-.mobile-search-input {
-    flex: 1;
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
-    letter-spacing: 0.05rem;
-    color: var(--black-20);
-    border: none
-}
-
-.mobile-search-input[type='text'] {
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.mobile-search-input::placeholder {
-    font-size: 1rem;
-    letter-spacing: 0.05rem;
-}
-
-.mobile-search-input:focus {
-    outline: none;
-}
-
-.mobile-search-submit-btn {
-    padding: 0 1.2rem;
-    border: none;
-    background: var(--purple-50);
-    color: white;
+@media screen and (min-width: 450px) {
+    .mobile-brand-name > h1 {
+        font-size: 1.6rem;
+    }
+    
+    .mobile-brand-name > p {
+        font-size: 0.75rem;
+    }
 }
 
 @media screen and (min-width: 600px) {
 
-    .mobile-search-form-container {
-        display: none;
-    }
-
     .mobile-brand-name > h1 {
-        font-size: 1.8rem;
-    }
-
-    .mobile-nav-link-search-button {
-        display: flex;
+        font-size: 1.7rem;
     }
 
     .mobile-brand-name > p {
-        display: flex;
+        font-size: 0.8rem;
     }
-
-    /* search form  */
-    .search-form-wrapper {
-        position: absolute;
-        z-index: 200;
-        top: 80px;
-        left: 50%;
-        width: 95%;
-        max-width: 700px;
-        transform: translateX(-50%);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.5rem;
-        max-height: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        opacity: 0;
-        transition: max-height 500ms linear, opacity 100ms linear;
-    }
-
-    .show-search-form-wrapper {
-        max-height: 500px;
-        opacity: 1;
-    }
-
-    .search-form-close-btn {
-        width: 28px;
-        aspect-ratio: 1/1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        color: white;
-        background: var(--black-50);
-        font-size: 1.3rem;
-        cursor: pointer;
-    }
-
-    .search-form {
-        flex: 1;
-        display: flex;
-        border-radius: 25px;
-    }
-
-    /* responsive input field */
-    .search-form-input[type='text'] {
-        /* make it responsive */
-        box-sizing: border-box;
-        width: 100%;
-        /* end */
-        padding: 0.7rem 1.5rem;
+    .mobile-search-form-input[type='text'] {
+        padding: 0.6rem 1rem;
         padding-right: 0;
+        font-size: 0.9rem;
+    }
+
+    .mobile-search-form-input::placeholder {
         font-size: 1rem;
-        letter-spacing: 0.07rem;
-        border-top-left-radius: 25px;
-        border-bottom-left-radius: 25px;
-        background: var(--black-90);
-        border: none;
     }
 
-    .search-form-input:focus {
-        outline: none;
+    .mobile-search-form-submit-btn {
+        padding: 0.6rem 1rem;
     }
 
-    .search-form-submit-btn {
-        padding: 0.7rem 1.5rem;
-        background: var(--black-90);
-        border-top-right-radius: 25px;
-        border-bottom-right-radius: 25px;
-        color: black;
-        border: none;
-        cursor: pointer;
+    .mobile-search-form-submit-btn > span {
+        font-size: 1.5rem;
     }
 
-    .search-form-submit-btn > span {
-        font-size: 1.7rem;
-    }
 }
 
 @media screen and (min-width: 1000px) {
@@ -646,15 +575,61 @@ INDEX.HTML
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        padding: 0.5rem 0;
+        padding: 1rem 0;
         row-gap: 0.5rem;
         column-gap: 1rem;
+    }
+
+    /* Search form */
+    .search-form {
+        flex: 1;
+        display: none;
+        border-radius: 25px;
+    }
+
+    .show-search-form {
+        display: flex;
+    }
+
+    /* responsive input field */
+    .search-form-input[type='text'] {
+        /* make it responsive */
+        box-sizing: border-box;
+        width: 100%;
+        /* end */
+        padding: 0.6rem 1.5rem;
+        padding-right: 0;
+        font-size: 1rem;
+        letter-spacing: 0.07rem;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        background: var(--black-90);
+        border: none;
+    }
+
+    .search-form-input:focus {
+        outline: none;
+    }
+
+    .search-form-submit-btn {
+        padding: 0.6rem 1rem;
+        background: var(--black-90);
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        color: black;
+        border: none;
+        cursor: pointer;
+    }
+
+    .search-form-submit-btn > span {
+        font-size: 1.7rem;
     }
 
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: space-between;
         row-gap: 0.5rem;
         column-gap: 2rem;
     }
@@ -724,8 +699,8 @@ INDEX.HTML
         position: absolute;
         z-index: 2;
         left: 0;
-        top: 60px;
-        width: 170px;
+        top: 65px;
+        width: auto;
         max-height: 0;
         overflow: hidden;
         white-space: nowrap;
@@ -767,11 +742,11 @@ INDEX.HTML
 
     .num-of-items {
         position: absolute;
-        top: 5px;
-        right: 30px;
+        top: 6px;
+        left: 115px;
         min-width: 23px;
         aspect-ratio: 1/1;
-        color: white;
+        color: rgb(255, 255, 255);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -783,7 +758,7 @@ INDEX.HTML
     }
 
     .nav-link {
-        color: rgb(236, 236, 236);
+        color: rgb(255, 255, 255);
         letter-spacing: 0.05rem;
         font-size: 0.95rem;
         font-weight: 500;
@@ -833,7 +808,7 @@ INDEX.HTML
 /* scroll to top and scroll to bottom */
 .scroll-btns {
     position: fixed;
-    right: 10px;
+    right: 15px;
     bottom: 10%;
     display: flex;
     flex-direction: column;
@@ -847,12 +822,17 @@ INDEX.HTML
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--black-40);
+    background: rgba(0, 0, 0, 0.5);
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
     opacity: 0;
     display: none;
+    padding-left: 0.1rem;
     transition: opacity 300ms linear;
+}
+
+.scroll-down > span {
+    padding-top: 0.1rem;
 }
 
 @media (hover) {
