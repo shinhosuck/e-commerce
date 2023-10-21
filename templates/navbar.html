@@ -34,8 +34,8 @@
                     </div>
                     <div class="logged-in-user-nav-links">
                         <a class="nav-basket {% if url_name == 'product-basket' %}active-nav-link{% endif %}" href="{% url 'products:product-basket' %}">
-                            My cart
-                            <span class="material-symbols-outlined shopping-cart">shopping_cart</span> 
+                            Basket
+                            <span class="material-symbols-outlined shopping-cart">shopping_basket</span>
                             <span class="num-of-items">{{ num_of_product }}</span>
                         </a>
                         <a class="nav-link {% if url_name == 'user-profile' %}active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
@@ -43,7 +43,7 @@
                         {% if request.user.sellersignup %}
                             <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
                         {% endif %}
-                        <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-signup' %}">Sell on AiAi Market</a>
+                        <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
                         <a class="nav-link {% if url_name == 'user-logout' %}active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </div>
@@ -84,9 +84,9 @@
                 {% if request.user.sellersignup %}
                     <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
                 {% endif %}
+                <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-logout' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
             {% endif %}
-            <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-signup' %}">Sell on AiAi Market</a>
         </nav>
     {% endwith %}
     <div class="mobile-nav-background-layout"></div>

@@ -202,10 +202,13 @@ def product_search_view(request):
         query_set = [item for item in Product.objects.all() if item.num_of_times_solid >= 5]
         context['query_set'] = query_set
     elif q == 'just for you':
+        user = request.user
         query_set = []
-        have_ordered = set(item.product.category.name for item in request.user.order_set.all())
-        if not have_ordered:
+        have_ordered = []
+        if not user.is_authenticated or not user.order_set.all():
             have_ordered = set(product.category.name for product in Product.objects.all())
+        else:
+            have_ordered = set(item.product.category.name for item in Order.objects.filter(customer=user))
         for category in have_ordered:
             items = [query_set.append(item) for item in Product.objects.filter(category__name__iexact = category)]
         context['query_set'] = query_set

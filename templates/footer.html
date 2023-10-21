@@ -1,0 +1,86 @@
+
+
+
+
+
+<footer id="footer">
+    <div class="footer-wrapper">
+        <div class="footer-contents">
+            <div class="footer-content">
+                <h2 class="footer-content-header-text">About Us</h2>
+                <p class="footer-about-us-text">
+                    There are many variations of passages of Lorem Ipsum available, 
+                    but the majority have suffered alteration in some form, by 
+                    injected humour, or randomised words which don't look even slightly 
+                    believable. If you are going to use a passage of Lorem Ipsum, 
+                    you need to be sure there isn't anything embarrassing hidden in 
+                    the middle of text. All the Lorem Ipsum generators on the Internet 
+                    tend to repeat predefined chunks as necessary, making this the first 
+                    true generator on the Internet.
+                </p>
+            </div>
+            <div class="footer-content">
+                <h2 class="footer-content-header-text">Quick Links</h2>
+                <nav class="footer-nav-links">
+                    <a class="footer-nav-link" href="{% url 'products:product-home' %}">Home</a>
+                    <a class="footer-nav-link" href="{% url 'products:product-list' %}">Products</a>
+                    {% if request.user.is_authenticated %}
+                        <a class="footer-nav-link" href="{% url 'products:product-basket' %}">Basket</a>
+                        <a class="footer-nav-link" href="{% url 'products:product-create' %}">Create</a>
+                        <a class="footer-nav-link" href="{% url 'users:user-profile' %}">Profile</a>
+                        <a class="footer-nav-link" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
+                        <a class="footer-nav-link" href="{% url 'users:user-logout' %}">Logout</a>
+                    {% else %}
+                        <a class="footer-nav-link" href="{% url 'users:user-register' %}">Register</a>
+                        <a class="footer-nav-link" href="{% url 'users:user-login' %}">Login</a>
+                    {% endif %}
+                </nav>
+            </div>
+            <div class="footer-content last-element">
+                <h2 class="footer-content-header-text">Keep In Touch</h2>
+                <div class="footer-messages">
+                    <div class="footer-address">
+                        <h4>Address</h4>
+                        <p style="max-width:200px;margin:0 auto">123 Main st. Baguio City, Benguet PH 2600</p>
+                    </div>
+                    <div class="footer-phone">
+                        <h4>Phone</h4>
+                        <p>+63-123-345-6789</p>
+                    </div>
+                    <div class="footer-email">
+                        <h4>Email</h4>
+                        <p>aiaimarket@gmail.com</p>
+                    </div>
+                    <div class="footer-message-form">
+                        <h4>Message</h4>
+                        <form class="message-form" action="" method="POST">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <input id="username" type="text" required>
+                            <label for="message">Message</label>
+                            <textarea id="message" name="" id="" cols="30" rows="10" required></textarea>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-social-links">
+            <a class="social-link" href="">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a class="social-link" href="">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a class="social-link" href="">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a class="social-link" href="">
+                <i class="fa-brands fa-square-facebook"></i>
+            </a>
+        </div>
+        <div class="copy-right">
+            <p class="copy-right-text">Copyright 2023 by AiAi Market team. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>

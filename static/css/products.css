@@ -4,7 +4,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
     -webkit-tap-highlight-color: transparent !important;
 }
 
@@ -74,6 +73,7 @@
 
 html, body {
     scroll-behavior: smooth;
+    font-family: 'Roboto', sans-serif;
     max-width: 1920px;
     margin: 0 auto;
   }
@@ -738,12 +738,14 @@ INDEX.HTML
 
     .shopping-cart {
         font-size: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: initial;
     }
 
     .num-of-items {
         position: absolute;
-        top: 6px;
-        left: 115px;
+        top: 8px;
+        left: 110px;
         min-width: 23px;
         aspect-ratio: 1/1;
         color: rgb(255, 255, 255);
@@ -3285,26 +3287,195 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 /* ===
 FOOTER
 ====== */
+#footer {
+    /* min-height: 30vh; */
+    background: var(--purple-10);
+    display: grid;
+    align-items: start;
+}
+
 .footer-wrapper {
-    min-height: 30vh;
-    background: rgb(23, 3, 48);
+    width: 95%;
+    margin: 1rem auto;
+    display: grid;
+    align-items: start;
+    gap: 3rem;
 }
 
 .footer-contents {
-    width: 90%;
-    margin: 0 auto;
+    display: grid;
+    align-items: start;
+    gap: 3rem;
 }
 
-.footer-contents > * {
-    color: white;
+.footer-content {
+    display: grid;
+    gap: 2rem;
+    /* justify-content: center; */
 }
 
-.copy-right {
-    padding: 1rem;
+.footer-content-header-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.05rem;
+    color: var(--black-90);
+    text-align: center;
+    justify-self: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--purple-50);
 }
 
-.copy-right > p {
-    color: white;
+.footer-about-us-text {
+    color: var(--black-70);
+    line-height: 1.4;
     letter-spacing: 0.09rem;
     text-align: center;
+}
+
+.footer-nav-links {
+    display: grid;
+    gap: 0.8rem
+}
+
+.footer-nav-link {
+    text-align: center;
+    color: var(--black-70);
+    letter-spacing: 0.05rem;
+}
+
+@media (hover) {
+    .footer-nav-link:hover {
+        color: var(--purple-80)
+    }
+}
+
+.footer-messages {
+    display: grid;
+    gap: 1rem;
+}
+
+.footer-address,
+.footer-phone,
+.footer-email,
+.footer-message-form {
+    text-align: center;
+    display: grid;
+    gap: 0.5rem
+}
+
+.footer-address > h4,
+.footer-phone > h4,
+.footer-email > h4,
+.footer-message-form > h4 {
+    font-size: 1rem !important;
+    color: var(--black-80);
+    letter-spacing: 0.05rem;
+}
+
+.footer-address > p,
+.footer-phone > p,
+.footer-email > p,
+.footer-message-form > p {
+    letter-spacing: 0.05rem;
+    color: var(--black-70);
+    line-height: 1.4;
+}
+
+.message-form {
+    display: grid;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 10px;
+    background: var(--purple-20);
+}
+
+.message-form > label {
+    justify-self: start;
+    letter-spacing: 0.05rem;
+    color: var(--black-80);
+}
+
+.message-form > input {
+    padding: 1rem;
+    border-radius: 10px;
+    border:none;
+    background: var(--black-90);
+}
+
+.message-form > textarea {
+    padding: 1rem;
+    border-radius: 10px;
+    border:none;
+    background: var(--black-90);
+}
+
+.message-form > button {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    border-radius: 25px;
+    background: var(--orange-50);
+    color: var(--black-95);
+    border: none;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.footer-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-link > i {
+    color: var(--orange-65);
+    font-size: 1.6rem;
+}
+
+.copy-right-text {
+    color: var(--black-80);
+    letter-spacing: 0.09rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+@media screen and (min-width:700px) {
+
+    .footer-wrapper {
+        margin: 2rem auto;
+    }
+
+    .footer-contents {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .footer-content{
+        flex: 1
+    }
+
+    .footer-content:last-child {
+        flex: 0 0 100% !important;
+    }
+}
+
+@media screen and (min-width:1200px) {
+
+    .footer-wrapper {
+        width: 90%;
+    }
+
+    .footer-contents {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
 }

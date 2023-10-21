@@ -84,6 +84,7 @@ def user_profile_view(request):
         if profile_form.is_valid() and user_form.is_valid():
             updated_prfile = profile_form.save()
             update_user = user_form.save()
+            messages.success(request, 'Your profile have been updated successfully.')
             return redirect('products:product-list')
         else:
             context['profile_form'] = profile_form

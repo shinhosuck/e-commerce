@@ -13,7 +13,7 @@
             <div class="no-order-history-contents">
                 <div class="order-history-nav-bar">
                     {% with request.resolver_match.url_name as url_name %}
-                        <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                        <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Basket</a>
                         <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
                         <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
                         <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
@@ -58,7 +58,7 @@
             <div class="order-history-contents">
                 <div class="order-history-nav-bar">
                     {% with request.resolver_match.url_name as url_name %}
-                        <a class="{% if url_name == 'product-basket' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Cart</a>
+                        <a class="{% if url_name == 'product-basket' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Basket</a>
                         <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
                         <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
                         <a class="{% if url_name == 'order-history' %}active-order-history-nav-link{% else %}order-history-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>

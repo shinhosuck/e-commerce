@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
-def seller_sign_up_view(request):
+def seller_register_view(request):
     user = request.user
 
     try:
