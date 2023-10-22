@@ -3411,6 +3411,12 @@ FOOTER
     background: var(--black-90);
 }
 
+.message-form > input:focus,
+.message-form > textarea:focus {
+    outline: 2px solid var(--black-50);
+    border: 1px solid var(--black-50);
+}
+
 .message-form > button {
     padding: 0.8rem 1rem;
     text-align: center;

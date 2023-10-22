@@ -2,9 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from .forms import UserProfileUpdateForm, UserUpdateForm, UserEmailForm
 from django.contrib.auth.decorators import login_required
-
+from .forms import (
+    UserProfileUpdateForm,
+    UserUpdateForm,
+    UserEmailForm,
+    MessageForm
+)
+from django.contrib.auth.models import User
+from .models import Message
 
 def user_register_view(request):
     user = request.user
@@ -90,3 +96,23 @@ def user_profile_view(request):
             context['profile_form'] = profile_form
             context['user_form'] = user_form
     return render(request, 'users/user_profile.html', context)
+
+
+def message_view(request):
+    query_set = Message.objects.all().delete()
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            new_message = form.save()
+            try:
+                user = User.objects.get(username = new_message.username)
+            except Exception as e:
+                messages.info(request, 'You are not member yet. Please consider joining')
+                new_message.user = None
+                return redirect('products:product-list')
+            new_message.user = user
+            messages.success(request, 'You message have been submitted successfully')
+            return redirect('products:product-list')
+
+
