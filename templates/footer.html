@@ -4,23 +4,32 @@
 
 
 <footer id="footer">
-    <div class="footer-wrapper">
+    <div class="footer-wrapper1">
         <div class="footer-contents">
             <div class="footer-content">
-                <h2 class="footer-content-header-text">About Us</h2>
-                <p class="footer-about-us-text">
-                    There are many variations of passages of Lorem Ipsum available, 
-                    but the majority have suffered alteration in some form, by 
-                    injected humour, or randomised words which don't look even slightly 
-                    believable. If you are going to use a passage of Lorem Ipsum, 
-                    you need to be sure there isn't anything embarrassing hidden in 
-                    the middle of text. All the Lorem Ipsum generators on the Internet 
-                    tend to repeat predefined chunks as necessary, making this the first 
-                    true generator on the Internet.
-                </p>
+                <div class="footer-header-text-container">
+                    <h2 class="footer-content-header-text">About</h2>
+                    <div class="footer-header-text-underline"></div>
+                </div>
+                <div class="about-content-container">
+                    <a class="brand-name" href="{% url 'products:product-home' %}" style="text-align: center;">
+                        <h1>AiAi Market</h1>
+                        <!-- <p>THE PLACE TO SHOP</p> -->
+                    </a>
+                    <p class="footer-about-us-text">
+                        There are many variations of passages of Lorem Ipsum available, 
+                        but the majority have suffered alteration in some form, by 
+                        injected humour, or randomised words which don't look even slightly 
+                        believable. If you are going to use a passage of Lorem Ipsum.
+                    </p>
+                </div>
             </div>
             <div class="footer-content">
-                <h2 class="footer-content-header-text">Quick Links</h2>
+                <div class="footer-header-text-container">
+                    <h2 class="footer-content-header-text">Quick Links</h2>
+                    <div class="footer-header-text-underline"></div>
+                </div>
+                
                 <nav class="footer-nav-links">
                     <a class="footer-nav-link" href="{% url 'products:product-home' %}">Home</a>
                     <a class="footer-nav-link" href="{% url 'products:product-list' %}">Products</a>
@@ -37,7 +46,11 @@
                 </nav>
             </div>
             <div class="footer-content last-element">
-                <h2 class="footer-content-header-text">Keep In Touch</h2>
+                <div class="footer-header-text-container">
+                    <h2 class="footer-content-header-text">Contact</h2>
+                    <div class="footer-header-text-underline"></div>
+                </div>
+                
                 <div class="footer-messages">
                     <div class="footer-address">
                         <h4>Address</h4>
@@ -51,24 +64,29 @@
                         <h4>Email</h4>
                         <p>aiaimarket@gmail.com</p>
                     </div>
-                    <div class="footer-message-form">
-                        <h4>Message</h4>
-                        <form class="message-form" action="{% url 'users:user-message' %}" method="POST">
-                            {% csrf_token %}
-                            <label for="email">Email</label>
-                            <input id="email" name='email' type='email' required>
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" id="" cols="30" rows="10" required></textarea>
-                            <ul class="message-info">
-                                <li>If you are a registered user, please include your username.</li>
-                                <li>If you have not registered, please consider registering.</li>
-                            </ul>
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
                 </div>
             </div>
+            <div class="footer-content">
+                <div class="footer-header-text-container">
+                    <h2 class="footer-content-header-text">Leave a Message</h2>
+                    <div class="footer-header-text-underline"></div>
+                </div>
+                <form class="message-form" action="{% url 'users:user-message' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="email">Email</label>
+                    <input id="email" name='email' type='email' required>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" id="" cols="30" rows="10" required></textarea>
+                    <ul class="message-info">
+                        <li>If you are a registered user, please include your username.</li>
+                        <li>If you have not registered, please consider registering.</li>
+                    </ul>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
+    </div>
+    <div class="footer-wrapper2">
         <div class="footer-social-links">
             <a class="social-link" href="">
                 <i class="fa-brands fa-twitter"></i>
@@ -84,7 +102,7 @@
             </a>
         </div>
         <div class="copy-right">
-            <p class="copy-right-text">Copyright 2023 by AiAi Market team. All Rights Reserved.</p>
+            <p class="copy-right-text">&copyCopyright 2023 AiAi Market. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
