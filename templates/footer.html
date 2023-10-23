@@ -55,12 +55,14 @@
                         <h4>Message</h4>
                         <form class="message-form" action="{% url 'users:user-message' %}" method="POST">
                             {% csrf_token %}
-                            <label for="username">Username</label>
-                            <input id="username" name='username' type="text">
                             <label for="email">Email</label>
                             <input id="email" name='email' type='email' required>
                             <label for="message">Message</label>
                             <textarea id="message" name="message" id="" cols="30" rows="10" required></textarea>
+                            <ul class="message-info">
+                                <li>If you are a registered user, please include your username.</li>
+                                <li>If you have not registered, please consider registering.</li>
+                            </ul>
                             <button type="submit">Submit</button>
                         </form>
                     </div>
@@ -86,3 +88,21 @@
         </div>
     </div>
 </footer>
+
+<script>
+    const messageBox = document.querySelector('#message')
+    const email = document.querySelector('#email')
+    const messageInfo = document.querySelector('.message-info')
+
+    function handleEvent(e) {
+        if(e.target == messageBox) {
+            messageInfo.style.display = 'grid'
+        }else if(e.target == email) {
+            messageInfo.style.display = 'none'
+        }
+    }
+
+    messageBox.addEventListener('click', handleEvent)
+    email.addEventListener('click', handleEvent)
+
+</script>

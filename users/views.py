@@ -99,20 +99,11 @@ def user_profile_view(request):
 
 
 def message_view(request):
-    query_set = Message.objects.all().delete()
-
     if request.method == 'POST':
         form = MessageForm(request.POST)
-        if form.is_valid():
-            new_message = form.save()
-            try:
-                user = User.objects.get(username = new_message.username)
-            except Exception as e:
-                messages.info(request, 'You are not member yet. Please consider joining')
-                new_message.user = None
-                return redirect('products:product-list')
-            new_message.user = user
-            messages.success(request, 'You message have been submitted successfully')
-            return redirect('products:product-list')
+        # if form.is_valid():
+        form.save()
+        messages.success(request, 'You message have been submitted successfully')
+        return redirect('products:product-list')
 
 

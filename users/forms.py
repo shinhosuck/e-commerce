@@ -23,4 +23,4 @@ class UserEmailForm(forms.Form):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['username', 'email', 'message']
+        fields = ['email', 'message']

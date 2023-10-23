@@ -3409,12 +3409,25 @@ FOOTER
     border-radius: 10px;
     border:none;
     background: var(--black-90);
+    resize: none;
+    height: 150px;
 }
 
 .message-form > input:focus,
 .message-form > textarea:focus {
     outline: 2px solid var(--black-50);
     border: 1px solid var(--black-50);
+}
+
+.message-info {
+    display: none;
+    color: var(--black-50);
+    letter-spacing: 0.05rem;
+    letter-spacing: 1.4;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    text-align: start;
+    gap: 0.5rem
 }
 
 .message-form > button {

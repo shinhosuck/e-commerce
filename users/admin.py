@@ -12,6 +12,6 @@ admin.site.register(UserProfile, UserProfileAdmin)
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['user', 'username', 'email', 'created']
+    list_display = ['email', 'created']
 
 admin.site.register(Message, MessageAdmin)
