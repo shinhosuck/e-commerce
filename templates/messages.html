@@ -1,6 +1,25 @@
 <style>
+
+@keyframes drop_message {
+        from {
+            top: -100%
+        }
+        to {
+            top: 50%
+        }
+    }
+
     .message-container {
-        padding: 0.5rem;
+        position: absolute;
+        z-index: 300;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 1rem;
+        animation-name: drop_message;
+        animation-duration: 1000ms;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        border-radius: 10px;
     }
 
     .success {
@@ -24,12 +43,13 @@
     }
 
     .message {
-        width: 90%;
-        margin: 0 auto;
+        /* width: 90%;
+        margin: 0 auto; */
         letter-spacing: 0.05rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 1.5rem;
         font-size: 1rem;
         font-weight: 700;
         line-height: 1.3;
@@ -37,10 +57,23 @@
 
     .close-message-btn {
         cursor: pointer;
+        border-radius: 50%;
+        background: var(--black-95);
+        width: 33px;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 </style>
 
+
+<!-- <div class="success message-container">
+    <p class="message">Lorem Ipsum is simply dummy text of the printing and typesetting
+        <span class="material-symbols-outlined close-message-btn">close</span>
+    </p>
+</div> -->
 
 {% if messages %}
     {% for message in messages%}

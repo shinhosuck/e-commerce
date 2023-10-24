@@ -420,7 +420,7 @@ INDEX.HTML
     box-sizing: border-box;
     width: 100%;
     /* end */
-    padding: 0.5rem 0.8rem;
+    padding: 0.4rem 0.8rem;
     padding-right: 0;
     font-size: 0.9rem;
     letter-spacing: 0.05rem;
@@ -440,13 +440,16 @@ INDEX.HTML
 }
 
 .mobile-search-form-submit-btn {
-    padding: 0.5rem 0.4rem;
-    background: var(--black-90);
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    color: black;
+    color: rgb(0, 0, 0);
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    background: var(--black-70);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 
 .mobile-search-form-submit-btn > span {
@@ -532,7 +535,7 @@ INDEX.HTML
     }
 
     .mobile-search-form-submit-btn {
-        padding: 0.6rem 1rem;
+        padding: 0.6rem 1.2rem;
     }
 
     .mobile-search-form-submit-btn > span {
@@ -563,6 +566,7 @@ INDEX.HTML
     /* Search form */
     .search-form {
         flex: 1;
+        max-width: 800px;
         display: none;
         border-radius: 25px;
     }
@@ -592,13 +596,16 @@ INDEX.HTML
     }
 
     .search-form-submit-btn {
-        padding: 0.6rem 1rem;
-        background: var(--black-90);
-        border-top-right-radius: 25px;
-        border-bottom-right-radius: 25px;
-        color: black;
+        color: rgb(0, 0, 0);
         border: none;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--black-70);
+        padding: 0.6rem 1.2rem;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
     }
 
     .search-form-submit-btn > span {
@@ -617,13 +624,14 @@ INDEX.HTML
     .brand-name {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
 
     .brand-name > h1 {
         font-size: 2.5rem;
         color: var(--orange-60);
         text-align: center;
+        line-height: 1;
     }
     
     .brand-name > h1 > span {
@@ -649,7 +657,7 @@ INDEX.HTML
 
     @media (hover) {
         .toggle-user-navbar:hover {
-            color: rgb(152, 56, 255) !important;
+            color: var(--purple-60) !important;
         }
     }
 
@@ -678,7 +686,7 @@ INDEX.HTML
         position: absolute;
         z-index: 2;
         left: 0;
-        top: 65px;
+        top: 60px;
         width: auto;
         max-height: 0;
         overflow: hidden;
@@ -759,7 +767,7 @@ INDEX.HTML
     }
 
     .active-nav-link {
-        color: rgb(157, 66, 255) !important;
+        color: var(--purple-55) !important;
         font-weight: bold;
     }
 
@@ -1225,7 +1233,8 @@ PRODUCT_LIST.HTML/PRODUCT LIST
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem
+    flex-wrap: wrap;
+    gap: 0.8rem
 }
 
 .product-list-header {
@@ -1235,14 +1244,14 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 }
 
 .product-list-header-and-link > a {
-    background: #FF8D70;
-    color: #141414;
+    background: var(--orange-65);
+    color: var(--black-10);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.3rem;
     border-radius: 20px;
-    padding: 0.3rem 0.7rem;
+    padding: 0.4rem 0.7rem;
     letter-spacing: 0.05rem;
     font-size: 1rem;
     font-weight: 500;
@@ -1531,7 +1540,7 @@ PRODUCT_DETAIL.HTML/PRODUCT DETAIL
 
 .extra-image-full-screen {
     position: absolute;
-    z-index: 300;
+    z-index: 200;
     top: 0;
     left: 0;
     width: 100%;
@@ -3324,6 +3333,7 @@ FOOTER
     font-size: 2.5rem;
     color: var(--orange-60);
     text-align: center;
+    line-height: 1;
 }
 
 .about-brand-name > h1 > span {

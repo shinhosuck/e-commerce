@@ -76,6 +76,12 @@
                 <div class="product-list-header-container">
                     <div class="product-list-header-and-link">
                         <h2 class="product-list-header">Result for "{{ q }}"</h2>
+                        <a href="{% url 'products:product-list' %}">
+                            Back to Products
+                            <span class="material-symbols-outlined">
+                                arrow_right_alt
+                            </span>
+                        </a>
                     </div>
                     <p>
                         It is a long established fact that a reader will be distracted by 
