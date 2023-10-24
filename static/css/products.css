@@ -170,7 +170,6 @@ BANNER SLIDER
     line-height: 1.4;
     max-width: 450px;
     margin: 0 auto;
-    /* display: none; */
 }
 
 .more-info {
@@ -395,19 +394,17 @@ INDEX.HTML
 }
 
 .mobile-brand-name > h1 {
-    font-size: 1.35rem;
-    letter-spacing: 0.05rem;
-    font-weight: 700;
+    font-size: 2rem;
     color: var(--orange-60);
-    font-family: 'Lobster', 'Roboto', sans-serif;
+    text-align: center;
 }
 
-.mobile-brand-name > p {
-    /* display: none; */
+.mobile-brand-name > h1 > span {
     color: var(--black-95);
-    font-weight: 500;
-    font-size: 0.65rem;
+    font-size: 1rem;
+    margin-left: 0.3rem;
     letter-spacing: 0.05rem;
+    font-weight: initial;
 }
 
 /* Mobile form */
@@ -522,25 +519,8 @@ INDEX.HTML
     background: rgba(0, 0, 0, 0.308)
 }
 
-@media screen and (min-width: 450px) {
-    .mobile-brand-name > h1 {
-        font-size: 1.6rem;
-    }
-    
-    .mobile-brand-name > p {
-        font-size: 0.75rem;
-    }
-}
-
 @media screen and (min-width: 600px) {
 
-    .mobile-brand-name > h1 {
-        font-size: 1.7rem;
-    }
-
-    .mobile-brand-name > p {
-        font-size: 0.8rem;
-    }
     .mobile-search-form-input[type='text'] {
         padding: 0.6rem 1rem;
         padding-right: 0;
@@ -641,18 +621,17 @@ INDEX.HTML
     }
 
     .brand-name > h1 {
-        font-size: 2.1rem;
-        letter-spacing: 0.05rem;
-        font-weight: 700;
+        font-size: 2.5rem;
         color: var(--orange-60);
-        font-family: 'Lobster', 'Roboto', sans-serif;
+        text-align: center;
     }
-
-    .brand-name > p {
-        color: white;
-        letter-spacing: 0.07rem;
-        font-weight: 500;
-        font-size: 14px;
+    
+    .brand-name > h1 > span {
+        color: var(--black-95);
+        font-size: 1.1rem;
+        margin-left: 0.3rem;
+        letter-spacing: 0.05rem;
+        font-weight: initial;
     }
 
     .logged-in-user-nav-link-container {
@@ -3312,6 +3291,10 @@ FOOTER
     gap: 2rem;
 }
 
+/* .footer-content > * {
+    border: 1px solid red;
+} */
+
 .footer-header-text-container {
     display: flex;
     flex-direction: column;
@@ -3327,14 +3310,28 @@ FOOTER
 }
 
 .footer-header-text-underline {
-    width: 70px;
+    width: 50px;
     height: 3px;
     background: var(--purple-45);
 }
 
 .about-content-container {
     display: grid;
-    gap: 1rem;
+    gap: 0.8rem;
+}
+
+.about-brand-name > h1 {
+    font-size: 2.5rem;
+    color: var(--orange-60);
+    text-align: center;
+}
+
+.about-brand-name > h1 > span {
+    color: var(--black-95);
+    font-size: 1.1rem;
+    margin-left: 0.3rem;
+    letter-spacing: 0.05rem;
+    font-weight: initial;
 }
 
 .footer-about-us-text {
@@ -3397,9 +3394,6 @@ FOOTER
 .message-form {
     display: grid;
     gap: 0.5rem;
-    /* width: 100%;
-    max-width: 500px;
-    margin: 0 auto; */
     padding: 1rem;
     border-radius: 10px;
     background: var(--purple-20);

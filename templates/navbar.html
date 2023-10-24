@@ -2,8 +2,8 @@
 
 <div class="nav-bar-wrapper">
     <a class="brand-name" href="{% url 'products:product-home' %}">
-        <h1>AiAi Market</h1>
-        <p>THE PLACE TO SHOP</p>
+        <h1>aiai<span>e-market</span></h1>
+        <!-- <p>THE PLACE TO SHOP</p> -->
     </a>
 
     <form class="search-form" action="{% url 'products:product-search' %}" method="GET">
@@ -59,8 +59,7 @@
 <!-- Mobile screen  -->
 <div class="mobile-nav-bar-wrapper">
     <a class="mobile-brand-name" href="{% url 'products:product-home' %}">
-        <h1>AiAi Market</h1>
-        <p>THE PLACE TO SHOP</p>
+        <h1>aiai<span>e-market</span></h1>
     </a>
     <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
         <input class="mobile-search-form-input" type="text", name='q' required placeholder="Search">

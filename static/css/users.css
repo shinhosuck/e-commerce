@@ -142,11 +142,14 @@ USER_LOGIN.HTML
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--red-52);
-    font-family: 'Lobster', 'Roboto', sans-serif;
 }
 
-.user-login-brand-name > p {
-    color: var(--black-5)
+.user-login-brand-name > h1 > span {
+    color: var(--black-5);
+    font-size: 1.1rem;
+    margin-left: 0.3rem;
+    letter-spacing: 0.05rem;
+    font-weight: initial;
 }
 
 .user-login-nav-bar {
