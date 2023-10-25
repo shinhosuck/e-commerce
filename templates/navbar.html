@@ -63,9 +63,13 @@
     <form class="mobile-search-form" action="{% url 'products:product-search' %}" method="GET">
         <input class="mobile-search-form-input" type="text", name='q' required placeholder="Search">
         <button class="mobile-search-form-submit-btn" type="submit">
-            <span class="material-symbols-outlined">search</span>
+            <span class="material-symbols-outlined mobile-form-search-icon">search</span>
+            <span class="material-symbols-outlined mobile-form-close-icon">close</span>
         </button>
     </form>
+
+    <span class="material-symbols-outlined mobile-search-icon">search</span>
+
     <div class="mobile-toggle-nav-btn">
         <span class="material-symbols-outlined mobile-menu-btn">menu</span>
     </div>
@@ -89,3 +93,43 @@
     {% endwith %}
     <div class="mobile-nav-background-layout"></div>
 </div>
+
+<script>
+
+    const mobileSearchForm = document.querySelector('.mobile-search-form')
+    const mobileBrandName = document.querySelector('.mobile-brand-name')
+    const mobileSearchIcon = document.querySelector('.mobile-search-icon')
+
+    const mobileFormCloseBtn = document.querySelector('.mobile-form-close-icon')
+    const mobileFormSearchBtn = document.querySelector('.mobile-form-search-icon')
+
+
+    function mobileSearchFormEvent(e) {
+        if(e.target === mobileSearchIcon) {
+            mobileSearchForm.style.display = 'flex'
+            mobileBrandName.style.display = 'none'
+            mobileSearchIcon.style.display = 'none'
+            mobileFormCloseBtn.style.display = 'flex'
+            mobileFormSearchBtn.style.display = 'none'
+        }else if(e.target === mobileFormCloseBtn) {
+            mobileSearchForm.style.display = 'none'
+            mobileBrandName.style.display = 'flex'
+            mobileSearchIcon.style.display = 'flex'
+            mobileFormCloseBtn.style.display = 'none'
+            mobileFormSearchBtn.style.display = 'flex'
+        }
+        
+    }
+
+    mobileSearchIcon.addEventListener('click', mobileSearchFormEvent)
+    mobileFormCloseBtn.addEventListener('click', mobileSearchFormEvent)
+
+    window.addEventListener('resize', (e) => {
+        mobileSearchForm.style.display = 'none'
+        mobileBrandName.style.display = 'flex'
+        mobileSearchIcon.style.display = 'flex'
+        mobileFormCloseBtn.style.display = 'none'
+        mobileFormSearchBtn.style.display = 'flex'
+    })
+
+</script>
