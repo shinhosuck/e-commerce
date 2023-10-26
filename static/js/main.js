@@ -131,10 +131,12 @@ if (toggleUserNavbar) {
     })
 }
 
+if(navLinkSearchButton) {
+    navLinkSearchButton.addEventListener('click', (e) => {
+        searchForm.classList.toggle('show-search-form')
+    })
+}
 
-navLinkSearchButton.addEventListener('click', (e) => {
-    searchForm.classList.toggle('show-search-form')
-})
 
 if(toggleUserNavbar) {
     window.addEventListener('click', (e) => {
