@@ -2062,6 +2062,7 @@ PRODUCT_DETAIL.HTML/PRODUCT DETAIL
 
     .product-detail-container {
         width: 95%;
+        max-width: 1200px;
         margin: 1rem auto;
         /* margin-bottom: 0; */
         padding: 1rem;
@@ -2109,6 +2110,7 @@ PRODUCT_DETAIL.HTML/PRODUCT DETAIL
 
     .product-detail-customer-reviews-wrapper {
         width: 95%;
+        max-width: 1200px;
         margin: 1rem auto;
         /* margin-top: 0; */
         padding: 1rem;
