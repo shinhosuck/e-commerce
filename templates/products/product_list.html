@@ -17,18 +17,22 @@
                 <img src="{% static 'images/deals/deals_of_the_day.webp' %}" alt="">
             </a>
             <a href="" class="product-deal product-deal-2">
-                <h2>Best Selling Laptops</h2>
+                <h2>Top Selling Laptops</h2>
                 <img src="{% static 'images/deals/gaming_laptop.webp' %}" alt="">
             </a>
             <a href="" class="product-deal product-deal-3">
-                <h2>PC Monitor Deals</h2>
+                <h2>Monitor Deals</h2>
                 <img src="{% static 'images/deals/monitor.webp' %}" alt="">
             </a>
             <a href="" class="product-deal product-deal-4">
-                <h2>Beef up Your Gaming Rig</h2>
+                <h2>Upgrade Your Gaming PC</h2>
                 <img src="{% static 'images/deals/gpu.webp' %}" alt="">
             </a>
         </div>
+    </div>
+
+    <div class="product-list-body-banner">
+        <img class="lg-body-banner" src="" alt="">
     </div>
 
     <!-- PRODUCT 1 -->
@@ -50,7 +54,7 @@
                 </p>
             </div>
             <div class="product-list">
-                {% for product in query_set %}
+                {% for product in latest %}
                     <a class="product" href="{{ product.get_absolute_url }}">
                         <div class="product-image">
                             <img src="{{ product.get_product_image_url }}" alt="">
@@ -113,7 +117,7 @@
                 </p>
             </div>
             <div class="product-list">
-                {% for product in laptops %}
+                {% for product in popular %}
                     <a href="{{ product.get_absolute_url }}" class="product">
                         <div class="product-image">
                             <img src="{{ product.get_product_image_url }}" alt="">
@@ -173,7 +177,7 @@
                 </p>
             </div>
             <div class="product-list">
-                {% for product in entry_level %}
+                {% for product in for_you %}
                     <a href="{{ product.get_absolute_url }}" class="product">
                         <div class="product-image">
                             <img src="{{ product.get_product_image_url }}" alt="">

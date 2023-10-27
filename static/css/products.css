@@ -1253,8 +1253,16 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 }
 
 @media (hover) {
+
     .product-deal:hover > img {
         transform: scale(1.06);
+    }
+}
+
+@media screen and (min-width: 400px) {
+
+    .product-deal > h2 {
+        font-size: 1.3rem !important;
     }
 }
 
@@ -1271,6 +1279,10 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 
     .product-deal-1 {
         grid-column: 1 / span 2;
+    }
+
+    .product-deal > h2 {
+        font-size: 1.2rem !important;
     }
 
     .product-deal-1 > h2 {
@@ -1328,6 +1340,10 @@ PRODUCT_LIST.HTML/PRODUCT LIST
         margin: 2rem auto;
         margin-bottom: 0;
     }
+
+    .product-deal > h2 {
+        font-size: 1.3rem !important;
+    }
 }
 
 @media screen and (min-width: 1200px) {
@@ -1341,16 +1357,27 @@ PRODUCT_LIST.HTML/PRODUCT LIST
     }
 
     .product-deal > h2 {
-        font-size: 1.4rem !important;
+        font-size: 1.2rem !important;
     }
 }
 
 @media screen and (min-width: 1400px) {
 
     .product-deal > h2 {
-        font-size: 1.2rem !important;
+        font-size: 1.3rem !important;
     }
 }
+
+/* body banner */
+.product-list-body-banner{
+    width: 95%;
+}
+
+.product-list-body-banner > .lg-body-banner {
+    display: block;
+    width: 100%;
+}
+/* end */
 
 .product-main-container {
     display: grid;

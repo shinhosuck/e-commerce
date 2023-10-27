@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -32,8 +32,7 @@ import stripe
 import json
 from decimal import Decimal
 from sellers.models import SellerSignUp
-
-
+import random
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
@@ -50,10 +49,27 @@ def home_view(request):
 
 
 def product_list_view(request):
+    user = request.user
     query_set = Product.objects.all()
-    laptops = query_set.filter(category__name__iexact='laptop')
-    entry_level = laptops.filter(sub_category__name__iexact='entry-level')
-    context = {'query_set': query_set[0:6], 'laptops':laptops[0:6], 'entry_level':entry_level[0:6]}
+    popular = [obj for obj in query_set if obj.num_of_times_solid >= 5]
+    for_you = []
+    
+    if not user.is_authenticated or not user.order_set.all():
+        for_you = random.sample(list(query_set), len(query_set))
+        print('FOR YOU:', for_you)
+    else:
+        categories = set(obj.product.category.name for obj in user.order_set.all())
+        for category in categories:
+            objs = query_set.filter(category__name__iexact=category)
+            for_you += list(objs)
+        for_you = random.sample(for_you, len(for_you))
+    
+    context = {
+        'latest': query_set[0:6], 
+        'popular':popular[0:6], 
+        'for_you':for_you[0:6]
+    }
+
     return render(request, 'products/product_list.html', context)
 
 
