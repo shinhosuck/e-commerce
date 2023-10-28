@@ -51,7 +51,11 @@
         color: rgb(49, 49, 49)
     }
 
-    .address-inputs > div > input {
+    .address-inputs > div > input[type='text'],
+    .address-inputs > div > input[type='number'],
+    .address-inputs > div > input[type='email'] {
+        box-sizing: border-box;
+        width: 100%;
         padding: 0.8rem 1rem;
         border: 1px solid rgb(196, 196, 196);
         border-radius: 10px;
@@ -102,7 +106,7 @@
     @media screen and (min-width: 800px) {
 
         .shipping-address-form-contents {
-            padding: 1.3rem;
+            padding: 1.5rem;
             margin: 2rem auto;
         }
 

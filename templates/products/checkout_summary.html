@@ -9,165 +9,7 @@
 
 {% block content %}
 
-    <style>
-
-        .payment-center-wrapper {
-            display: grid;
-        }
-
-        .payment-center-contents {
-            /* width: 95%;
-            max-width: 1000px;
-            margin: 1rem auto; */
-            background: rgb(255, 255, 255);
-            /* border-radius: 10px; */
-            padding: 1rem;
-            display: grid;
-            gap: 1rem;
-        }
-
-        .purchase-items {
-            display: none;
-        }
-
-        .sm-purchase-items {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .sm-purchase-item {
-            display: grid;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
-        }
-
-        .sm-purchased {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            color: hsl(0, 0%, 5%);
-            letter-spacing: 0.05rem;
-            background: hsl(0, 0%, 80%);
-        }
-
-        .sm-purchased:first-child {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .sm-purchased:last-child {
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .sm-purchased:nth-child(even) {
-            background: hsl(0, 0%, 90%);
-        }
-
-        .purchase-items-total-amount-container {
-            display: flex;
-            justify-content: end;
-        }
-
-        .purchase-item-total-amount-content {
-            width: 100%;
-            max-width: 500px;
-            display: grid;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1rem;
-            box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
-        }
-
-        .purchase-item-total-amount-header-text {
-            color: hsl(0, 0%, 5%);
-            font-size: 1.3rem;
-            letter-spacing: 0.05rem;
-            margin-bottom: 1rem;
-        }
-
-        .purchase-item-total-amount-header {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            letter-spacing: 0.05rem;
-            color: hsl(0, 0%, 5%);
-            background: hsl(0, 0%, 80%)
-        }
-
-        .purchase-item-total-amount-header > h4:first-child {
-            font-weight: bold;
-        }
-
-        .purchase-item-total-amount-header:nth-child(even) {
-            background: hsl(0, 0%, 90%)
-        }
-
-        .purchase-item-total-amount-header:nth-child(2) {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .purchase-item-total-amount-header:nth-child(6) {
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .checkout-form {
-            margin-top: 1rem;
-            display: grid;
-            gap: 0.5rem;
-        }
-
-        .purchase-btn {
-            background: var(--orange-50);
-            color: rgb(255, 255, 255);
-            padding: 0.8rem 1rem;
-            border-radius: 25px;
-            border: none;
-            font-size: 1rem;
-            letter-spacing: 0.05rem;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .checkout-form-continue-shopping-btn {
-            background: var(--purple-40);
-            color: rgb(255, 255, 255);
-            padding: 0.8rem 1rem;
-            border-radius: 25px;
-            border: none;
-            font-size: 1rem;
-            letter-spacing: 0.05rem;
-            cursor: pointer;
-            text-align: center;
-        }
-        
-        @media screen and (min-width: 530px) {
-            .payment-center-contents {
-                width: 95%;
-                max-width: 1000px;
-                margin: 1rem auto;
-                border-radius: 10px;
-            }
-        }
-
-        @media screen and (min-width: 800px) {
-
-            .payment-center-contents {
-                margin: 2rem auto;
-                padding: 1.3rem;
-            }
-        }
-
-    </style>
-
     <div class="payment-center-wrapper">
-
         <!-- Cart is empty -->
         {% if not query_set %}
             <div class="no-order-history-contents">
@@ -228,7 +70,7 @@
                     {% endwith %}
                 </div>
 
-                <!-- Form order_history.html -->
+                <!-- From order_history.html -->
                 <div class="order-history-header-container" style="width:100%;">
                     <div class="order-history-header-text">
                         <h2 class="order-history-header">Checkout Summary</h2>
@@ -264,12 +106,10 @@
                 <!-- For large screen -->
                 <div class="purchase-items">
                     <div class="purchased-item-headers">
-                        <ul>
-                            <li>Name</li>
-                            <li>Price</li>
-                            <li>Quantity</li>
-                            <li>Total</li>
-                        </ul>
+                        <h4>Name</h4>
+                        <h4>Price</h4>
+                        <h4>Quantity</h4>
+                        <h4>Total</h4>
                     </div>
                     {% for item in query_set %}
                         <a class="purchase-item" href="{{ item.product.get_absolute_url }}">
