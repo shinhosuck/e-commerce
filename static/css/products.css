@@ -2115,7 +2115,7 @@ BASKET.HTML
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    background: hsl(0, 0%, 95%);
+    border: 1px solid hsl(0, 0%, 90%);
 }
 
 .product-basket-nav-bar {
@@ -2615,7 +2615,7 @@ CHECKOUT_SUMMARY.HTML
 }
 
 .payment-center-contents {
-    background: hsl(0, 0%, 95%);
+    border: 1px solid hsl(0, 0%, 90%);
     padding: 1rem;
     display: grid;
     gap: 1rem;
@@ -2798,12 +2798,12 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
 /* no order history */
 .no-order-history-contents {
-    background: hsl(0, 0%, 95%);
-    min-height: 50vh;
+    min-height: 100vh;
     padding: 1rem;
     display: grid;
     align-content: start;
-    gap: 1rem
+    gap: 1rem;
+    border: 1px solid hsl(0, 0%, 90%);
 }
 
 .order-history-nav-bar {
@@ -2883,7 +2883,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     display: grid;
     padding: 1rem;
     gap: 1rem;
-    background: hsl(0, 0%, 95%);
+    border: 1px solid hsl(0, 0%, 90%)
 }
 
 .order-history-header-container {

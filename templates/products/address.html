@@ -16,9 +16,9 @@
 
     .shipping-address-form-contents {
         padding: 1rem;
-        background: hsl(0, 0%, 95%);
         display: grid;
         gap: 1rem;
+        border: 1px solid hsl(0, 0%, 90%);
     }
 
     .shipping-address-form {
@@ -120,7 +120,6 @@
 
 <div class="shipping-address-form-wrapper">
     <div class="shipping-address-form-contents">
-
         <!-- From basket.html -->
         <div class="product-basket-nav-bar">
             {% with request.resolver_match.url_name as url_name %}
