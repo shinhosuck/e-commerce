@@ -207,16 +207,41 @@ def write_product_review_view(request, id):
     
     
 def product_search_view(request):
-    q = request.GET.get('q')
-    context = {'q': q.capitalize()}
+    q = request.GET.get('q').lower()
+    sort_by_price = ''
+
+    str_list = q.split('_')
+    if 'sort' in str_list:
+        sort_by_price = ' '.join(str_list[-1].split('-'))
+        q = str_list[0]
+
+    context = {
+        'q': q.capitalize(),
+        'sort_by': sort_by_price.capitalize()
+    }
 
     # latest, most poplura, just for you
+    # sort price by low to high and high to low
     if q == 'latest':
         query_set = Product.objects.all()
-        context['query_set'] = query_set
+        print(query_set)
+        if sort_by_price == 'price low to high':
+            context['query_set'] = query_set.order_by('price')
+        elif sort_by_price == 'price high to low':
+            context['query_set'] = query_set.order_by('-price')
+        else:
+            context['query_set'] = query_set
+
     elif q == 'most popular':
         query_set = [item for item in Product.objects.all() if item.num_of_times_solid >= 5]
-        context['query_set'] = query_set
+        new_objs = Product.objects.filter(id__in=[item.id for item in query_set])
+        if sort_by_price == 'price low to high':
+            context['query_set'] = new_objs.order_by('price')
+        elif sort_by_price == 'price high to low':
+            context['query_set'] = new_objs.order_by('-price')
+        else:
+            context['query_set'] = query_set
+
     elif q == 'just for you':
         user = request.user
         query_set = []
@@ -227,13 +252,24 @@ def product_search_view(request):
             have_ordered = set(item.product.category.name for item in Order.objects.filter(customer=user))
         for category in have_ordered:
             items = [query_set.append(item) for item in Product.objects.filter(category__name__iexact = category)]
-        context['query_set'] = query_set
+            new_objs = Product.objects.filter(id__in=[item.id for item in query_set])
+            if sort_by_price == 'price low to high':
+                context['query_set'] = new_objs.order_by('price')
+            elif sort_by_price == 'price high to low':
+                context['query_set'] = new_objs.order_by('-price')
+            else:
+                context['query_set'] = query_set
+   
     else:
-        # Category, sub-category, and produc name
+        # Category, sub-category, and product name
         query_set = Product.objects.filter(Q(category__name__icontains = q) | 
                 Q(sub_category__name__icontains = q) | Q(name__icontains = q))
-        context['query_set'] = query_set
-    
+        if sort_by_price == 'price low to high':
+            context['query_set'] = query_set.order_by('price')
+        elif sort_by_price == 'price high to low':
+            context['query_set'] = query_set.order_by('-price')
+        else:
+            context['query_set'] = query_set
     return render(request, 'products/search_result.html', context)
 
 

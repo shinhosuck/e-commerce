@@ -20,13 +20,13 @@ USER_REGISTER.HTML
     padding: 1rem;
     border-radius: 10px;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+    box-shadow: 2px 2px 15px -3px rgb(190, 190, 190)
 }
 
 .register-form > h2 {
     letter-spacing: 0.05rem;
-    color: var(--black-5);
-    font-size: 1.25rem;
+    color: var(--purple-35);
+    font-size: 1.4rem;
 }
 
 .username-container,
@@ -141,7 +141,7 @@ USER_LOGIN.HTML
 .user-login-brand-name > h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--red-52);
+    color: var(--orange-60);
 }
 
 .user-login-brand-name > h1 > span {
@@ -189,13 +189,13 @@ USER_LOGIN.HTML
     padding: 1rem;
     border-radius: 10px;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+    box-shadow: 2px 2px 15px -3px rgb(190, 190, 190)
 }
 
 .login-form-header {
     letter-spacing: 0.05rem;
-    color: var(--black-5);
-    font-size: 1.3rem;
+    color: var(--purple-35);
+    font-size: 1.4rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -279,7 +279,7 @@ USER_PROFILE.HTML
     align-content: start;
     gap: 0.5rem;
     padding: 1rem;
-    background: rgb(255, 255, 255);
+    background: hsl(0, 0%, 95%);
 }
 
 .user-profile-contents {
