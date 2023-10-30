@@ -2113,18 +2113,15 @@ BASKET.HTML
 
 .product-basket-wrapper {
     display: grid;
-    gap: 1rem;
-    padding: 1rem;
-    border: 1px solid hsl(0, 0%, 90%);
+    gap: 2rem;
+    padding: 2rem 1rem;
 }
 
 .product-basket-nav-bar {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    column-gap: 0.8rem;
-    row-gap: 0.8rem;
-    margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .product-basket-nav-link {
@@ -2170,7 +2167,7 @@ BASKET.HTML
     align-items: start;
     background: rgb(255, 255, 255);
     border-radius: 10px;
-    box-shadow: 2px 2px 15px -3px rgb(190, 190, 190)
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
 }
 
 @media (hover) {
@@ -2353,8 +2350,7 @@ BASKET.HTML
     background: rgb(255, 255, 255);
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 1rem;
-    box-shadow: 2px 2px 15px -3px rgb(190, 190, 190)
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
 }
 
 .basket-order-summary-header {
@@ -2438,6 +2434,8 @@ BASKET.HTML
         max-width: 1000px;
         margin: 1rem auto;
         border-radius: 10px;
+        padding: 2rem;
+        border: 1px solid hsl(0, 0%, 85%);
     }
 }
 
@@ -2449,7 +2447,6 @@ BASKET.HTML
 
     .product-basket-wrapper {
         margin: 2rem auto;
-        padding: 2rem;
     }
 
     .product-basket-header {
@@ -2615,10 +2612,9 @@ CHECKOUT_SUMMARY.HTML
 }
 
 .payment-center-contents {
-    border: 1px solid hsl(0, 0%, 90%);
-    padding: 1rem;
+    padding: 2rem 1rem;
     display: grid;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .purchase-items {
@@ -2630,7 +2626,7 @@ CHECKOUT_SUMMARY.HTML
     gap: 1rem;
     border-radius: 10px;
     padding: 1rem;
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190)
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
 }
 
 .sm-purchase-item {
@@ -2662,8 +2658,7 @@ CHECKOUT_SUMMARY.HTML
     display: grid;
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 1rem;
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
 }
 
 .purchase-item-total-amount-header-text {
@@ -2732,6 +2727,8 @@ CHECKOUT_SUMMARY.HTML
         max-width: 1000px;
         margin: 1rem auto;
         border-radius: 10px;
+        padding: 2rem;
+        border: 1px solid hsl(0, 0%, 85%);
     }
 }
 
@@ -2741,11 +2738,15 @@ CHECKOUT_SUMMARY.HTML
         display: none;
     }
 
+    .payment-center-contents {
+        margin: 2rem auto;
+    }
+
     .purchase-items {
         display: grid;
         padding: 1rem;
         border-radius: 10px;
-        box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+        box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
     }
 
     .purchased-item-headers {
@@ -2785,11 +2786,6 @@ CHECKOUT_SUMMARY.HTML
             color: white;
         }
     }
-
-    .payment-center-contents {
-        margin: 2rem auto;
-        padding: 2rem;
-    }
 }
 
 /* =============================
@@ -2799,18 +2795,18 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 /* no order history */
 .no-order-history-contents {
     min-height: 100vh;
-    padding: 1rem;
+    padding: 2rem 1rem;
     display: grid;
     align-content: start;
     gap: 1rem;
-    border: 1px solid hsl(0, 0%, 90%);
+    /* border: 1px solid hsl(0, 0%, 85%); */
 }
 
 .order-history-nav-bar {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .order-history-nav-link {
@@ -2837,7 +2833,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     margin-top: 3rem;
 }
 
@@ -2863,6 +2859,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
         max-width: 1000px;
         margin: 1rem auto;
         border-radius: 10px;
+        border: 1px solid hsl(0, 0%, 85%);
     }
 }
 
@@ -2881,9 +2878,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
 .order-history-contents {
     display: grid;
-    padding: 1rem;
-    gap: 1rem;
-    border: 1px solid hsl(0, 0%, 90%)
+    padding: 2rem 1rem;
+    gap: 2rem;
 }
 
 .order-history-header-container {
@@ -2982,7 +2978,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     padding: 1rem;
     gap: 1rem;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
 }
 
 .receipt:last-child {
@@ -3107,6 +3103,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
         max-width: 1000px;
         margin: 1rem auto;
         border-radius: 10px;
+        padding: 2rem;
+        border: 1px solid hsl(0, 0%, 90%)
     }
 
     .order-history-continue-shopping-btn-small {
@@ -3147,7 +3145,6 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
     .order-history-contents {
         margin: 2rem auto;
-        padding: 2rem;
     }
 
     .order-history-header-container {

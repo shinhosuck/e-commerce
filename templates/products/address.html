@@ -15,10 +15,10 @@
     }
 
     .shipping-address-form-contents {
-        padding: 1rem;
+        padding: 2rem 1rem;
         display: grid;
-        gap: 1rem;
-        border: 1px solid hsl(0, 0%, 90%);
+        gap: 2rem;
+        /* border: 1px solid hsl(0, 0%, 90%); */
     }
 
     .shipping-address-form {
@@ -28,12 +28,12 @@
         padding: 1rem;
         border-radius: 10px;
         background: white;
-        box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
+        box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
     }
 
-    .shipping-address-form-header {
-        color: var(--black-5);
+    .shipping-address-header {
         letter-spacing: 0.05rem;
+        color: var(--purple-35)
     }
 
     .address-inputs {
@@ -100,18 +100,23 @@
             max-width: 1000px;
             margin: 1rem auto;
             border-radius: 10px;
+            padding: 2rem;
+            border: 1px solid hsl(0, 0%, 85%);
         }
     }
 
     @media screen and (min-width: 800px) {
 
         .shipping-address-form-contents {
-            padding: 2rem;
             margin: 2rem auto;
         }
 
         .shipping-address-form {
             grid-template-columns: repeat(2, 1fr);
+        }
+
+        .shipping-address-header {
+            grid-column: 1 / span 2;
         }
     }
 
@@ -131,45 +136,8 @@
             {% endwith %}
         </div>
         <!-- End -->
-
-        <!-- From order_history.html -->
-        <div class="order-history-header-container">
-            <div class="order-history-header-text">
-                {% if request.user.shippingaddress_set.all.first %}
-                    <h2 class="order-history-header">{{ request.user.username }}'s Address</h2>
-                {% else %}
-                    <h2 class="order-history-header">Add Your Address</h2>
-                {% endif %}
-                <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
-                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                    <span class="material-symbols-outlined">arrow_right_alt</span>
-                </a>
-            </div>
-            <div class="order-history-user-info-container">
-                <div class="order-history-user-profile-image">
-                    <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
-                </div>
-                <div class="order-history-user-profile-info">
-                    <p class="order-history-username">{{ request.user.username }}</p>
-                    {% if request.user.shippingaddress_set.all.first %}
-                        <p>
-                            {{ request.user.shippingaddress_set.all.first.first_name }} 
-                            {{ request.user.shippingaddress_set.all.first.last_name }}
-                        </p>
-                        <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
-                    {% else %}
-                        <p>Name: n/a</p>
-                        <p>Email: n/a</p>
-                    {% endif %}
-                </div>
-                <a class="order-history-continue-shopping-btn-small" href="{% url 'products:product-list' %}">
-                    <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                </a>
-            </div>
-        </div>
-        <!-- End -->
-
         <form class="shipping-address-form" action="" method="POST">
+            <h2 class="shipping-address-header">Shipping Address</h2>
             {% csrf_token %}
             <div class="address-inputs">
                 <div class="address-first-name">

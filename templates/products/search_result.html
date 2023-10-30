@@ -105,13 +105,11 @@
             <div class="product-list-wrapper">
                 <div class="product-list-header-container">
                     <div class="product-list-header-and-link">
-                        <h2 class="product-list-header">Result for "{{ q }}"</h2>
-                        <!-- <a href="{% url 'products:product-list' %}">
-                            Back to Products
-                            <span class="material-symbols-outlined">
-                                arrow_right_alt
-                            </span>
-                        </a> -->
+                        {% if string %}
+                            <h2 class="product-list-header">All "{{ q }}"</h2>
+                        {% else %}
+                            <h2 class="product-list-header">Search Result for "{{ q }}"</h2>
+                        {% endif %}
                         <div class="sort-products-by-container">
                             <div class="sort-products-by-text">
                                 <p class="sort-by-text">Sort by:</p>
