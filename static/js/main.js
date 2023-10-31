@@ -306,9 +306,11 @@ if(productDetailFavoriteIconContainer) {
 
     for(let i = 0; i < parseInt(first_num); i++){
         start += '<span class="material-symbols-rounded product-detail-favorite-icon">star</span>'
+        // start += '<i class="fa-solid fa-star product-detail-favorite-icon" style="color: #feae01;"></i>'
     }
     if(parseInt(second_num)){
         start += '<span class="material-symbols-rounded product-detail-favorite-icon">star_half</span>'
+        // start += '<i class="fa-solid fa-star-half-stroke product-detail-favorite-icon" style="color: #feae01"></i>'
     }
     productDetailFavoriteIconContainer.innerHTML += start
 }
