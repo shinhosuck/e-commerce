@@ -3230,75 +3230,66 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     }
 }
 
-/* =================================
-PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
-==================================== */
+/* =================
+PAYMENT_SUCCESS.HTML
+==================== */
 
 .success-payment-main {
     min-height: 100vh;
     display: grid;
-    gap: 1rem;
     align-content: start;
-    padding: 1rem 0;
+    gap: 2rem;
+    padding: 2rem 0;
 }
 
 .success-payment-receipt-info {
-    width: 95%;
-    max-width: 1200px;
+    width: 90%;
     margin: 0 auto;
-    background: var(--purple-30);
-    padding: 1rem;
-    border-radius: 10px;
+    text-align: center;
     display: grid;
-    gap: 0.8rem;
-    justify-content: center;
+    gap: 1rem;
 }
 
 .payment-successful-header {
     letter-spacing: 0.05rem;
-    color: rgb(255, 255, 255); 
-    text-align: center;
-    font-size: 1.4rem;
+    color: var(--purple-35); 
+    font-size: clamp(1.3rem, 5vw + .5rem, 1.7rem)
 }
 
 .payment-successful-text {
-    letter-spacing: 0.05em;
-    color: rgb(216, 216, 216);
-    line-height: 1.4;
-    max-width: 800px;
-    text-wrap: balance;
-    text-align: center;
+    letter-spacing: 0.07rem;
+    color: var(--black-10);
+    line-height: 1.5;
 }
 
+.payment-successful-text > a {
+    color: var(--purple-35);
+    text-decoration: underline;
+    font-weight: 500;
+}
 .payment-successful-text > strong {
-    color: white;
+    color: var(--black-10);
     word-break: break-all;
 }
 
-.payment-successful-order-history-btn {
-    justify-self: center;
-    text-decoration: none;
-    padding: 0.7rem 1rem;
-    border-radius: 20px;
-    background: var(--orange-65);
-    color: rgb(255, 255, 255);
-    letter-spacing: 0.05rem;
-}
-
 .success-payment-wrapper {
-    width: 95%;
-    max-width: 1200px;
+    width: 90%;
     margin: 0 auto;
     display: grid;
     gap: 1rem;
-    border-radius: 10px;
-    background: rgb(255, 255, 255);
     padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
+}
+
+.success-payment-receipt-header {
+    letter-spacing: 0.05rem;
+    color: var(--purple-35);
+    font-size: clamp(1.1rem, 5vw + .5rem, 1.5rem)
 }
 
 .payment-success-customer-info-container {
     display: grid;
-    border-radius: 10px;
 }
 
 .lg-payment-success-customer-info-container {
@@ -3308,22 +3299,13 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 .payment-success-customer-info {
     display: grid;
     grid-template-columns: 30% 1fr;
+    gap: 1rem;
     padding: 1rem;
     background: hsl(0, 0%, 85%);
 }
 
 .payment-success-customer-info:nth-child(even) {
     background: hsl(0, 0%, 95%);
-}
-
-.payment-success-customer-info:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.payment-success-customer-info:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
 }
 
 .success-payment-order-receipts {
@@ -3337,12 +3319,12 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 
 .success-payment-order-receipt {
     display: grid;
-    border-radius: 10px;
 }
 
 .success-payment-order-text {
     display: grid;
     grid-template-columns: 30% 1fr;
+    gap: 1rem;
     padding: 1rem;
     color: rgb(0, 0, 0);
     background: hsl(0, 0%, 95%);
@@ -3352,19 +3334,8 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
     background: hsl(0, 0%, 85%);
 }
 
-.success-payment-order-text:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.success-payment-order-text:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
 .payment-successful-amount-received-container {
     display: grid;
-    border-radius: 10px;
 }
 
 .lg-payment-success-amount-received-container {
@@ -3374,6 +3345,7 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 .payment-amount-received-text {
     padding: 1rem;
     display: grid;
+    gap: 1rem;
     grid-template-columns: 30% 1fr;
     background: hsl(0, 0%, 85%)
 }
@@ -3382,40 +3354,42 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
     background: hsl(0, 0%, 95%)
 }
 
-.payment-amount-received-text:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
+@media screen and (min-width: 530px) {
 
-.payment-amount-received-text:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-
-@media screen and (min-width: 800px) {
-
-    .success-payment-receipt-info {
-        justify-content: start;
-        padding: 1.3rem;
+    .success-payment-main {
+        min-height: initial;
+        width: 90%;
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        padding: 2rem;
+        border-radius: 10px;
+        border: 1px solid hsl(0, 0%, 85%)
     }
-
-    .payment-successful-header {
+    
+    .success-payment-receipt-info {
+        width: 100%;
+        margin: 0;
         text-align: start;
-        font-size: 1.7rem;
     }
 
     .payment-successful-text {
-        text-align: start;
-    }
-
-    .payment-successful-order-history-btn {
-        justify-self: start;
+        max-width: 600px;
     }
 
     .success-payment-wrapper {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media screen and (min-width: 800px) {
+
+    .success-payment-wrapper {
         gap: 0;
-        padding: 1.3rem;
+    }
+
+    .success-payment-receipt-header {
+        margin-bottom: 1rem;
     }
 
     .payment-success-customer-info-container {
@@ -3441,8 +3415,6 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
         gap: 0.5rem;
         grid-template-columns: repeat(3, 1fr);
         padding: 1rem;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
         background: hsl(0, 0%, 70%)
     }
 
@@ -3492,8 +3464,6 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 
     .lg-payment-success-amount-received-container {
         display: grid;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
     }
 
     .payment-amount-received-headers {
@@ -3509,8 +3479,6 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
         gap: 0.5rem;
         padding: 1rem;
         grid-template-columns: repeat(4, 1fr);
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
         background: hsl(0, 0%, 95%)
     }
 }
@@ -3518,7 +3486,7 @@ PAYMENT_SUCCESS.HTML/SUCCESS PAYMENT
 @media screen and (min-width: 1000px) {
     
     .success-payment-main {
-        padding: 2rem 0;
+        margin: 3rem auto;
     }
 }
 

@@ -22,37 +22,6 @@
                         <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                     {% endwith %}
                 </div>
-
-                {% comment %}
-                <div class="order-history-header-container" style="width:100%;">
-                    <div class="order-history-header-text">
-                        <h2 class="order-history-header">Checkout Summary</h2>
-                        <a class="order-history-continue-shopping-btn-large" href="{% url 'products:product-list' %}">
-                            <p class="order-history-continue-shopping" href="">Continue Shopping</p>
-                            <span class="material-symbols-outlined">arrow_right_alt</span>
-                        </a>
-                    </div>
-                    <div class="order-history-user-info-container">
-                        <div class="order-history-user-profile-image">
-                            <img src="{{ request.user.userprofile.profile_image.url }}" alt="">
-                        </div>
-                        <div class="order-history-user-profile-info">
-                            <p class="order-history-username">{{ request.user.username }}</p>
-                            {% if request.user.shippingaddress_set.all.first %}
-                                <p>
-                                    {{ request.user.shippingaddress_set.all.first.first_name }} 
-                                    {{ request.user.shippingaddress_set.all.first.last_name }}
-                                </p>
-                                <p>{{ request.user.shippingaddress_set.all.first.email }}</p>
-                            {% else %}
-                                <p>Name: n/a</p>
-                                <p>Email: n/a</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endcomment %}
-
                 <div class="no-order-history-content">
                     <h3 class="no-order-history-text">Nothing to see here!</h3>
                     <a class="no-order-history-continue-shopping" href="{% url 'products:product-list' %}">Continue Shopping</a>

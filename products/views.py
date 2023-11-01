@@ -350,13 +350,14 @@ def checkout_summary_view(request):
     query_set = Order.objects.filter(customer=user, open=True)
     address = user.shippingaddress_set.all().first()
 
-    # if not address:
-    #     messages.warning(request, f'{user.username}, please add your shipping address!')
-    #     return redirect('products:shipping-address')
 
-    # if not query_set.exists():
-    #     messages.error(request, 'You do not have any pending orders.')
-    #     return redirect('products:product-list')
+    if not query_set.exists():
+        messages.error(request, 'You do not have any pending orders.')
+        return redirect('products:product-list')
+    if not address:
+        messages.warning(request, f'{user.username}, please add your shipping address!')
+        return redirect('products:shipping-address')
+   
     
     context = {'query_set': query_set}
     return render(request, 'products/checkout_summary.html', context)
@@ -386,7 +387,7 @@ def checkout_view(request):
 
 @login_required 
 def create_checkout_session_view(request, id):
-    DOMAIN = 'http://127.0.0.1:8000/'
+    # DOMAIN = 'http://127.0.0.1:8000/'
     DOMAIN = f'http://{request.get_host()}/'
     try:
         checkout_obj = Checkout.objects.get(id=id, open=True)
@@ -410,8 +411,8 @@ def create_checkout_session_view(request, id):
                 'quantity': 1
             }],
         mode='payment',
-        success_url=DOMAIN + f'payment/success/{id}/',
-        cancel_url=DOMAIN + 'payment/cancel/',
+        success_url = DOMAIN + f'payment/success/{id}/',
+        cancel_url = DOMAIN + 'payment/cancel/',
     )
     return redirect(checkout_session.url, code=303)
 
@@ -569,19 +570,19 @@ def email_receipt_view(request, id):
         'date': receipt.created
     }
     
-    html_message = render_to_string('products/email_receipt.html', context)
-    plain_message = strip_tags(html_message)
-    address = ShippingAddress.objects.filter(customer=receipt.customer).first()
-    email_from = settings.EMAIL_HOST_USER
+    # html_message = render_to_string('products/email_receipt.html', context)
+    # plain_message = strip_tags(html_message)
+    # address = ShippingAddress.objects.filter(customer=receipt.customer).first()
+    # email_from = settings.EMAIL_HOST_USER
     
-    message = EmailMultiAlternatives(
-        subject = 'Your order',
-        body = plain_message,
-        from_email = email_from,
-        to = [address.email],
-    )
-    message.attach_alternative(html_message, 'text/html')
-    message.send()
+    # message = EmailMultiAlternatives(
+    #     subject = 'Your order',
+    #     body = plain_message,
+    #     from_email = email_from,
+    #     to = [address.email],
+    # )
+    # message.attach_alternative(html_message, 'text/html')
+    # message.send()
 
     # send_mail(
     #     subject = 'Your ordered items',
@@ -593,6 +594,6 @@ def email_receipt_view(request, id):
     #     html_message = html
     # )
 
-    messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
+    # messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
 

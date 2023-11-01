@@ -12,17 +12,42 @@
 
 {% block content %}
 
+    <style>
+         .payment-success-nav-bar {
+            width: 90% !important;
+            margin: 0 auto !important;
+        }
+
+        @media screen and (min-width: 530px) {
+            .payment-success-nav-bar {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+        }
+
+    </style>
+
     <div class="success-payment-main">
+        <div class="product-basket-nav-bar payment-success-nav-bar">
+            {% with request.resolver_match.url_name as url_name %}
+                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Basket</a>
+                <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
+                <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
+                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+                <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
+            {% endwith %}
+        </div>
+
         <div class="success-payment-receipt-info">
             <h2 class="payment-successful-header">Payment was successful!</h2>
             <p class="payment-successful-text">
+                Thank you very much for shopping at <a href="{% url 'products:product-list' %}">AiAi Market</a>. 
                 The URL to your receipt has been sent to
-                <strong>{{ email }}.</strong>
-                Thank you very much for shopping at AiAi Market. 
+                <strong>{{ email }}</strong>.
             </p>
-            <a class="payment-successful-order-history-btn" href="{% url 'products:order-history' %}">See Order History</a>
         </div>
         <div class="success-payment-wrapper">
+            <h2 class="success-payment-receipt-header">Your Order</h2>
             <!-- For mobile screen -->
             <div class="payment-success-customer-info-container">
                 <div class="payment-success-customer-info">
