@@ -26,10 +26,9 @@
         display: grid;
         align-items: start;
         gap: 1rem;
-        padding: 1rem;
+        /* padding: 1rem;
         border-radius: 10px;
-        background: white;
-        box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
+        box-shadow: 3px 3px 15px -3px rgb(160, 160, 160) */
     }
 
     .shipping-address-header {
@@ -95,19 +94,20 @@
         border-radius: 25px;
     }
 
-    @media screen and (min-width: 530px) {
+    @media screen and (min-width: 550px) {
 
-        .shipping-address-form-contents {
+        .shipping-address-form {
+            padding: 1rem;
             border-radius: 10px;
-            padding: 2rem;
-            border: 1px solid hsl(0, 0%, 85%);
+            box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
         }
+    
     }
 
     @media screen and (min-width: 800px) {
 
         .shipping-address-form-contents {
-            margin: 2rem auto;
+            margin: 3rem auto;
         }
 
         .shipping-address-form {

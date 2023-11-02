@@ -220,7 +220,7 @@ BANNER SLIDER
     width: 30px;
     aspect-ratio: 1/2;
     cursor: pointer;
-    border: 1px solid var(--black-80);
+    border: 1px solid var(--black-70);
 }
 
 .banner-arrow-right > span {
@@ -1015,22 +1015,21 @@ PRODUCT_CREATE.HTML/PRODUCT CREATE
 
 .product-create-form-contents {
     display: grid;
-    background: rgb(255, 255, 255);
+    gap: 1rem;
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
 }
 
 .create-your-product-header {
     letter-spacing: 0.05rem;
-    color: var(--black-5);
     font-size: 1.3rem;
-    padding: 1rem;
-    background: var(--purple-35);
-    color: white
+    color: var(--purple-35)
 }
 
 .create-form {
     display: grid;
     gap: 1rem;
-    padding: 1rem;
 }
 
 .product-create-input-container {
@@ -1146,6 +1145,7 @@ PRODUCT_CREATE.HTML/PRODUCT CREATE
     font-size: 1rem;
     border-radius: 25px;
     border: none;
+    cursor: pointer;
 }
 
 .create-form-btns > a {
@@ -1163,27 +1163,28 @@ textarea::placeholder{
     font-size: 1rem;
 }
 
+@media screen and (min-width: 550px) {
+
+    .product-create-form-contents {
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 3px 3px 15px -3px rgb(160, 160, 160)
+    }
+}
+
 @media screen and (min-width: 800px) {
 
     .product-create-form-contents {
-        width: 95%;
-        max-width: 1000px;
         margin: 3rem auto;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px -1px rgb(190, 190, 190);
     }
 
     .create-your-product-header {
-        padding: 1.5rem 1.3rem;
         font-size: 1.5rem;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
     }
 
     .create-form {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.3rem;
-        padding: 1.3rem;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
@@ -2089,16 +2090,10 @@ BASKET.HTML
     margin: 2rem auto;
     display: grid;
     gap: 2rem;
-    /* padding: 2rem 0; */
 }
-
-/* .product-basket-wrapper > * {
-    border: 2px solid red;
-} */
 
 .product-basket-nav-bar {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -2408,11 +2403,6 @@ BASKET.HTML
         justify-content: start;
     }
 
-    .product-basket-wrapper {
-        border-radius: 10px;
-        padding: 2rem;
-        border: 1px solid hsl(0, 0%, 85%);
-    }
 }
 
 @media screen and (min-width: 900px) {
@@ -2421,9 +2411,9 @@ BASKET.HTML
         display: none;
     }
 
-    /* .product-basket-wrapper {
-        margin: 2rem auto;
-    } */
+    .product-basket-wrapper {
+        margin: 3rem auto;
+    }
 
     .product-basket-header {
         font-size: 1.5rem;
@@ -2588,7 +2578,9 @@ CHECKOUT_SUMMARY.HTML
 }
 
 .payment-center-contents {
-    padding: 2rem 1rem;
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
     display: grid;
     gap: 2rem;
 }
@@ -2697,17 +2689,6 @@ CHECKOUT_SUMMARY.HTML
     text-align: center;
 }
 
-@media screen and (min-width: 530px) {
-    .payment-center-contents {
-        width: 95%;
-        max-width: 1000px;
-        margin: 1rem auto;
-        border-radius: 10px;
-        padding: 2rem;
-        border: 1px solid hsl(0, 0%, 85%);
-    }
-}
-
 @media screen and (min-width: 800px) {
 
     .sm-purchase-items {
@@ -2715,7 +2696,7 @@ CHECKOUT_SUMMARY.HTML
     }
 
     .payment-center-contents {
-        margin: 2rem auto;
+        margin: 3rem auto;
     }
 
     .purchase-items {
@@ -2770,17 +2751,17 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
 /* no order history */
 .no-order-history-contents {
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    display: grid;
+    min-height: 60vh;
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
     align-content: start;
-    gap: 1rem;
-    /* border: 1px solid hsl(0, 0%, 85%); */
+    display: grid;
+    gap: 2rem;
 }
 
 .order-history-nav-bar {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -2809,8 +2790,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    margin-top: 3rem;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 .no-order-history-text {
@@ -2829,20 +2810,11 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     text-align: center;
 }
 
-@media screen and (min-width: 530px) {
-    .no-order-history-contents {
-        width: 95%;
-        max-width: 1000px;
-        margin: 1rem auto;
-        border-radius: 10px;
-        border: 1px solid hsl(0, 0%, 85%);
-    }
-}
 
 @media screen and (min-width:800px) {
+
     .no-order-history-contents {
-        padding: 2rem;
-        margin: 2rem auto
+        margin: 3rem auto
     }
 }
 /* end of no order history */
@@ -2853,8 +2825,10 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 }
 
 .order-history-contents {
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
     display: grid;
-    padding: 2rem 1rem;
     gap: 2rem;
 }
 
@@ -3074,15 +3048,6 @@ ORDER_HISTORY.HTML/ORDER HISTORY
         justify-content: start;
     }
 
-    .order-history-contents {
-        width: 95%;
-        max-width: 1000px;
-        margin: 1rem auto;
-        border-radius: 10px;
-        padding: 2rem;
-        border: 1px solid hsl(0, 0%, 90%)
-    }
-
     .order-history-continue-shopping-btn-small {
         display: none;
     }
@@ -3120,7 +3085,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 @media screen and (min-width: 800px) {
 
     .order-history-contents {
-        margin: 2rem auto;
+        margin: 3rem auto;
     }
 
     .order-history-header-container {
@@ -3235,17 +3200,16 @@ PAYMENT_SUCCESS.HTML
 ==================== */
 
 .success-payment-main {
-    min-height: 100vh;
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
     display: grid;
-    align-content: start;
     gap: 2rem;
-    padding: 2rem 0;
 }
 
 .success-payment-receipt-info {
     width: 90%;
     margin: 0 auto;
-    text-align: center;
     display: grid;
     gap: 1rem;
 }
@@ -3273,8 +3237,6 @@ PAYMENT_SUCCESS.HTML
 }
 
 .success-payment-wrapper {
-    width: 90%;
-    margin: 0 auto;
     display: grid;
     gap: 1rem;
     padding: 1rem;
@@ -3285,6 +3247,7 @@ PAYMENT_SUCCESS.HTML
 .success-payment-receipt-header {
     letter-spacing: 0.05rem;
     color: var(--purple-35);
+    margin-bottom: 1rem;
     font-size: clamp(1.1rem, 5vw + .5rem, 1.5rem)
 }
 
@@ -3355,17 +3318,7 @@ PAYMENT_SUCCESS.HTML
 }
 
 @media screen and (min-width: 530px) {
-
-    .success-payment-main {
-        min-height: initial;
-        width: 90%;
-        max-width: 1200px;
-        margin: 1.5rem auto;
-        padding: 2rem;
-        border-radius: 10px;
-        border: 1px solid hsl(0, 0%, 85%)
-    }
-    
+ 
     .success-payment-receipt-info {
         width: 100%;
         margin: 0;
@@ -3375,14 +3328,13 @@ PAYMENT_SUCCESS.HTML
     .payment-successful-text {
         max-width: 600px;
     }
-
-    .success-payment-wrapper {
-        width: 100%;
-        margin: 0;
-    }
 }
 
 @media screen and (min-width: 800px) {
+
+    .success-payment-main {
+        margin: 3rem auto;
+    }
 
     .success-payment-wrapper {
         gap: 0;
@@ -3480,13 +3432,6 @@ PAYMENT_SUCCESS.HTML
         padding: 1rem;
         grid-template-columns: repeat(4, 1fr);
         background: hsl(0, 0%, 95%)
-    }
-}
-
-@media screen and (min-width: 1000px) {
-    
-    .success-payment-main {
-        margin: 3rem auto;
     }
 }
 

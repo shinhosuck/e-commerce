@@ -493,7 +493,7 @@ def payment_success_view(request, id):
     checkout_obj.open = False
     checkout_obj.checkout_date = timezone.now()
     checkout_obj.save()
-
+    
     return render(request, 'products/payment_success.html', context)
 
 
@@ -570,19 +570,19 @@ def email_receipt_view(request, id):
         'date': receipt.created
     }
     
-    # html_message = render_to_string('products/email_receipt.html', context)
-    # plain_message = strip_tags(html_message)
-    # address = ShippingAddress.objects.filter(customer=receipt.customer).first()
-    # email_from = settings.EMAIL_HOST_USER
+    html_message = render_to_string('products/email_receipt.html', context)
+    plain_message = strip_tags(html_message)
+    address = ShippingAddress.objects.filter(customer=receipt.customer).first()
+    email_from = settings.EMAIL_HOST_USER
     
-    # message = EmailMultiAlternatives(
-    #     subject = 'Your order',
-    #     body = plain_message,
-    #     from_email = email_from,
-    #     to = [address.email],
-    # )
-    # message.attach_alternative(html_message, 'text/html')
-    # message.send()
+    message = EmailMultiAlternatives(
+        subject = 'Your order',
+        body = plain_message,
+        from_email = email_from,
+        to = [address.email],
+    )
+    message.attach_alternative(html_message, 'text/html')
+    message.send()
 
     # send_mail(
     #     subject = 'Your ordered items',

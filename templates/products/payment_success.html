@@ -42,12 +42,18 @@
             <h2 class="payment-successful-header">Payment was successful!</h2>
             <p class="payment-successful-text">
                 Thank you very much for shopping at <a href="{% url 'products:product-list' %}">AiAi Market</a>. 
-                The URL to your receipt has been sent to
-                <strong>{{ email }}</strong>.
+                The URL to your receipt has been sent to <strong>{{ email }}</strong>. 
+                In your email click the link to receive a copy of receipt.
             </p>
         </div>
         <div class="success-payment-wrapper">
-            <h2 class="success-payment-receipt-header">Your Order</h2>
+            <h2 class="success-payment-receipt-header">
+                {% if orders.count > 1 %}
+                    Your Orders
+                {% else %}
+                    Your Order
+                {% endif %}
+            </h2>
             <!-- For mobile screen -->
             <div class="payment-success-customer-info-container">
                 <div class="payment-success-customer-info">
