@@ -352,8 +352,8 @@ def checkout_summary_view(request):
 
 
     if not query_set.exists():
-        messages.error(request, 'You do not have any pending orders.')
-        return redirect('products:product-list')
+        messages.error(request, 'You basket is empty. Please add a product to your basket and try again.')
+        return redirect('products:product-basket')
     if not address:
         messages.warning(request, f'{user.username}, please add your shipping address!')
         return redirect('products:shipping-address')

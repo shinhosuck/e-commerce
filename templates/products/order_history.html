@@ -146,7 +146,7 @@
                                 <h2 class="receipt-amount-paid-header-text">Amount Paid</h2>
                                 <div class="receipts-amount-paid">
                                     <h4>Savings</h4>
-                                    {% if not receipt.saving == 'None' %}
+                                    {% if not receipt.saving == '[]' %}
                                         <p>P{{ receipt.saving }}</p>
                                     {% else %}
                                         <p>n/a</p>

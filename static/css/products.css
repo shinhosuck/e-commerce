@@ -3021,7 +3021,7 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
 .receipt-amount-paid-header-text {
     letter-spacing: 0.05rem;
-    color: var(--black-5);
+    color: var(--purple-35);
     font-size: 1.3rem;
     margin-bottom: 1rem;
 }
@@ -3208,8 +3208,8 @@ PAYMENT_SUCCESS.HTML
 }
 
 .success-payment-receipt-info {
-    width: 90%;
-    margin: 0 auto;
+    /* width: 90%;
+    margin: 0 auto; */
     display: grid;
     gap: 1rem;
 }
@@ -3247,8 +3247,7 @@ PAYMENT_SUCCESS.HTML
 .success-payment-receipt-header {
     letter-spacing: 0.05rem;
     color: var(--purple-35);
-    margin-bottom: 1rem;
-    font-size: clamp(1.1rem, 5vw + .5rem, 1.5rem)
+    font-size: 1.3rem;
 }
 
 .payment-success-customer-info-container {
@@ -3297,6 +3296,12 @@ PAYMENT_SUCCESS.HTML
     background: hsl(0, 0%, 85%);
 }
 
+.payment-success-amount-paid-header {
+    letter-spacing: 0.05rem;
+    font-size: 1.3rem;
+    color: var(--purple-35)
+}
+
 .payment-successful-amount-received-container {
     display: grid;
 }
@@ -3315,6 +3320,11 @@ PAYMENT_SUCCESS.HTML
 
 .payment-amount-received-text:nth-child(even) {
     background: hsl(0, 0%, 95%)
+}
+
+.payment-amount-received-text:last-child {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 @media screen and (min-width: 530px) {
@@ -3349,6 +3359,10 @@ PAYMENT_SUCCESS.HTML
     }
 
     .success-payment-order-receipt {
+        display: none;
+    }
+
+    .payment-success-amount-paid-header {
         display: none;
     }
 
