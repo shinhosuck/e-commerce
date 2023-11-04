@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
     'sellers.apps.SellersConfig',
+    # 'django_inlinecss',
 ]
 
 MIDDLEWARE = [

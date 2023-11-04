@@ -27,11 +27,13 @@
 
 </head>
 <body id="body">
-    <header id="header">
+    
         {% block navbar %}
-            {% include 'navbar.html' %}
+            <header id="header">
+                {% include 'navbar.html' %}
+            </header>
         {% endblock navbar%}
-    </header>
+   
     <main>
         <div class="main-banner">
             {% block banner %}

@@ -1,100 +1,46 @@
+
 {% extends 'index.html' %}
 
-
-
 {% block content %}
-
-    <style>
-        .email-receipt-container {
-            display: grid;
-        }
-
-        .email-receipt-receipt-order-info-container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 2rem auto;
-            display: grid;
-            gap: 2rem;
-        }
-
-        .email-receipt-purchased-info-container {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .email-receipt-customer-info-container {
-            display: grid;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 3px 3px 15px -3px rgb(160, 160, 160);
-        }
-
-        .email-receipt-customer-info {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            letter-spacing: 0.05rem;
-            background: var(--black-80)
-        }
-
-        .email-receipt-customer-info:nth-child(even) {
-            background: var(--black-90)
-        }
-
-        .email-receipt-purchased-info-wrapper {
-            display: grid;
-            border-radius: 10px;
-            padding: 1rem;
-            box-shadow: 3px 3px 15px -3px rgb(160, 160, 160);
-        }
-
-        .email-receipt-text {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            padding: 1rem;
-            gap: 1rem;
-            background: var(--black-80);
-        }
-
-        .email-receipt-text:nth-child(even) {
-            background: var(--black-90);
-        }
-
-        .receipt-payment-summary-container {
-            display: grid;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 3px 3px 15px -3px rgb(160, 160, 160); ;
-        }
-
-        .receipt-payment-summary-text {
-            display: grid;
-            grid-template-columns: 30% 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--black-80)
-        }
-
-        .receipt-payment-summary-text:nth-child(even) {
-            background: var(--black-90);
-        }
-
-    </style>
-
     <div class="email-receipt-container">
+        <div class="product-basket-nav-bar">
+            {% with request.resolver_match.url_name as url_name %}
+                <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="http://{{ request.get_host }}/my/basket/">Basket</a>
+                <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="http://{{ request.get_host }}/shipping/address/">Address</a>
+                <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="http://{{ request.get_host }}/checkout/summary/">Checkout</a>
+                <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="http://{{ request.get_host }}/order/history/">Order History</a>
+                <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="http://{{ request.get_host }}/user/profile/">Profile</a>
+            {% endwith %}
+        </div>
         <div class="email-receipt-receipt-order-info-container">
-            <div class="product-basket-nav-bar">
-                {% with request.resolver_match.url_name as url_name %}
-                    <a class="{% if url_name == 'product-basket' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-basket' %}">Basket</a>
-                    <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
-                    <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
-                    <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
-                    <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
-                {% endwith %}
+
+            <div class="email-receipt-download-btn-container">
+                <h2>Your Receipt</h2>
+                <a class="download-receipt-btn" href="">
+                    <span>Downlod</span>
+                    <i class="fa-solid fa-download"></i>
+                </a>
+                
             </div>
+           
             <div class="email-receipt-purchased-info-container">
+                <!-- For large screen -->
+                <div class="lg-email-receipt-customer-info-container">
+                    <div class="email-receipt-customer-info-headers">
+                        <h4>Order ID</h4>
+                        <h4>Customer</h4>
+                        <h4>Order Date</h4>
+                    </div>
+                    <div class="email-receipt-customer-info-text">
+                        <p>{{ receipt_id }}</p>
+                        <p>
+                            {{ customer.shippingaddress_set.all.first.first_name }} 
+                            {{ customer.shippingaddress_set.all.first.last_name }} 
+                        </p>
+                        <p>{{ date }}</p>
+                    </div>
+                </div>
+                <!-- For mobile screen  -->
                 <div class="email-receipt-customer-info-container">
                     <div class="email-receipt-customer-info">
                         <h4>Customer</h4>
@@ -112,6 +58,34 @@
                         <p>{{ date }}</p>
                     </div>
                 </div>
+               
+                <!-- For large screen -->
+                <div class="lg-email-receipt-purchased-info-header-wrapper">
+                    <h4>Order</h4>
+                    <h4>Name</h4>
+                    <h4>Quantity</h4>
+                    <h4>Price</h4>
+                    <h4>Total</h4>
+                </div>
+                {% for order in orders %}
+                    <div class="lg-email-receipt-text" data-order-counter="{{ forloop.counter }}">
+                        <p>{{ forloop.counter }}</p>
+                        <p>{{ order.product.name }}</p>
+                        <p>{{ order.quantity }}</p>
+                        {% if order.product.get_discount_price %}
+                            <p>P{{ order.product.discount_price_str_format}}</p>
+                        {% else %}
+                            <p>P{{ order.product.price_str_format}}</p>
+                        {% endif %}
+                        {% for total in order_total %}
+                            {% if total.id == order.id %}
+                                <p>P{{ total.total }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                 <!-- For mobile screen  -->
                 {% for order in orders %}
                     <div class="email-receipt-purchased-info-wrapper">
                         <div class="email-receipt-text">
@@ -131,18 +105,6 @@
                                 <h4>Price</h4>
                                 <p>P{{ order.product.discount_price_str_format}}</p>
                             </div>
-                            <div class="email-receipt-text">
-                                <h4>Original Price:</h4>
-                                <p>P{{ order.product.price_str_format}}</p>
-                            </div>
-                            {% for amount in discount_amount %}
-                                {% if amount.id == order.product.id %}
-                                    <div class="email-receipt-text">
-                                        <h4>Discount:</h4>
-                                        <p>P{{ amount.discount }}</p>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
                         {% else %}
                             <div class="email-receipt-text">
                                 <h4>Price:</h4>
@@ -160,9 +122,37 @@
                     </div>
                 {% endfor %}
             </div>
+            <!-- For large screen  -->
+            <div class="lg-receipt-payment-summary-container">
+                <div class="receipt-payment-summary-headers">
+                    <h4>Savings</h4>
+                    <h4>Sub-total</h4>
+                    <h4>VAT</h4>
+                    <h4>Total</h4>
+                </div>
+                <div class="lg-receipt-payment-summary-text">
+                    {% if discount_total %}
+                        <p>P{{ discount_total }}</p>
+                    {% else %}
+                        <p>n/a</p>
+                    {% endif %}
+                    <p>P{{ sub_total }}</p>
+                    <p>P{{ vat }}</p>
+                    <p>P{{ total }}</p>
+                </div>
+            </div>
+            <!-- For mobile screen  -->
             <div class="receipt-payment-summary-container">
                 <h2 class="email-receipt-summary-header">Payment Summary</h2>
                 <div class="receipt-payment-summary-info-wrapper">
+                    <div class="receipt-payment-summary-text">
+                        <h4 class="email-receipt-summary-text">Savings</h4>
+                        {% if discount_total %}
+                            <p>P{{ discount_total }}</p>
+                        {% else %}
+                            <p>n/a</p>
+                        {% endif %}
+                    </div>
                     <div class="receipt-payment-summary-text">
                         <h4 class="email-receipt-summary-text">Sub-total</h4>
                         <p>P{{ sub_total }}</p>
@@ -180,8 +170,16 @@
         </div>
     </div>
 
+    <script>
+        
+        const lgEmailReceiptText = [...document.querySelectorAll('.lg-email-receipt-text')]
+
+        lgEmailReceiptText.map((item) => {
+            const count = item.getAttribute('data-order-counter')
+            if(parseInt(count) % 2 === 0) {
+                item.classList.add('lg-email-receipt-text-even')
+            }
+        })
+
+    </script>
 {% endblock content %}
-
-
-
-

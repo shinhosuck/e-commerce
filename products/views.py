@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from django.utils.html import strip_tags
 from django.utils import timezone
 from .context_processors import get_basket_total
@@ -551,15 +551,15 @@ def email_receipt_view(request, id):
     sub_total = f'{receipt.checkout.total_amount_due:,.2f}'
     vat = f'{float(receipt.checkout.total_amount_due)*.12:,.2f}'
     total = f"{Decimal(sub_total.replace(',','')) + Decimal(vat.replace(',','')):,.2f}"
-    discount_amount = []
+    discount_total = []
 
     for order in receipt.checkout.order.all():
         if order.product.get_discount_price():
             discount = (order.product.price - Decimal(order.product.get_discount_price().replace(',',''))) * order.quantity
-            discount_amount.append({'id': order.product.id, 'discount': f'{discount:,.2f}'})
+            discount_total.append(discount)
 
     context = {
-        'discount_amount': discount_amount,
+        'discount_total': f'{sum(discount_total):,}',
         'orders':receipt.checkout.order.all(),
         'order_total': order_total,
         'sub_total': sub_total,
@@ -570,10 +570,23 @@ def email_receipt_view(request, id):
         'date': receipt.created
     }
     
-    html_message = render_to_string('products/email_receipt.html', context)
+    
+    html_template = 'products/email_receipt.html'
+
+    html_message = render_to_string(html_template, context)
     plain_message = strip_tags(html_message)
     address = ShippingAddress.objects.filter(customer=receipt.customer).first()
     email_from = settings.EMAIL_HOST_USER
+
+
+    # message = EmailMessage(
+    #     'Your Order',
+    #     html_message,
+    #     email_from,
+    #     [address.email]
+    # )
+    # message.content_subtype = 'html'
+    # message.send()
     
     message = EmailMultiAlternatives(
         subject = 'Your order',
@@ -584,15 +597,6 @@ def email_receipt_view(request, id):
     message.attach_alternative(html_message, 'text/html')
     message.send()
 
-    # send_mail(
-    #     subject = 'Your ordered items',
-    #     message = f'''
-    #         Thank you for shopping at AiAi Market. Here is your receipt:
-    #     ''',
-    #     recipient_list = [address.email],
-    #     from_email = email_from,
-    #     html_message = html
-    # )
 
     # messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
