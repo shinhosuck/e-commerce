@@ -165,6 +165,8 @@ USER_LOGIN.HTML
     letter-spacing: 0.05rem;
     text-align: center;
     color: var(--black-5);
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 @media (hover) {

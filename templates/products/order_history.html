@@ -9,6 +9,7 @@
 {% block content %}
 
     <div class="order-history-container">
+
         {% if not receipts %}
             <div class="no-order-history-contents">
                 <div class="order-history-nav-bar" style="justify-content: center;">
@@ -39,7 +40,13 @@
                 <div class="receipts">
                     {% for receipt in receipts %}
                         <div class="receipt">
-                            <p class="receipt-counter">{{ forloop.counter }} of {{ receipts.count }}</p>
+                            <p class="receipt-counter">
+                                Order<span>{{ forloop.counter }}</span>of<span>{{ receipts.count }}</span>
+                                <a class="download-receipt-btn" href="{% url 'products:download-receipt' receipt.id %}">
+                                    <span>Downlod</span>
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+                            </p>
                             <!-- For mobile screen -->
                             <div class="receipt-info-header-container">
                                 <div class="receipt-info-header">
@@ -191,7 +198,7 @@
         {% endif %}
     </div>
     <script>
-        
+
         const orderTotal = document.querySelectorAll('.receipt-order-total')
 
         orderTotal.forEach((order) => {
@@ -200,7 +207,6 @@
             order.textContent = newContent
         })
 
-        const receiptsProductOrdered = document.querySelectorAll('.receipts-product-ordered')
-
+        
     </script>
 {% endblock content %}

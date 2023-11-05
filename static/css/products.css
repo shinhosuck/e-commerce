@@ -2149,13 +2149,16 @@ BASKET.HTML
 .product-basket-nav-link {
     letter-spacing: 0.05rem;
     color: var(--black-5);
-    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 .active-product-basket-nav-link {
     color: var(--purple-50) !important;
     text-decoration: underline;
     font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 @media (hover) {
@@ -2818,7 +2821,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     letter-spacing: 0.05rem;
     text-align: center;
     color: var(--black-5);
-    font-weight: 500;
+    text-transform: uppercase;
+    font-weight: 0.9rem;
 }
 
 @media (hover) {
@@ -2832,6 +2836,8 @@ ORDER_HISTORY.HTML/ORDER HISTORY
     color: var(--purple-50) !important;
     text-decoration: underline;
     font-weight: 700;
+    text-transform: uppercase;
+    font-weight: 0.9rem;
 }
 
 .no-order-history-content {
@@ -2971,7 +2977,6 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 
 .receipt {
     display: grid;
-    background: white;
     align-content: start;
     padding: 1rem;
     gap: 1rem;
@@ -2984,19 +2989,21 @@ ORDER_HISTORY.HTML/ORDER HISTORY
 }
 
 .receipt-counter {
-    justify-self: start;
-    width: 80px;
-    aspect-ratio: 3/1;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: var(--orange-60);
-    color: rgb(255, 255, 255);
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-radius: 20px;
-    padding-top: 0.5rem;
-    padding-bottom: 0.4rem;
+    flex-wrap: wrap;
+    column-gap: 0.3rem;
+    row-gap: 1rem;
+    color: var(--purple-45);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+@media screen and (min-width: 275px) {
+
+    .receipt-counter > .download-receipt-btn {
+        margin-left: auto;
+    }
 }
 
 .receipt-info-header-container {

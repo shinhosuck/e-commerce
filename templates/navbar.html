@@ -40,9 +40,10 @@
                         <a class="nav-link {% if url_name == 'user-profile' %}active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                         <a class="nav-link {% if url_name == 'order-history' %}active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
                         {% if request.user.sellersignup %}
-                            <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                            <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Add Product to Sell</a>
+                        {% else %}
+                            <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
                         {% endif %}
-                        <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
                         <a class="nav-link {% if url_name == 'user-logout' %}active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </div>
@@ -93,9 +94,11 @@
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-profile' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'order-history' %}mobile-active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
                 {% if request.user.sellersignup %}
-                    <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Create</a>
+                    <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Add Product to Sell</a>
+                {% else %}
+                    <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
                 {% endif %}
-                <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
+                
                 <a class="mobile-nav mobile-nav-link {% if url_name == 'user-logout' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-logout' %}">Logout</a>
             {% endif %}
         </nav>

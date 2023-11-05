@@ -219,7 +219,6 @@ class CheckoutReceipt(models.Model):
     )
     checkout = models.ForeignKey(Checkout, on_delete=models.PROTECT)
     customer = models.ForeignKey(User, on_delete=models.PROTECT)
-    checkout_summary = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     receipt_sent_date = models.DateTimeField(null=True)
     sent = models.BooleanField(default=False)
@@ -227,6 +226,7 @@ class CheckoutReceipt(models.Model):
     sub_total = models.CharField(max_length=100, null=True, blank=True)
     tax = models.CharField(max_length=100, null=True, blank=True)
     total = models.CharField(max_length=100, null=True, blank=True)
+    checkout_summary = models.FileField(upload_to='checkout_summary', null=True, blank=True)
 
 
 

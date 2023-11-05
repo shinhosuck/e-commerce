@@ -34,9 +34,9 @@ from decimal import Decimal
 from sellers.models import SellerSignUp
 import random
 
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
-
 
 
 def home_view(request):
@@ -526,9 +526,13 @@ def stripe_webhook(request):
 
 @login_required
 def order_history_view(request):
+    string = request.GET.get('str')
+
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
+    if string:
+        context['single_receipt'] = CheckoutReceipt.objects.get(id=string)
     order_total = []
 
     for receipt in receipts:
@@ -540,7 +544,6 @@ def order_history_view(request):
 
 
 def email_receipt_view(request, id):
-    
     try:
         receipt = CheckoutReceipt.objects.get(id=id)
     except Exception as e:
@@ -578,16 +581,6 @@ def email_receipt_view(request, id):
     address = ShippingAddress.objects.filter(customer=receipt.customer).first()
     email_from = settings.EMAIL_HOST_USER
 
-
-    # message = EmailMessage(
-    #     'Your Order',
-    #     html_message,
-    #     email_from,
-    #     [address.email]
-    # )
-    # message.content_subtype = 'html'
-    # message.send()
-    
     message = EmailMultiAlternatives(
         subject = 'Your order',
         body = plain_message,
@@ -597,7 +590,36 @@ def email_receipt_view(request, id):
     message.attach_alternative(html_message, 'text/html')
     message.send()
 
-
-    # messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
+    messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
 
+
+def download_receipt_view(request, id):
+    receipt = CheckoutReceipt.objects.get(id=id)
+    address = ShippingAddress.objects.get(customer=receipt.customer)
+    full_name = f'{address.first_name} {address.last_name}'
+
+    saving = ''
+    if not receipt.saving or receipt.saving == '[]':
+        saving = 'n/a'
+    else:
+        saving = receipt.saving
+    
+    receipt_id = receipt.id
+    customer = full_name
+    saving = saving
+    sub_total = receipt.sub_total
+    tax = receipt.tax 
+    total = receipt.total
+
+
+    import products
+
+    with open('products/checkout_summary.txt', 'w') as file:
+        file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}'
+        )
+
+    with open('products/checkout_summary.txt', 'r') as file:
+        print(file.read())
+
+    return redirect(f'/order/history/?str={receipt.id}')
