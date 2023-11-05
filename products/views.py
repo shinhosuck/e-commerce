@@ -595,7 +595,9 @@ def email_receipt_view(request, id):
 
 
 def download_receipt_view(request, id):
+
     receipt = CheckoutReceipt.objects.get(id=id)
+
     address = ShippingAddress.objects.get(customer=receipt.customer)
     full_name = f'{address.first_name} {address.last_name}'
 
@@ -618,6 +620,9 @@ def download_receipt_view(request, id):
     with open('products/checkout_summary.txt', 'w') as file:
         file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}'
         )
+        
+        # receipt.checkout_summary = file
+        # receipt.save()
 
     with open('products/checkout_summary.txt', 'r') as file:
         print(file.read())
