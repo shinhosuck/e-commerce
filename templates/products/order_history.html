@@ -42,7 +42,7 @@
                         <div class="receipt">
                             <p class="receipt-counter">
                                 Order<span>{{ forloop.counter }}</span>of<span>{{ receipts.count }}</span>
-                                <a class="download-receipt-btn" href="{% url 'products:download-receipt' receipt.id %}">
+                                <a class="download-receipt-btn" href="{{ receipt.checkout_summary.url }}" download>
                                     <span>Downlod</span>
                                     <i class="fa-solid fa-download"></i>
                                 </a>

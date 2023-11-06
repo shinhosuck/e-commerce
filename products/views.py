@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.utils import timezone
-from .context_processors import get_basket_total
+from .context_processors import get_basket_total, create_checkout_summary
 from .models import (
     Product, 
     ProductImage,  
@@ -50,7 +50,7 @@ def home_view(request):
     return render(request, 'products/home.html', context)
 
 
-def product_list_view(request):
+def product_list_view(request):     
     user = request.user
     query_set = Product.objects.all()
     popular = [obj for obj in query_set if obj.num_of_times_solid >= 5]
@@ -468,10 +468,10 @@ def payment_success_view(request, id):
 
     # send customer the url of the receipt
     send_mail(
-        subject = 'Your ordered items',
+        subject = 'Order cofirmation from aiai e-market',
         message = f'''
-            Thank you for shopping at AiAi Market!
-            click to get your receipt: {DOMAIN}email/receipt/{receipt.id}
+            Thank you for shopping at aiai e-market!
+            click url to download your receipt: {DOMAIN}email/receipt/{receipt.id}
         ''',
         recipient_list = [address.email],
         from_email = email_from,
@@ -530,11 +530,36 @@ def stripe_webhook(request):
 def order_history_view(request):
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
-    context= {'receipts': receipts}
 
+    context= {'receipts': receipts}
     order_total = []
 
     for receipt in receipts:
+        if not receipt.checkout_summary:
+            address = ShippingAddress.objects.get(customer=user)
+            full_name = f'{address.first_name} {address.last_name}'
+            media_root = settings.MEDIA_ROOT
+            id = uuid.uuid4()
+
+            saving = ''
+            if not receipt.saving or receipt.saving == '[]':
+                saving = 'n/a'
+            else:
+                saving = receipt.saving
+            
+            receipt_id = receipt.id
+            customer = full_name
+            saving = saving
+            sub_total = receipt.sub_total
+            tax = receipt.tax 
+            total = receipt.total
+
+            with open(f'{media_root}/checkout_summary/checkout_summary-{id}.txt', 'w') as f:
+                file = File(f)
+                file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}')
+                receipt.checkout_summary = f'/checkout_summary/checkout_summary-{id}.txt'
+                receipt.save()
+
         orders = receipt.checkout.order.all()
         for order in orders:
             order_total.append({'id':order.product.id, 'total':f'{order.get_order_total():,.2f}'})
@@ -543,6 +568,16 @@ def order_history_view(request):
 
 
 def email_receipt_view(request, id):
+
+    result = create_checkout_summary(request, receipt_id=id)
+
+    if result:
+        error = result['error']
+        if error:
+            print('DOES NOT EXIST')
+            messages.error(request, f'{error}')
+            return redirect('products:product-list')
+
     try:
         receipt = CheckoutReceipt.objects.get(id=id)
     except Exception as e:
@@ -569,59 +604,25 @@ def email_receipt_view(request, id):
         'total': total,
         'customer': receipt.customer,
         'receipt_id': id,
-        'date': receipt.created
+        'date': receipt.created,
+        'receipt': receipt
     }
     
-    
-    html_template = 'products/email_receipt.html'
+    # html_template = 'products/email_receipt.html'
 
-    html_message = render_to_string(html_template, context)
-    plain_message = strip_tags(html_message)
-    address = ShippingAddress.objects.filter(customer=receipt.customer).first()
-    email_from = settings.EMAIL_HOST_USER
+    # html_message = render_to_string(html_template, context)
+    # plain_message = strip_tags(html_message)
+    # address = ShippingAddress.objects.filter(customer=receipt.customer).first()
+    # email_from = settings.EMAIL_HOST_USER
 
-    message = EmailMultiAlternatives(
-        subject = 'Your order',
-        body = plain_message,
-        from_email = email_from,
-        to = [address.email],
-    )
-    message.attach_alternative(html_message, 'text/html')
-    message.send()
+    # message = EmailMultiAlternatives(
+    #     subject = 'Your order',
+    #     body = plain_message,
+    #     from_email = email_from,
+    #     to = [address.email],
+    # )
+    # message.attach_alternative(html_message, 'text/html')
+    # message.send()
 
-    messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
+    # messages.info(request, f'Copy of receipt has been sent to your email account {address.email}')
     return render(request, 'products/email_receipt.html', context)
-
-
-def download_receipt_view(request, id):
-
-    receipt = CheckoutReceipt.objects.get(id=id)
-
-    address = ShippingAddress.objects.get(customer=receipt.customer)
-    full_name = f'{address.first_name} {address.last_name}'
-
-    saving = ''
-    if not receipt.saving or receipt.saving == '[]':
-        saving = 'n/a'
-    else:
-        saving = receipt.saving
-    
-    receipt_id = receipt.id
-    customer = full_name
-    saving = saving
-    sub_total = receipt.sub_total
-    tax = receipt.tax 
-    total = receipt.total
-
-   
-    if not receipt.checkout_summary:
-        media_root = settings.MEDIA_ROOT
-        id = uuid.uuid4()
-        with open(f'{media_root}/checkout_summary/checkout_summary-{id}.txt', 'w') as f:
-            file = File(f)
-            file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}')
-            receipt.checkout_summary = f'/checkout_summary/checkout_summary-{id}.txt'
-            receipt.save()
-    else:
-        print('URL:', receipt.checkout_summary.url)
-    return redirect(f'/order/history/?str={receipt.id}')

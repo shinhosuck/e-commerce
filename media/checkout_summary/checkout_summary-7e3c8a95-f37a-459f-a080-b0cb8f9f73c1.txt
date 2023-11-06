@@ -1,0 +1,6 @@
+ID: 356894e1-4a25-472b-8ba1-800affe36ce0
+Customer: Jack Daniel
+Saving: n/a
+Sub-total: 23,045.45
+Tax: 2,765.45
+Total: 25,810.90

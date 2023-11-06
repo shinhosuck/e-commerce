@@ -1,0 +1,6 @@
+ID: a880b79e-f929-4525-bb1c-9dd0e3d5e2e5
+Customer: Eric Anderson
+Saving: 1,599.95
+Sub-total: 37,444.95
+Tax: 4,493.39
+Total: 41,938.34
