@@ -33,6 +33,8 @@ import json
 from decimal import Decimal
 from sellers.models import SellerSignUp
 import random
+from django.core.files import File
+import uuid
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -526,13 +528,10 @@ def stripe_webhook(request):
 
 @login_required
 def order_history_view(request):
-    string = request.GET.get('str')
-
     user = request.user
     receipts = CheckoutReceipt.objects.filter(customer=user)
     context= {'receipts': receipts}
-    if string:
-        context['single_receipt'] = CheckoutReceipt.objects.get(id=string)
+
     order_total = []
 
     for receipt in receipts:
@@ -614,17 +613,15 @@ def download_receipt_view(request, id):
     tax = receipt.tax 
     total = receipt.total
 
-
-    import products
-
-    with open('products/checkout_summary.txt', 'w') as file:
-        file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}'
-        )
-        
-        # receipt.checkout_summary = file
-        # receipt.save()
-
-    with open('products/checkout_summary.txt', 'r') as file:
-        print(file.read())
-
+   
+    if not receipt.checkout_summary:
+        media_root = settings.MEDIA_ROOT
+        id = uuid.uuid4()
+        with open(f'{media_root}/checkout_summary/checkout_summary-{id}.txt', 'w') as f:
+            file = File(f)
+            file.write(f'ID: {receipt_id}\nCustomer: {customer}\nSaving: {saving}\nSub-total: {sub_total}\nTax: {tax}\nTotal: {total}')
+            receipt.checkout_summary = f'/checkout_summary/checkout_summary-{id}.txt'
+            receipt.save()
+    else:
+        print('URL:', receipt.checkout_summary.url)
     return redirect(f'/order/history/?str={receipt.id}')
