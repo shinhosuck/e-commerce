@@ -574,7 +574,6 @@ def email_receipt_view(request, id):
     if result:
         error = result['error']
         if error:
-            print('DOES NOT EXIST')
             messages.error(request, f'{error}')
             return redirect('products:product-list')
 
