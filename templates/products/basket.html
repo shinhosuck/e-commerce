@@ -79,7 +79,7 @@
                             </button>
                             <div class="quantity">
                                 Qty:
-                                <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="{{ order.quantity }}">
+                                <input data-lg-product-id="{{ order.product.id }}" class="total-amount lg-total-amount" type="text" readonly data-quantity="{{ order.quantity }}" name='amount' value="{{ order.quantity }}">
                             </div>
                             <button  type="button" class="basket-add-item">
                                 <span class="material-symbols-outlined">
@@ -135,7 +135,7 @@
                                     </button>
                                     <div class="quantity">
                                         Qty:
-                                        <input class="total-amount" type="text" readonly name='amount' value="{{ order.quantity }}" min="1">
+                                        <input data-sm-product-id="{{ order.product.id }}" class="total-amount sm-total-amount" type="text" readonly data-quantity="{{ order.quantity }}" name='amount' value="{{ order.quantity }}">
                                     </div>
                                     <button  type="button" class="basket-add-item">
                                         <span class="material-symbols-outlined">
@@ -199,14 +199,39 @@
     const basketMinusItem = document.querySelectorAll('.basket-minus-item')
     const basketAddItem = document.querySelectorAll('.basket-add-item')
     const totalAmount = document.querySelectorAll('.total-amount')
-    
+
+
+    totalAmount.forEach((amount) => {
+        const sibling = amount.parentElement.previousElementSibling
+        if(amount.value <= 1) {
+            sibling.style.display = 'none'
+        }else {
+            sibling.style.display = 'flex'
+        }
+    })
+
 
     basketAddItem.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             const input = e.currentTarget.previousElementSibling.firstElementChild
             const submitButton = e.currentTarget.nextElementSibling
-            submitButton.textContent = 'Update'
+            const submitButton2 = e.currentTarget.parentElement.nextElementSibling
+            const buttonTextContent = submitButton || submitButton2
+
+            const prevQuantity = input.getAttribute('data-quantity')
             input.value ++
+
+            if(input.value === prevQuantity) {
+                buttonTextContent.textContent = 'Remove'
+            }else {
+                buttonTextContent.textContent = 'Update'
+            }
+           
+            const firstSibling = e.currentTarget.previousElementSibling.previousElementSibling
+            const secondSibling = e.currentTarget.previousElementSibling.firstElementChild
+            if(secondSibling.value > 1) {
+                firstSibling.style.display = 'flex'
+            }
         })
     })
     
@@ -214,16 +239,63 @@
         btn.addEventListener('click', (e) => {
             const input = e.currentTarget.nextElementSibling.firstElementChild
             const submitButton = e.currentTarget.nextElementSibling.nextElementSibling.nextElementSibling
+            const submitButton2 = e.currentTarget.parentElement.nextElementSibling
+            const prevValue = input.value
+
+            const prevQuantity = input.getAttribute('data-quantity')
+
             if(input.value > 1){
                 input.value --
-                submitButton.textContent = 'Update'
-            } if(input.value <= 1) {
-                    submitButton.textContent = 'Remove'
+                const buttonTextContent = submitButton || submitButton2
+
+                if(input.value == prevQuantity) {
+                    buttonTextContent.textContent = 'Remove'
+                }else {
+                    buttonTextContent.textContent = 'Update'
+                }
+            } 
+            if(input.value <= 1) {
+
+                e.currentTarget.style.display = 'none'
+
+                if(prevValue > input.value){
+                    const buttonTextContent = submitButton || submitButton2
                     input.value = 1
+                }
             }
         })
     })
-    
+
+    function updateTotal(){
+
+        const lgTotalAmount = document.querySelectorAll('.lg-total-amount')
+        const smTotalAmount = document.querySelectorAll('.sm-total-amount')
+
+        smTotalAmount.forEach((smItem) => {
+            const dataSmProductId = smItem.getAttribute('data-sm-product-id')
+            lgTotalAmount.forEach((lgItem) => {
+                const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
+                if(dataSmProductId === dataLgProductId) {
+                    smItem.value = lgItem.value
+                }
+            })
+        })
+
+        lgTotalAmount.forEach((lgItem) => {
+            const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
+            smTotalAmount.forEach((smItem) => {
+                const dataSmProductId = smItem.getAttribute('data-sm-product-id')
+                if(dataLgProductId === dataSmProductId) {
+                    lgItem.value = smItem.value
+                }
+            })
+        })
+    }
+
+    window.addEventListener('resize', (e) => {
+        updateTotal()
+    })
+
 </script>
 
 {% endblock content %}

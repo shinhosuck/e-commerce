@@ -2300,7 +2300,7 @@ BASKET.HTML
     margin-top: 1rem;
     display: grid;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .basket-total-product > div {
@@ -2311,24 +2311,26 @@ BASKET.HTML
 
 .basket-minus-item,
 .basket-add-item {
-    cursor: pointer;
-}
-
-.basket-minus-item,
-.basket-add-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-}
-
-.basket-minus-item,
-.basket-add-item {
+    border-radius: 8px;
     width: 30px;
     aspect-ratio: 1/1;
     text-align: center;
     border: none;
-    padding: 0.3rem;
+    cursor: pointer;
+    background: none;
+    border: 1px solid rgb(212, 212, 212)
+}
+
+.basket-add-item > span,
+.basket-minus-item > span {
+   height: 100%;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .quantity {
@@ -2341,7 +2343,7 @@ BASKET.HTML
     letter-spacing: 0.05rem;
     color: rgb(59, 59, 59);
     border-radius: 8px;
-    border: 1px solid rgb(197, 197, 197);
+    border: 1px solid rgb(196, 196, 196);
 }
 
 .quantity > input {
@@ -2349,14 +2351,16 @@ BASKET.HTML
     aspect-ratio: 1/1;
     font-size: 1rem;
     padding: 0;
+    margin-top: 0.1rem;
     text-align: center;
     border: none;
 }
 
 .update-or-delete {
-    padding: 0.7rem 0.5rem;
+    justify-self: center;
+    padding: 0.5rem;
     letter-spacing: 0.05rem;
-    border-radius: 25px;
+    border-radius: 8px;
     background: var(--orange-50);
     color: white;
     border: none;
@@ -2472,7 +2476,7 @@ BASKET.HTML
 
     .basket-product {
         display: flex;
-        align-items: start;
+        align-items: center;
         gap: 1rem;
         padding: 1.3rem;
         background: white;
@@ -2563,19 +2567,14 @@ BASKET.HTML
     }
     
     .basket-minus-item,
-    .basket-add-item {
-        cursor: pointer;
-    }
-    
-    .basket-minus-item,
     .basket-add-item,
     .quantity {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 7px;
+        border-radius: 8px;
     }
-    
+
     .quantity {
         border: 1px solid rgb(197, 197, 197);
         padding: 0 0.4rem;
@@ -2585,24 +2584,15 @@ BASKET.HTML
         color: rgb(59, 59, 59)
     }
     
-    .basket-minus-item,
-    .quantity > input,
-    .basket-add-item {
-        width: 25px;
-        aspect-ratio: 1/1;
-        text-align: center;
-        border: none;
-    }
-    
     .quantity > input {
         width: 20px;
         aspect-ratio: 1/1;
-        border-radius: 5px;
+        margin-top: 0.1rem;
         font-size: 1rem;
     }
     
     .update-or-delete {
-        padding: 0.4rem 0.5rem;
+        padding: 0.5rem;
         letter-spacing: 0.05rem;
         border-radius: 8px;
         background: var(--orange-50);

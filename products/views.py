@@ -26,7 +26,7 @@ from .forms import (
     ProductReviewForm,
     ShippingAddressForm,
 )
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.conf import settings
 import stripe
 import json
@@ -305,10 +305,11 @@ def basket_view(request):
 def update_basket_view(request, id):
     user = request.user
     qty = request.GET.get('amount')
-    print('QTY:', qty)
     order = Order.objects.get(customer=user, product__id=id, open=True)
 
-    if int(qty) == 1 or order.quantity == int(qty):
+    print('ORDER QUANTITY:', order.quantity)
+
+    if order.quantity == int(qty):
         order.delete()
         messages.success(request, f'{order.product.name} has been deleted from your basket.')
         return redirect('products:product-basket')
@@ -561,6 +562,7 @@ def order_history_view(request):
                 receipt.save()
 
         orders = receipt.checkout.order.all()
+
         for order in orders:
             order_total.append({'id':order.product.id, 'total':f'{order.get_order_total():,.2f}'})
     context['order_total'] = order_total
