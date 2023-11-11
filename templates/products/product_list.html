@@ -12,19 +12,19 @@
 
     <div class="products-deal-container">
         <div class="product-deals">
-            <a href="" class="product-deal product-deal-1">
+            <a href="{% url 'products:deals-and-sales' %}?str=deals of the day" class="product-deal product-deal-1">
                 <h2>Deals of the Day</h2>
                 <img src="{% static 'images/deals/deals_of_the_day.webp' %}" alt="">
             </a>
-            <a href="" class="product-deal product-deal-2">
+            <a href="{% url 'products:deals-and-sales' %}?str=top selling latops" class="product-deal product-deal-2">
                 <h2>Top Selling Laptops</h2>
                 <img src="{% static 'images/deals/gaming_laptop.webp' %}" alt="">
             </a>
-            <a href="" class="product-deal product-deal-3">
+            <a href="{% url 'products:deals-and-sales' %}?str=monitor deals" class="product-deal product-deal-3">
                 <h2>Monitor Deals</h2>
                 <img src="{% static 'images/deals/monitor.webp' %}" alt="">
             </a>
-            <a href="" class="product-deal product-deal-4">
+            <a href="{% url 'products:deals-and-sales' %}?str=graphic cards" class="product-deal product-deal-4">
                 <h2>Upgrade Your Gaming PC</h2>
                 <img src="{% static 'images/deals/gpu.webp' %}" alt="">
             </a>
@@ -37,7 +37,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Latest Product</h2>
-                    <a href="{% url 'products:product-search' %}?q=latest product">
+                    <a href="{% url 'products:deals-and-sales' %}?str=latest product">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt
@@ -100,7 +100,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Most Popular</h2>
-                    <a href="{% url 'products:product-search' %}?q=most popular">
+                    <a href="{% url 'products:deals-and-sales' %}?str=most popular">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt
@@ -160,7 +160,7 @@
             <div class="product-list-header-container">
                 <div class="product-list-header-and-link">
                     <h2 class="product-list-header">Just For You</h2>
-                    <a href="{% url 'products:product-search' %}?q=just for you">
+                    <a href="{% url 'products:deals-and-sales' %}?str=just for you">
                         See all
                         <span class="material-symbols-outlined">
                             arrow_right_alt

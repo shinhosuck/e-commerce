@@ -21,7 +21,7 @@
             </div>
             <div class="categories">
                 {% for cat in category %}
-                <a href="{% url 'products:product-search' %}?q={{ cat.name }}" class="category">
+                <a href="{% url 'products:deals-and-sales' %}?str=category {{ cat.name }}" class="category">
                     <h3 class="category-name">{{ cat.name }}</h3>
                     <div class="category-img">
                         <img class="img" src="{{ cat.image.url }}" alt="">

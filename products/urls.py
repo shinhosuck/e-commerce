@@ -18,6 +18,7 @@ from .views import (
     stripe_webhook,
     order_history_view,
     email_receipt_view,
+    deals_and_sales_view,
 )
 
 
@@ -32,6 +33,7 @@ urlpatterns = [
     path('product/<uuid:id>/detail/', product_detail_view, name='product-detail'),
     path('product/<uuid:id>/review/',write_product_review_view, name='product-review' ),
     path('product/search/', product_search_view, name='product-search'),
+    path('product/deals/sales/', deals_and_sales_view, name='deals-and-sales'),
     path('product/<uuid:id>/add-to-basket/', add_to_basket_view, name='add-to-basket'),
     path('my/basket/', basket_view, name='product-basket'),
     path('update/<str:id>/qty', update_basket_view, name='update-basket'),

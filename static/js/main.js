@@ -30,7 +30,7 @@ const bannerImgContainers = [...document.querySelectorAll('.banner-img-container
 const bannerArrowLeft = document.querySelector('.banner-arrow-left')
 const bannerArrowRight = document.querySelector('.banner-arrow-right')
 const TranslateBtns = [...document.querySelectorAll('.translate-btn')]
-const circles = [...document.querySelectorAll('.circle')]
+const moreInfoBtns = document.querySelectorAll('.more-info')
 
 // product detail and description on product detail page
 const productDetailToggleBtns = [...document.querySelectorAll('.product-detail-toggle-btn')]

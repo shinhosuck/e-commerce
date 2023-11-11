@@ -3,7 +3,7 @@
 
 
 {% block title %}
-    {{ q }}
+    {{ string }}
 {% endblock title %}
 
 
@@ -92,8 +92,11 @@
             <div class="product-list-wrapper" style="background: transparent; padding: 0">
                 <div class="product-list-header-container" style="background: transparent; padding: 0">
                     <div class="no-query-set-product-list">
-                        <h2 class="no-query-set-product-list-header">Search "{{ q }}" did not return anything.</h2>
-                        <h3 class="no-query-set-product-list-text">Please try again using different search keywords</h3>
+                        <h2 class="no-query-set-product-list-header">Sorry "{{ string }}", did not return anything.</h2>
+                        <h3 class="no-query-set-product-list-text">
+                            It could be that items are out of stock, and they are being re-stocked.
+                            Please try again later. We are very sorry for the inconvinience.
+                        </h3>
                         <a class="no-query-set-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
                     </div>
                 </div>
@@ -105,11 +108,7 @@
             <div class="product-list-wrapper">
                 <div class="product-list-header-container">
                     <div class="product-list-header-and-link">
-                        {% if string %}
-                            <h2 class="product-list-header">All "{{ q }}"</h2>
-                        {% else %}
-                            <h2 class="product-list-header">Result for "{{ q }}"</h2>
-                        {% endif %}
+                        <h2 class="product-list-header">Result "{{ string }}"</h2>
                         <div class="sort-products-by-container">
                             <div class="sort-products-by-text">
                                 <p class="sort-by-text">Sort by:</p>
@@ -126,9 +125,9 @@
                                 </div>
                             </div>
                             <div class="products-sort-by">
-                                <a class="sort-by-text-3" href="{% url 'products:product-search' %}?q={{q}}">Featured</a>
-                                <a class="sort-by-text-3" href="{% url 'products:product-search' %}?q={{q}}_sort_price-high-to-low">Price high to low</a>
-                                <a class="sort-by-text-3" href="{% url 'products:product-search' %}?q={{q}}_sort_price-low-to-high">Price low to high</a>
+                                <a class="sort-by-text-3" href="{% url 'products:deals-and-sales' %}?str={{string}}">Featured</a>
+                                <a class="sort-by-text-3" href="{% url 'products:deals-and-sales' %}?str={{string}} sort price high to low">Price high to low</a>
+                                <a class="sort-by-text-3" href="{% url 'products:deals-and-sales' %}?str={{string}} sort price low to high">Price low to high</a>
                             </div>
                         </div>
                     </div>

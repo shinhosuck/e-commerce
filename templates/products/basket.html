@@ -266,35 +266,75 @@
         })
     })
 
-    function updateTotal(){
+
+    function updateTotal(e){
 
         const lgTotalAmount = document.querySelectorAll('.lg-total-amount')
         const smTotalAmount = document.querySelectorAll('.sm-total-amount')
 
-        smTotalAmount.forEach((smItem) => {
-            const dataSmProductId = smItem.getAttribute('data-sm-product-id')
-            lgTotalAmount.forEach((lgItem) => {
-                const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
-                if(dataSmProductId === dataLgProductId) {
-                    smItem.value = lgItem.value
-                }
-            })
-        })
-
-        lgTotalAmount.forEach((lgItem) => {
-            const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
+        if(e.target.innerWidth < 900) {
             smTotalAmount.forEach((smItem) => {
                 const dataSmProductId = smItem.getAttribute('data-sm-product-id')
-                if(dataLgProductId === dataSmProductId) {
-                    lgItem.value = smItem.value
-                }
+
+                lgTotalAmount.forEach((lgItem) => {
+                    const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
+                    
+                    if(dataSmProductId === dataLgProductId) {
+                        const prevQuantity = lgItem.getAttribute('data-quantity')
+
+                        if(smItem.value > lgItem.value || smItem.value < lgItem.value) {
+                            lgItem.value = smItem.value
+
+                            if(lgItem.value <= 1){
+                                lgItem.parentElement.previousElementSibling.style.display = 'none'
+                            }else {
+                                lgItem.parentElement.previousElementSibling.style.display = 'flex'
+                            }
+
+                            if(prevQuantity === lgItem.value) {
+                                lgItem.parentElement.nextElementSibling.nextElementSibling.textContent = 'Remove'
+                            }
+                            else {
+                                lgItem.parentElement.nextElementSibling.nextElementSibling.textContent = 'Update'
+                            }
+                       }
+                    }
+                })
             })
-        })
+        }
+
+        if(e.target.innerWidth >= 900) {
+            lgTotalAmount.forEach((lgItem) => {
+                const dataLgProductId = lgItem.getAttribute('data-lg-product-id')
+
+                smTotalAmount.forEach((smItem) => {
+                    const dataSmProductId = smItem.getAttribute('data-sm-product-id')
+
+                    if(dataLgProductId === dataSmProductId) {
+                        const prevQuantity = smItem.getAttribute('data-quantity')
+
+                       if(lgItem.value > smItem.value || lgItem.value < smItem.value) {
+                            smItem.value = lgItem.value
+
+                            if(smItem.value <= 1) {
+                                smItem.parentElement.previousElementSibling.style.display = 'none'
+                            }else {
+                                smItem.parentElement.previousElementSibling.style.display = 'flex'
+                            }
+
+                            if(prevQuantity === smItem.value) {
+                                smItem.parentElement.parentElement.nextElementSibling.textContent = 'Remove'
+                            }else {
+                                smItem.parentElement.parentElement.nextElementSibling.textContent = 'Update'
+                            }
+                       }
+                    }
+                })
+            })
+        }
     }
 
-    window.addEventListener('resize', (e) => {
-        updateTotal()
-    })
+    window.addEventListener('resize', updateTotal)
 
 </script>
 
