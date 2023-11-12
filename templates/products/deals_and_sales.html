@@ -7,7 +7,6 @@
 {% endblock title %}
 
 
-
 {% block content %}
 
 <style>
@@ -92,10 +91,10 @@
             <div class="product-list-wrapper" style="background: transparent; padding: 0">
                 <div class="product-list-header-container" style="background: transparent; padding: 0">
                     <div class="no-query-set-product-list">
-                        <h2 class="no-query-set-product-list-header">Sorry "{{ string }}", did not return anything.</h2>
+                        <h2 class="no-query-set-product-list-header">Sorry, "{{ string }}" did not return anything.</h2>
                         <h3 class="no-query-set-product-list-text">
-                            It could be that items are out of stock, and they are being re-stocked.
-                            Please try again later. We are very sorry for the inconvinience.
+                            It could be that items are out of stock and are being restocked. 
+                            Please try again later. We are very sorry for the inconvenience.
                         </h3>
                         <a class="no-query-set-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
                     </div>
@@ -108,7 +107,7 @@
             <div class="product-list-wrapper">
                 <div class="product-list-header-container">
                     <div class="product-list-header-and-link">
-                        <h2 class="product-list-header">Result "{{ string }}"</h2>
+                        <h2 class="product-list-header">{{ string }}</h2>
                         <div class="sort-products-by-container">
                             <div class="sort-products-by-text">
                                 <p class="sort-by-text">Sort by:</p>
@@ -204,8 +203,10 @@
             }
         }
 
-        sortProductsByText.addEventListener('click', handleProductSortBtnsEvents)
-
+        if(sortProductsByText) {
+            sortProductsByText.addEventListener('click', handleProductSortBtnsEvents)
+        }
+        
     </script>
-
+   
 {% endblock content %}

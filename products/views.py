@@ -244,6 +244,8 @@ def deals_and_sales_view(request):
 
     str_list = string.lower().split(' ')
 
+    print(string)
+
     if 'sort' in str_list:
         index = str_list.index('sort')
         sort_by_price = ' '.join(str_list[index+1:])
@@ -296,8 +298,18 @@ def deals_and_sales_view(request):
             else:
                 context['query_set'] = query_set
 
-    elif string.lower() == '10% off laptop' or string.lower() == '10% off desktop pc':
+    elif string.lower() == 'up to 10% off laptop':
         query_set = [obj for obj in Product.objects.filter(category__name__iexact = 'laptop') if obj.get_discount_price()]
+        query_set = Product.objects.filter(id__in=[item.id for item in query_set])
+        if sort_by_price == 'price low to high':
+            context['query_set'] = query_set.order_by('price')
+        elif sort_by_price == 'price high to low':
+            context['query_set'] = query_set.order_by('-price')
+        else:
+            context['query_set'] = query_set
+
+    elif string.lower() == 'up to 10% off desktop pc':
+        query_set = [obj for obj in Product.objects.filter(category__name__iexact = 'desktop pc') if obj.get_discount_price()]
         query_set = Product.objects.filter(id__in=[item.id for item in query_set])
         if sort_by_price == 'price low to high':
             context['query_set'] = query_set.order_by('price')
@@ -432,8 +444,9 @@ def checkout_view(request):
 
 @login_required 
 def create_checkout_session_view(request, id):
-    # DOMAIN = 'http://127.0.0.1:8000/'
+
     DOMAIN = f'http://{request.get_host()}/'
+
     try:
         checkout_obj = Checkout.objects.get(id=id, open=True)
     except:
@@ -443,14 +456,13 @@ def create_checkout_session_view(request, id):
     total = get_basket_total(request)['total'].replace(',','')
     total = int(Decimal(total)*100)
 
-    # amount_due = int((checkout_obj.total_amount_due) * 100)
     checkout_session = stripe.checkout.Session.create(
         line_items=[{ 
                 'price_data': { 
                     'currency': 'php', 
                     'unit_amount': f'{total}',
                     'product_data':{ 
-                        'name': 'Total amount due'
+                        'name': 'Total Amount Due'
                         }, 
                 },
                 'quantity': 1

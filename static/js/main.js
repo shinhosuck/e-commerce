@@ -314,3 +314,4 @@ if(productDetailFavoriteIconContainer) {
     }
     productDetailFavoriteIconContainer.innerHTML += start
 }
+
