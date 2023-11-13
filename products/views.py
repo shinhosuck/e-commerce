@@ -244,8 +244,6 @@ def deals_and_sales_view(request):
 
     str_list = string.lower().split(' ')
 
-    print(string)
-
     if 'sort' in str_list:
         index = str_list.index('sort')
         sort_by_price = ' '.join(str_list[index+1:])
