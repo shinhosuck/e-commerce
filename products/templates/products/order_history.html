@@ -1,0 +1,181 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+    Order history
+{% endblock title %}
+
+
+{% block content %}
+    <div class="order-history-container">
+        {% if not receipts %}
+            <div class="no-order-history-content">
+                <h3 class="no-order-history-header">Nothing to see here!</h3>
+                <p class="no-order-history-text">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+                    Mollitia assumenda inventore maiores consequuntur quidem cum 
+                    fugiat nemo cumque, numquam exercitationem.
+                </p>
+                <div class="no-order-history-btn">
+                    <a class="no-order-history-continue-shopping" href="{% url 'products:product-list' %}">Continue Shopping</a>
+                </div>
+            </div>
+        {% else %}
+        <div class="order-history-receipts">
+            {% for receipt in receipts %}
+                <div class="receipt">
+                    <div class="receipt-counter">
+                        <h4>{{ forloop.counter }} of {{ receipts.count }}</h4>
+                        <a class="download-receipt-btn" href="{{ receipt.checkout_summary.url }}" download>
+                            <span>Downlod</span>
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    </div>
+
+                    <!-- For mobile screen -->
+                     <div class="mobile-order-history">
+                        <div class="receipt-info-header-container">
+                            <div class="receipt-info-header">
+                                <h4>ID</h4>
+                                <p>{{ receipt.checkout.id }}</p>
+                            </div>
+                            <div class="receipt-info-header">
+                                <h4>Date</h4>
+                                <p>{{ receipt.created }}</p>
+                            </div>
+                        </div>
+                        <div class="receipts-product-ordered-container">
+                            <h2 class="receipts-product-ordered-header">
+                                {% if receipt.checkout.order.count > 1 %}
+                                    Products
+                                {% else %}
+                                    Product 
+                                {% endif %}
+                            </h2>
+                            {% for order in receipt.checkout.order.all %}
+                                <div class="receipts-product-ordered">
+                                    <div class="receipts-products-table-header">
+                                        <h4>Name</h4>
+                                        <a href="{{ order.product.get_absolute_url }}" target="_blank" class="mobile-receipt-product-name">
+                                            {{ order.product.name }}
+                                        </a>
+                                    </div>
+                                    <div class="receipts-products-table-header">
+                                        <h4>Quantity</h4>
+                                        <p>{{ order.quantity }}</p>
+                                    </div>
+                                    <div class="receipts-products-table-header">
+                                        <h4>Price</h4>
+                                        {% if order.product.get_discount_price %}
+                                            <p>P{{ order.product.get_discount_price }}</p>
+                                        {% else %}
+                                            <p>P{{ order.product.price|intcomma }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="receipts-products-table-header">
+                                        <h4>Total</h4>
+                                        <p class="receipt-order-total">{{ order.get_order_total }}</p>
+                                    </div>
+                                    <a class="review-product" href="{% url 'products:product-review' order.product.id %}">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Review this product</span>
+                                    </a>
+                                </div>
+                                <!-- <a href="">Review this product</a> -->
+                            {% endfor %}
+                        </div>
+                        <div class="receipts-amount-paid-container">
+                            <h2 class="receipt-amount-paid-header">Amount Paid</h2>
+                            <div class="receipt-amount-paid-contents">
+                                <div class="receipts-amount-paid">
+                                    <h4>Saving</h4>
+                                    {% if receipt.saving %}
+                                        <p>P{{ receipt.saving }}</p>
+                                    {% else %}
+                                        <p>n/a</p>
+                                    {% endif %}
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>Subtotal</h4>
+                                    <p>P{{ receipt.sub_total }}</p>
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>VAT</h4>
+                                    <p>P{{ receipt.tax }}</p>
+                                </div>
+                                <div class="receipts-amount-paid">
+                                    <h4>Total</h4>
+                                    <p>P{{ receipt.total }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of mobile -->
+
+                    <!-- For large screen -->
+                     <div class="desktop-order-history">
+                        <div class="desktop-receipt-info-header-container">
+                            <div class="desktop-receipt-info-header">
+                                <h4>ID</h4>
+                                <h4>Date</h4>
+                            </div>
+                            <div class="desktop-receipt-info-text">
+                                <p class="desktop-receipt-id">{{ receipt.checkout.id }}</p>
+                                <p>{{ receipt.created }}</p>
+                            </div>
+                        </div>
+                        <div class="desktop-receipts-container">
+                            <div class="desktop-receipts-header">
+                                <h4>Name</h4>
+                                <h4>Qty</h4>
+                                <h4>Price</h4>
+                                <h4>Subtotal</h4>
+                            </div>
+                            {% for order in receipt.checkout.order.all %}
+                                <div class="desktop-receipts-product">
+                                    <a class="order-receipt-product-name" href="{{ order.product.get_absolute_url }}" target="_blank">
+                                        {{ forloop.counter }}. {{ order.product.name }}
+                                    </a>
+                                    <p>{{ order.quantity }}</p>
+                                    {% if order.product.get_discount_price %}
+                                        <p>P{{ order.product.get_discount_price }}</p>
+                                    {% else %}
+                                        <p>P{{ order.product.price|intcomma }}</p>
+                                    {% endif %}
+                                    <p class="receipt-order-total">{{ order.get_order_total }}</p>
+                                    <a class="review-product" href="{% url 'products:product-review' order.product.id %}">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Review this product</span>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="desktop-receipts-amount-paid-container">
+                            <div class="desktop-receipts-amount-paid">
+                                <h4>Saving</h4>
+                                <h4>Subtotal</h4>
+                                <h4>VAT</h4>
+                                <h4>Total</h4>
+                            </div>
+                            <div class="dekstop-receipts-amount-paid-text">
+                                {% if receipt.saving %}
+                                    <p>P{{ receipt.saving }}</p>
+                                {% else %}
+                                    <p>n/a</p>
+                                {% endif %}
+                                <p>P{{ receipt.sub_total }}</p>
+                                <p>P{{ receipt.tax }}</p>
+                                <p>P{{ receipt.total }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of lg -->
+                </div>
+                <div class="order-history-receipt-border"></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock content %}

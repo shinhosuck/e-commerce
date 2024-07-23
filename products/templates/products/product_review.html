@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    {{ product }} review
+{% endblock title %}
+
+
+
+{% block content %}
+    <div class="product-review-form-wrapper">
+        <form class="product-review-form" 
+            action="{% url 'products:product-review' query.id %}{% if existing_review_id %}?update={{ existing_review_id }}{% endif %}" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="product-name">Product:</label>
+                <input type="text" id="product-name" value="{% if existing_review %}{{ existing_review.product.name }}{% else %}{{ query.name }}{% endif %}" readonly>
+            </div>
+            
+            <div class="product-review-rating-input-container">
+                <p>Rating:</p>
+                <div class="product-review-radio-inputs">
+                    <div>
+                        <label for="rate-5">Rate 5</label>
+                        <input class="input-field" id="rate-5" name="rating" value='5' type="radio" required>
+                    </div>
+                    <div>
+                        <label for="rate-4">Rate 4</label>
+                        <input class="input-field" id="rate-4" name="rating" value='4' type="radio" required>
+                    </div>
+                    <div>
+                        <label for="rate-3">Rate 3</label>
+                        <input class="input-field" id="rate-3" name="rating" value='3' type="radio" required>
+                    </div>
+                    <div>
+                        <label for="rate-2">Rate 2</label>
+                        <input class="input-field" id="rate-2" name="rating" value='2' type="radio" required>
+                    </div>
+                    <div>
+                        <label for="rate-1">Rate 1</label>
+                        <input class="input-field" id="rate-1" name="rating" value='1' type="radio" required>
+                    </div>
+                </div>
+            </div>
+            <label for="eview-title">Title:</label>
+            <input type="text" id="review-title" name="title" required value="{% if existing_review %}{{ existing_review.title }}{% endif %}">
+            <label for="product-review-content">Review:</label>
+            <textarea name="content" id="product-review-content" required>{% if existing_review %}{{ existing_review.content }}{% endif %}</textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const  existingReview = '{% if existing_review %} {{ existing_review.rating }} {% endif %}'
+        const inputField = document.querySelectorAll('.input-field')
+
+        if(existingReview) {
+            inputField.forEach((input) => {
+                const data = input.getAttribute('value')
+                if(parseInt(existingReview) === parseInt(data)) {
+                    input.setAttribute('checked', 'true')
+                }
+            })
+        }
+        
+
+    </script>
+
+{% endblock content %}

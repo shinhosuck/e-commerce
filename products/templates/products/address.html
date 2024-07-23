@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    Address 
+{% endblock title %}
+
+
+{% block content %}
+    <div class="shipping-address-form-wrapper">
+        <div class="shipping-address-form-contents">
+            <form class="shipping-address-form" action="" method="POST">
+                <h2 class="shipping-address-header">Shipping Address</h2>
+                {% csrf_token %}
+                <div class="address-inputs">
+                    <div class="address-first-name">
+                        {{ form.first_name.label_tag }}
+                        {{ form.first_name }}
+                    </div>
+                    <div class="address-last-name">
+                        {{ form.last_name.label_tag }}
+                        {{ form.last_name }}
+                    </div>
+                    <div class="address-email">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    <div class="address-phone-number">
+                        {{ form.phone_number.label_tag }}
+                        {{ form.phone_number }}
+                    </div>
+                    <div class="address-address-input">
+                        {{ form.address.label_tag }}
+                        {{ form.address }}
+                    </div>
+                </div>
+                <div class="shipping-address-form-section-devider"></div>
+                <div class="address-inputs">
+                    <div class="address-city">
+                        {{ form.city.label_tag }}
+                        {{ form.city }}
+                    </div>
+                    <div class="address-province">
+                        {{ form.province.label_tag }}
+                        {{ form.province }}
+                    </div>
+                    <div class="address-state">
+                        {{ form.state.label_tag }}
+                        {{ form.state }}
+                    </div>
+                    <div class="address-zip_code">
+                        {{ form.zip_code.label_tag }}
+                        {{ form.zip_code }}
+                    </div>
+                    <div class="address-btns">
+                        {% if orders %}
+                            <button class="address-continue-to-checkout-btn" type="submit">
+                                Continue to checkout
+                            </button>
+                        {% else %}
+                            <button class="address-continue-to-checkout-btn" type="submit">
+                                Save Address
+                            </button>
+                        {% endif %}
+                        <a class="address-continue-shopping-btn" href="{% url 'products:product-list' %}">
+                            Continue shopping
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

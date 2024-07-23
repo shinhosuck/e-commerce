@@ -3,12 +3,12 @@ from .models import (
     ProductCategory, 
     Product, 
     ProductImage,
-    ProductReview,
+    Review,
     ProductSubCategory,
-    Order,
+    Cart,
     Checkout,
     ShippingAddress,
-    CheckoutReceipt
+    Receipt
 )
 
 
@@ -39,16 +39,16 @@ class ProductImageAdmin(admin.ModelAdmin):
 admin.site.register(ProductImage, ProductImageAdmin)
 
 
-class ProductReviewAdmin(admin.ModelAdmin):
+class ReviewAdmin(admin.ModelAdmin):
     list_display = ['product', 'rating', 'created', 'updated']
 
-admin.site.register(ProductReview, ProductReviewAdmin)
+admin.site.register(Review, ReviewAdmin)
 
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['customer', 'product', 'open', 'quantity', 'ordered_date']
 
-admin.site.register(Order, OrderAdmin)
+admin.site.register(Cart, OrderAdmin)
 
 
 class CheckoutAdmin(admin.ModelAdmin):
@@ -62,7 +62,7 @@ class ShippingAddressAdmin(admin.ModelAdmin):
 
 admin.site.register(ShippingAddress, ShippingAddressAdmin)
 
-class CheckoutReceiptAdmin(admin.ModelAdmin):
+class ReceiptAdmin(admin.ModelAdmin):
     list_display = ['customer', 'id', 'sent', 'receipt_sent_date', 'created']
 
-admin.site.register(CheckoutReceipt, CheckoutReceiptAdmin)
+admin.site.register(Receipt, ReceiptAdmin)

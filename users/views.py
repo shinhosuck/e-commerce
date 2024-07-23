@@ -12,7 +12,7 @@ from .forms import (
 from django.contrib.auth.models import User
 from .models import Message
 
-def user_register_view(request):
+def register_view(request):
     user = request.user
     if user.is_authenticated:
         messages.info(request, f'Your are already registered and logged in.')
@@ -34,15 +34,18 @@ def user_register_view(request):
         else:
             context['form'] = form
             # print(form.error_messages)
-    return render(request, 'users/user_register.html', context)
+    return render(request, 'users/register.html', context)
 
 
 
-def user_login_view(request):
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('products:product-list')
+    
     next = request.GET.get('next')
-    print(next)
     form = AuthenticationForm(request)
     context = {'form': form}
+    
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -58,10 +61,10 @@ def user_login_view(request):
             login_error = form.get_invalid_login_error()
             for error in login_error:
                 messages.error(request, f'{error}')
-    return render(request, 'users/user_login.html', context)
+    return render(request, 'users/login.html', context)
 
 
-def user_logout_view(request):
+def logout_view(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in! Please login.')
         return redirect('products:product-list')
@@ -69,11 +72,11 @@ def user_logout_view(request):
         if request.method == 'POST':
             logout(request)
             return redirect('users:user-login')
-        return render(request, 'users/user_logout.html', context=None)
+        return render(request, 'users/logout.html', context=None)
 
 
 @login_required
-def user_profile_view(request):
+def profile_view(request):
     user = request.user
     profile = user.userprofile
     profile_form = UserProfileUpdateForm(instance=profile)
@@ -95,7 +98,7 @@ def user_profile_view(request):
         else:
             context['profile_form'] = profile_form
             context['user_form'] = user_form
-    return render(request, 'users/user_profile.html', context)
+    return render(request, 'users/profile.html', context)
 
 
 def message_view(request):

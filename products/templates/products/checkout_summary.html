@@ -1,0 +1,219 @@
+
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    Checkout
+{% endblock title %}
+
+
+{% block content %}
+    <div class="checkout-wrapper">
+        {% if not orders %}
+            <div class="no-checkout-content">
+                <h3 class="no-checkout-header">Nothing to see here!</h3>
+                <p class="no-checkout-text">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+                    Mollitia assumenda inventore maiores consequuntur quidem cum 
+                    fugiat nemo cumque, numquam exercitationem.
+                </p>
+                <div class="no-checkout-btn"> 
+                    <a class="no-checkout-continue-shopping" href="{% url 'products:product-list' %}">Continue Shopping</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="checkout-products-container">
+                <div class="checkout-products-contents">
+                    <h1 class="checkout-header">Checkout Summary</h1>
+                    <!-- For large screen -->
+                    <div class="desktop-checkout-products">
+                        <div class="dekstop-checkout-products-headers">
+                            <h4>Product Detail</h4>
+                            <h4>Quantity</h4>
+                            <h4>Subtotal</h4>
+                        </div>
+                        {% for item in orders %}
+                            <div class="desktop-checkout-product">
+                                <div class="checkout-product-image-container">
+                                    <img class="checkout-product-image" src="{{ item.product.get_product_image_url }}" alt="">
+                                    <div class="checkout-product-name-container">
+                                        <a href="{{ item.product.get_absolute_url }}" class="desktop-checkout-product-name" target="_blank">
+                                            {{ item.product.name }}
+                                        </a>
+                                        {% if item.product.get_discount_price %}
+                                            <div class="desktop-product-discount-price-container">
+                                                <h5 class="desktop-product-price">P{{ item.product.get_discount_price }}</h5>
+                                                <span class="desktop-product-discount-price" >P{{ item.product.price|intcomma}}</span>
+                                            </div>
+                                            <!-- from Product model method -->
+                                        {% else %}
+                                            <h5 class="desktop-product-price">P{{ item.product.price|intcomma }}</h5>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <p>{{ item.quantity }}</p>
+                                {% for order in product_subtotals %}
+                                    {% if item.product.id == order.id%}
+                                        <h5 class="desktop-checkout-total-price">P{{ order.subtotal }}</h5>
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- from Order model method -->
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- For mobile screen -->
+                    <div class="mobile-checkout-products">
+                        {% for item in orders %}
+                            <div class="mobile-checkout-product">
+                                <img class="mobile-checkout-product-image" src="{{ item.product.get_product_image_url }}" alt="">
+                                <div class="mobile-checkout-product-contents">
+                                    <a href="{{ item.product.get_absolute_url }}" class="mobile-checkout-product-name" target="_blank">
+                                        {{ item.product.name }}
+                                    </a>
+                                    {% if item.product.get_discount_price %}
+                                        <div class="mobile-checkout-product-discount">
+                                            <h4 class="mobile-checkout-product-price">P{{ item.product.get_discount_price }}</h4>
+                                            <span class="mobile-checkout-product-discount-price">P{{ item.product.price|intcomma}}</span>
+                                        </div>
+                                    {% else %}
+                                        <h4 class="mobile-checkout-product-price">P{{ item.product.price|intcomma }}</h4>
+                                    {% endif %}
+                                    <div class="mobile-checkout-product-quantity">
+                                        <h5>Quantity:</h5>
+                                        <span>{{ item.quantity }}</span>
+                                    </div>
+                                    <div class="mobile-checkout-product-subtotal">
+                                        <h5>Subtotal:</h5>
+                                        {% for order in product_subtotals %}
+                                            {% if item.product.id == order.id %}
+                                                <span>P{{ order.subtotal }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <!-- from context_processors get_cart_total -->
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="checkout-product-total-amount-container">
+                    <h2 class="checkout-product-total-amount-header">Amount Due</h2>
+                    <!-- Values from context_processors get_cart_total -->
+                    <div class="checkout-product-total-amount-contents">
+                        <div class="checkout-amount-due-subheader">
+                            <h5>Quantity</h5>
+                            <p>
+                                {{ num_of_product }}
+                                {% if num_of_product > 1 %}
+                                    Items
+                                {% else %}
+                                    Item
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="checkout-amount-due-subheader">
+                            <h5>Discount</h5>
+                            {% if discount_amount %}
+                                <p>P{{ discount_amount }}</p>
+                            {% else %}
+                                <p>n/a</p>
+                            {% endif %}
+                        </div>
+                        <div class="checkout-amount-due-subheader">
+                            <h5>Subtotal</h5>
+                            <p>P{{ sub_total }}</p>
+                        </div>
+                        <div class="checkout-amount-due-subheader">
+                            <h5>VAT</h5>
+                            <p>P{{ vat }}</p>
+                        </div>
+                        <div class="checkout-amount-due-border"></div>
+                        <div class="checkout-amount-due-subheader">
+                            <h5 class="checkout-amount-due-total-header">Total</h5>
+                            <p class="checkout-amount-due-total-text">P{{ total }}</p>
+                        </div>
+                        <!-- end -->
+
+                        <form class="checkout-form" action="{% url 'products:checkout' %}" method="POST">
+                            {% csrf_token %}
+                            <button class="purchase-btn" type="submit" id="checkout-button">
+                                Checkout
+                            </button>
+                            <a href="{% url 'products:product-list' %}" class="checkout-form-continue-shopping-btn">
+                                Continue Shopping
+                            </a>
+                        </form>
+                    </div>
+                    <!-- Include Stripe logo -->
+                    <div class="stripe-payment-info">
+                        <p>
+                            We use Stripe payment system to securely process your payments.
+                            Click <a href="https://stripe.com/" target="_blank">Stripe</a> for more information.
+                        </p>
+                        <div class="payment-methods-btn">
+                            <span class="payment-methods-text">See Payment Methods</span>
+                            <button class="payment-method-btn-down">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <button class="payment-method-btn-up hide-chevron-btn">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                        <ul class="payment-methods-container">
+                            <li>Credit / debit card payments</li>
+                            <li>Alipay</li>
+                            <li>Affirm</li>
+                            <li>Afterpay / Clearpay</li>
+                            <li>Apple</li>
+                            <li>Bacs Direct Debit</li>
+                            <li>Bancontact</li>
+                            <li>Boleto</li>
+                            <li>EPS</li>
+                            <li>Giropay</li>
+                            <li>Google Pay</li>
+                            <li>GrabPay</li>
+                            <li>iDEAL</li>
+                            <li>Klarna</li>
+                            <li>Link</li>
+                            <li>OXXO</li>
+                            <li>Pre-authorized debits</li>
+                            <li>Przelewy24</li>
+                            <li>SEPA Direct Debit</li>
+                            <li>WeChatPay</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <script>
+
+        const paymentMethodBtnDown = document.querySelector('.payment-method-btn-down')
+        const paymentMethodBtnUp = document.querySelector('.payment-method-btn-up')
+        const paymentMethodBtn = document.querySelector('.payment-methods-btn')
+        const paymentMethodContainer = document.querySelector('.payment-methods-container')
+        const paymentMethodText = document.querySelector('.payment-methods-text')
+        
+        paymentMethodBtn.addEventListener('click', (e)=> {
+            paymentMethodContainer.classList.toggle('show-payment-method-container')
+
+            if(paymentMethodContainer.classList.contains('show-payment-method-container')){
+                paymentMethodText.textContent = 'Hide Payment Methods'
+                paymentMethodBtnDown.classList.add('hide-chevron-btn')
+                paymentMethodBtnUp.classList.remove('hide-chevron-btn')
+
+            }else {
+                paymentMethodText.textContent = 'Show Payment Methods'
+                paymentMethodBtnDown.classList.remove('hide-chevron-btn')
+                paymentMethodBtnUp.classList.add('hide-chevron-btn')
+            }
+        })
+
+    </script>
+
+{% endblock content %}
+

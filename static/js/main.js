@@ -1,317 +1,75 @@
-// scroll to top and bottom
-const scrollBtns = document.querySelector('.scroll-btns')
-const scrollDown = document.querySelector('.scroll-down')
-const scrollUp = document.querySelector('.scroll-up')
-const bodyWidth = document.querySelector('body')
 
 // mobile navigation
 const mobileNavs = [...document.querySelectorAll('.mobile-nav')]
-const mobileNavLinks = document.querySelector('.mobile-nav-links')
-const mobileNavCloseBtn = document.querySelector('.mobile-nav-close-btn')
+const mobileNavLinks = document.querySelector('.mobile-nav-links-wrapper')
 const mobileToggleNavBtn = document.querySelector('.mobile-toggle-nav-btn')
-const mobileNavBackgroundLayout = document.querySelector('.mobile-nav-background-layout')
 
 // search form
-const navLinkSearchButton = document.querySelector('.nav-link-search-button')
-const searchIcon = document.querySelector('.search-icon')
-const searchForm = document.querySelector('.search-form')
-const searchFormCloseButton = document.querySelector('.search-form-close-btn')
+const searchFormContainer = document.querySelector('.search-form-container')
+const searchBtns = [...document.querySelectorAll('.search-btn')]
 
-// user drop-down menu navigation bar
-const toggleUserNavbar = document.querySelector('.toggle-user-navbar')
-const loggedInUserNavLinks = document.querySelector('.logged-in-user-nav-links')
-const loggedInNavbarArrowUp = document.querySelector('.logged-in-navbar-arrow-up')
-const loggedInNavbarArrowDown = document.querySelector('.logged-in-navbar-arrow-down')
-const loggedInNavbarUsername = document.querySelector('.logged-in-navbar-username')
-const loggedInNavbarUserProfileImg = document.querySelector('.logged-in-navbar-user-profile-img')
+// product detail extra images
+const productDetailImageContainer = document.querySelector('.product-detail-img-container')
+const imageFullScreen = document.querySelector('.product-detail-fullscreen-images-container')
+const fullScreenCloseBtn = document.querySelector('.fullscreen-close-btn')
+const fullScreenExtraImages = document.querySelectorAll('.fullscreen-extra-image')
+const fullScreenImage = document.querySelector('.fullscreen-image')
 
-// banner image to right and to left buttons
-const bannerImgContainers = [...document.querySelectorAll('.banner-img-container')]
-const bannerArrowLeft = document.querySelector('.banner-arrow-left')
-const bannerArrowRight = document.querySelector('.banner-arrow-right')
-const TranslateBtns = [...document.querySelectorAll('.translate-btn')]
-const moreInfoBtns = document.querySelectorAll('.more-info')
-
-// product detail and description on product detail page
-const productDetailToggleBtns = [...document.querySelectorAll('.product-detail-toggle-btn')]
-const productDescription = document.querySelector('.product-description')
-const productDetail = document.querySelector('.product-detail')
-const productDescriptionArrowUp = document.querySelector('.product-description-arrow-up')
-const productDescriptionArrowDown = document.querySelector('.product-description-arrow-down')
-const productDetailArrowUp = document.querySelector('.product-detail-arrow-up')
-const productDetailArrowDown = document.querySelector('.product-detail-arrow-down')
-const productDetailExtraImage = [...document.querySelectorAll('.product-detail-extra-image')]
 
 const body = document.querySelector('body')
 
-/*
-==================
-SCROLL UP AND DOWN
-==================
-*/ 
 
-// scrollable height = document.documentElement.scrollHeight
-
-if(scrollDown && scrollUp) {
-    if((window.innerWidth - bodyWidth.clientWidth)/2 != 0) {
-        scrollBtns.style.right = `${(window.innerWidth - bodyWidth.clientWidth)/2}px`
-    }
-}
-
-if(scrollDown && scrollUp) {
-    window.addEventListener('scroll', (e) => {
-        if(window.pageYOffset === 0) {
-            scrollDown.style.display = 'none'
-            scrollUp.style.display = 'none'
-        }
-        else if(window.pageYOffset >= 500) {
-            scrollDown.style.display = 'none'
-            scrollUp.style.display = 'flex'
-        }else if(window.pageYOffset <= 300 && window.pageYOffset > 0) {
-            scrollDown.style.display = 'flex'
-            scrollUp.style.display = 'none'
-        }
-    })
-
-    window.addEventListener('resize', (e) => {
-        if((window.innerWidth - bodyWidth.clientWidth)/2 != 0) {
-            scrollBtns.style.right = `${(window.innerWidth - bodyWidth.clientWidth)/2}px`
-        }
-    })
-}
-
-
-
-/*
-================
-MOBILE NAV LINKS
-================
-*/ 
-
+// show or hide mobile navlinks
 if (mobileToggleNavBtn) {
-    mobileToggleNavBtn.addEventListener('click', (e) => {
-        mobileNavLinks.classList.add('show-mobile-nav-bar')
-        mobileNavBackgroundLayout.style.display = 'block'
-        body.style.overflow = 'hidden'
-    })
-}
-    
-
-if (mobileNavCloseBtn) {
-    mobileNavCloseBtn.addEventListener('click', () => {
-        mobileNavLinks.classList.remove('show-mobile-nav-bar')
-        mobileNavBackgroundLayout.style.display = 'none'
-        body.style.overflow = 'auto'
-    })
-}
-
-mobileNavs.forEach((nav) => {
-    nav.addEventListener('click', (e) => {
-        body.style.overflow = 'auto'
-    })
-})
-
-
-/*
-================
-DESKTOP NAV LINKS
-================
-*/ 
-
-if (toggleUserNavbar) {
-    toggleUserNavbar.addEventListener('click', (e) => {
-        loggedInUserNavLinks.classList.toggle('show-logged-in-user-nav-links')
-        if(loggedInUserNavLinks.classList.contains('show-logged-in-user-nav-links')){
-            loggedInNavbarArrowUp.style.display = 'flex'
-            loggedInNavbarArrowDown.style.display = 'none'
-        }else{
-            loggedInNavbarArrowUp.style.display = 'none'
-            loggedInNavbarArrowDown.style.display = 'flex'
-        }
-    })
-}
-
-if(navLinkSearchButton) {
-    navLinkSearchButton.addEventListener('click', (e) => {
-        searchForm.classList.toggle('show-search-form')
-    })
-}
-
-
-if(toggleUserNavbar) {
-    window.addEventListener('click', (e) => {
-        if(e.target != loggedInNavbarUserProfileImg &&
-            e.target != loggedInNavbarUsername &&
-            e.target != loggedInNavbarArrowUp &&
-            e.target != loggedInNavbarArrowDown
-        ){
-            if(!loggedInUserNavLinks.classList.contains('show-logged-in-user-nav-links')) {
-                loggedInNavbarArrowUp.style.display = 'none'
-                loggedInNavbarArrowDown.style.display = 'flex'
+    const children = [...mobileToggleNavBtn.children]
+    children.forEach((btn)=> {
+        btn.addEventListener('click', (e)=> {
+            if(e.currentTarget.classList.contains('open-mobile-nav-btn')) {
+                mobileNavLinks.classList.add('show-mobile-nav-bar')
+                e.currentTarget.classList.add('hide-mobile-navlink-toggle-btn')
+                e.currentTarget.nextElementSibling.classList.remove('hide-mobile-navlink-toggle-btn')
+            }else if(e.currentTarget.classList.contains('close-mobile-nav-btn')) {
+                mobileNavLinks.classList.remove('show-mobile-nav-bar')
+                e.currentTarget.previousElementSibling.classList.remove('hide-mobile-navlink-toggle-btn')
+                e.currentTarget.classList.add('hide-mobile-navlink-toggle-btn')
             }
-            else {
-                loggedInUserNavLinks.classList.remove('show-logged-in-user-nav-links')
-                loggedInNavbarArrowUp.style.display = 'none'
-                loggedInNavbarArrowDown.style.display = 'flex'
-            }
-        }
-    })
-}
-
-window.addEventListener('resize', (e) => {
-    searchForm.classList.remove('show-search-form')
-    if(loggedInUserNavLinks){
-        loggedInUserNavLinks.classList.remove('show-logged-in-user-nav-links')
-    }
-    mobileNavLinks.classList.remove('show-mobile-nav-bar')
-    mobileNavBackgroundLayout.style.display = 'none'
-    body.style.overflow = 'auto'
-})
-
-/*
-=============
-BANNER IMAGES
-=============
-*/
-
-let index = 0
-
-TranslateBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-        const targetElement = e.currentTarget === bannerArrowLeft ? bannerArrowLeft : bannerArrowRight
-        if(targetElement === bannerArrowLeft){
-            index --
-        }else if(targetElement === bannerArrowRight) {
-            index ++
-        }
-        if(index < 0){
-            index = bannerImgContainers.length - 1
-        }else if(index > bannerImgContainers.length - 1){
-            index = 0
-        }
-        bannerImgContainers.forEach((img) => {
-            img.style.transform = `translate(-${index * 100}%)`
         })
     })
-})
-
-
-/*
-===================
-PRODUCT DETAIL PAGE
-===================
-*/ 
-
-productDetailToggleBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-        const element = e.currentTarget
-        if(element.classList.contains('product-description-drop')){
-            if(productDescription.classList.contains('hide-product-description')){
-                productDescription.classList.remove('hide-product-description')
-                productDescriptionArrowDown.style.display = 'none'
-                productDescriptionArrowUp.style.display = 'flex'
-            }else{
-                productDescription.classList.add('hide-product-description')
-                productDescriptionArrowDown.style.display = 'flex'
-                productDescriptionArrowUp.style.display = 'none'
-            }
-        }else if(element.classList.contains('product-detail-drop')) {
-            if(productDetail.classList.contains('hide-product-detail')) {
-                productDetail.classList.remove('hide-product-detail')
-                productDetailArrowDown.style.display = 'none'
-                productDetailArrowUp.style.display = 'flex'
-            }else {
-                productDetail.classList.add('hide-product-detail')
-                productDetailArrowDown.style.display = 'flex'
-                productDetailArrowUp.style.display = 'none'
-            }
-        }
-    })
-})
-
-
-/*
-=================================
-PRODUCT DETAIL PAGE EXTRAN IMAGES
-=================================
-*/ 
-
-
-productDetailExtraImage.forEach((img) => {
-    img.addEventListener('click', (e) => {
-        const targetElement = e.currentTarget
-        const childElement = targetElement.querySelector('.extra-image')
-        const closeBtn = targetElement.querySelector('.product-detail-image-close-btn')
-        if(!targetElement.classList.contains('extra-image-full-screen')){
-            targetElement.classList.add('extra-image-full-screen')
-            childElement.classList.add('image-full-screen')
-            body.style.overflow = 'hidden'
-            closeBtn.style.display = 'block'
-            body.scrollTop(0)
-        }else{
-            targetElement.classList.remove('extra-image-full-screen')
-            childElement.classList.remove('image-full-screen')
-            body.style.overflow = 'auto'
-            closeBtn.style.display = 'none'
-        }
-    })
-})
-
-
-/*
-===================================
-PRODUCT LIST PAGE RATING STAR ICONS
-=================================== */
-
- const productLikeContainer = document.querySelectorAll('.product-like-container')
-
-for(let num = 0; num < productLikeContainer.length; num++){
-
-    const ratingNum = productLikeContainer[num].firstElementChild
-    const rateStarIcons = productLikeContainer[num].querySelector('.rate-star-icons')
+}
     
-    let firstNum = ''
-    let lastNum = ''
 
-    if(ratingNum){
-        firstNum = parseInt(ratingNum.textContent.slice(0,-2))
-        lastNum = parseInt(ratingNum.textContent.slice(-1))
-    }
+// show or hide search form
+searchBtns.forEach((btn)=> {
+    btn.addEventListener('click', (e)=> {
+        searchFormContainer.classList.toggle('show-search-form-container')
+    })
+})
 
-    let add = ''
 
-    for(let rateNum = 0; rateNum < firstNum; rateNum++) {
-        add += '<span class="material-symbols-rounded like-icon">star</span>'
-    }
-    if (lastNum){
-        add += '<span class="material-symbols-rounded like-icon">star_half</span>'
-    }
-   
-    rateStarIcons.innerHTML += add
+// product detail extra images 
+
+function handleImages(e) {
+
+        const childEl = fullScreenImage.querySelector('img')
+        const img = e.currentTarget.querySelector('img')
+
+        const fullscreenSrc = childEl.src
+        const extraImageSrc = img.src
+
+        img.src = fullscreenSrc
+        childEl.src = extraImageSrc
 }
 
-/*
-=====================================
-PRODUCT DETAIL PAGE RATING STAR ICONS
-===================================== */
 
-const productDetailFavoriteIconContainer = document.querySelector('.product-detail-favorite-icon-container')
-const productDetailRatingCount = document.querySelector('.product-detail-rating-count')
+productDetailImageContainer && productDetailImageContainer.addEventListener('click', (e)=> {
+    imageFullScreen.classList.add('show-product-detail-image-fullscreen')
+    fullScreenExtraImages.forEach((img, index)=>{
+        img.addEventListener('click', handleImages)
+    })
+})
 
-if(productDetailFavoriteIconContainer) {
+fullScreenCloseBtn && fullScreenCloseBtn.addEventListener('click', ()=> {
+    imageFullScreen.classList.remove('show-product-detail-image-fullscreen')
+})
 
-    let first_num = productDetailRatingCount.textContent.slice(0, -2)
-    let second_num = productDetailRatingCount.textContent.slice(-1)
-    let start = ''
-
-    for(let i = 0; i < parseInt(first_num); i++){
-        start += '<span class="material-symbols-rounded product-detail-favorite-icon">star</span>'
-        // start += '<i class="fa-solid fa-star product-detail-favorite-icon" style="color: #feae01;"></i>'
-    }
-    if(parseInt(second_num)){
-        start += '<span class="material-symbols-rounded product-detail-favorite-icon">star_half</span>'
-        // start += '<i class="fa-solid fa-star-half-stroke product-detail-favorite-icon" style="color: #feae01"></i>'
-    }
-    productDetailFavoriteIconContainer.innerHTML += start
-}
-
+// end product detail extra images 

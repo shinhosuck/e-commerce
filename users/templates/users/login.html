@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Login
+{% endblock title%}
+
+
+{% block content %}
+    <div  class="user-login-form-wrapper">
+        <div class="user-login-brand-name-container">
+            <a class="user-login-brand-name"  href="{% url 'products:product-home' %}">
+                <h1>aiai</h1>
+                <h1>emarket</h1>
+            </a>
+        </div>
+        <div class="user-login-form-contents">
+            <div>
+                <h2 class="login-form-header">Sign in</h2>
+            </div>
+            <form class="login-form" action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="login-form-button-container">
+                    <button class="login-button" type="submit">Sign in</button>
+                </div>
+            </form>
+            <div class="not-yet-registered-container">
+                <p class="not-yet-registered">Not yet registered?</p>
+                <a href="{% url 'users:user-register' %}">
+                    <span>Register</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

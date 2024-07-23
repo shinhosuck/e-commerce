@@ -1,0 +1,102 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ request.user.username }}'s profile
+{% endblock title %}
+
+
+{% block content %}
+
+    <style>
+        .profile-image-container {
+            display: grid;
+            align-content: start;
+            align-items: start;
+            row-gap: 0.5rem;
+            column-gap: 1rem;
+        }
+
+        .profile-image-container > div {
+            display: grid;
+            align-content: start;
+            gap: 0.5rem;
+            color: var(--black-20)
+        }
+
+        .current-profile-image {
+            width: 40px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            display: block;
+            height: auto;
+        }
+
+        @media (min-width: 300px) {
+            .profile-image-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+
+    <div class="user-profile-container">
+        <div class="user-profile-wrapper">
+            <div class="user-profile-contents">
+                <h2 class="update-profile-header">Update Profile</h2>
+                <form class="profile-form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="profile-form-profile-image">
+                        {{ profile_form.profile_image.label_tag }}
+                        {{ profile_form.profile_image }}
+                    </div>
+                    <div class="user-form-username form-content">
+                        <p class="errorlist">{{ user_form.username.errors }}</p>
+                        {{ user_form.username.label_tag }}
+                        {{ user_form.username }}
+                        <p class="help-text">{{ user_form.username.help_text }}</p>
+                    </div>
+                    <div class="profile-form-first-name form-content">
+                        {{ profile_form.first_name.label_tag }}
+                        {{ profile_form.first_name }}
+                    </div>
+                    <div class="profile-form-last-name form-content">
+                        {{ profile_form.last_name.label_tag }}
+                        {{ profile_form.last_name }}
+                    </div>
+                    <div class="profile-form-email form-content">
+                        {{ profile_form.email.label_tag }}
+                        {{ profile_form.email }}
+                    </div>
+                    <button class="update-profile-btn" type="submit">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const profileImageContainer = document.querySelector('.profile-form-profile-image')
+        const label = profileImageContainer.querySelector('label')
+        const anchorTag = profileImageContainer.querySelector('a')
+        const fileInput = profileImageContainer.querySelector('input')
+
+        const url = anchorTag.getAttribute('href')
+
+        const elements = `
+            <label for="id_profile_image">Profile image:</label>
+            <div class='profile-image-container'>
+                 <div>
+                    <span style='font-size:0.9rem'>Change:</span>
+                    <input style='font-size:0.9rem' type="file" name="profile_image" accept="image/*" id="id_profile_image">
+                </div>
+                <div>
+                    <span style='font-size:0.9rem'>Current:</span>
+                    <img class='current-profile-image' src='${url}'>
+                </div>
+            </div>
+        `
+        profileImageContainer.innerHTML = elements
+        console.log(elements)
+    </script>
+{% endblock content %}

@@ -1,0 +1,207 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    {{ query.name }} 
+{% endblock title %}
+
+{% block content %}
+    <div class="product-detail-container-wrapper">
+        <div class="product-detail-header-container">
+            <h1 class="product-detail-header">{{ product.name }}</h1>
+        </div>
+        <div class="product-detail-container">
+            <div class="product-detail-img-container">
+                <img src="{{ product.get_product_image_url }}" alt="">
+                <div class="product-detail-extra-images">
+                    {% for img in images %}
+                        <div class="extra-image">
+                            <img src="{{ img.image.url }}" alt="product image">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="prduct-detail-info-container">
+                <div class="product-detail-brand-and-seller">
+                    <span class="product-detail-brand">
+                        <span>Brand</span> 
+                        <a href="">{{ product.brand }}</a>
+                    </span>
+                    <span>|</span>
+                    <span class="product-detail-seller">
+                        <span>Sold by</span> 
+                        <a href="">{{ product.seller }}</a>
+                    </span>
+                </div>
+                <div class="product-detail-price-and-discount">
+                    {% if product.get_discount_price %}
+                        <div class="product-detail-discount-price-container">
+                            <h4 class="product-detail-price">P{{ product.get_discount_price }}</h4>
+                            <span class="product-detail-discount-price">P{{ product.price|intcomma }}</span>
+                        </div>
+                    {% else %}
+                        <h3 class="product-detail-price">P{{ product.price|intcomma }}</h3>
+                    {% endif %}
+                    {% if product.available %}
+                        <p class="product-detail-in-stock">In stock</p>
+                    {% else %}
+                        <p class="product-detail-out-of-stock">Out of stock</p>
+                    {% endif %}
+                </div>
+                <div class="product-detail-like-and-sold">
+                    <span class="product-detail-sold">{{ product.quantity_sold }} sold</span>
+                    <span class="product-detail-reviews-container">
+                        <i class="fas fa-comment"></i>
+                        <span>{{ product.product_reviews.count }}</span>
+                    </span>
+                    <span class="product-detail-like">
+                        <i class="fas fa-heart"></i>
+                        {% if not product.likes %}
+                            <span>0</span>
+                        {% else %}
+                            <span>
+                                <span>{{ product.likes }}</span>
+                                <span class="product-detail-review-count">({{product.product_reviews.count}})</span>
+                            </span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="product-detail-about-this-item">
+                    <h4 class="product-detail-about-this-item-header">About this item</h4>
+                    <div class="product-detail-detail">
+                        <!-- product detail implemented from JS -->
+                    </div>
+                </div>
+                <div class="product-detail-btns">
+                    <a class="product-detail-add-to-cart-btn" href="{% url 'products:add-to-cart' product.id %}">Add to cart</a>
+                    <a class="product-detail-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+        {% if reviews %}
+            <div id="reviews" class="product-detail-customer-reviews-wrapper">
+                <h2 class="customer-reviews-header">Customer Reviews</h2>
+                <div class="product-detail-reviews">
+                    {% for review in reviews %}
+                        <div class="product-detail-review">
+                            <div class="product-review-author-info-container">
+                                <div class="product-review-author-image-container">
+                                    <img src="{{ review.author.userprofile.profile_image.url }}" alt="img">
+                                </div>
+                                <div class="product-review-author-rating-date">
+                                    <span class="review-author">{{ review.author.username }}</span>
+                                    <div class="customer-review-rating-container">
+                                        <span class="review-rated">
+                                            <i class="fas fa-heart"></i>
+                                            <span>{{ review.rating }}</span>
+                                        </span>
+                                        <span class="review-created">{{ review.created|date:"N, d, Y" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="customer-review-title">{{ review.title }}</h4>
+                            <p class="review-content">{{ review.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="product-detail-fullscreen-images-container">
+            <div class="fullscreen-images-wrapper">
+                <div class="fullscreen-close-btn-container">
+                    <button class="fullscreen-close-btn">
+                        <i class="fa fa-close"></i>
+                    </button>
+                </div>
+                <div class="fullscreen-images">
+                    <div class="fullscreen-image">
+                        <img src="{{ product.get_product_image_url }}" alt="">
+                    </div>
+                    <div class="fullscreen-extra-images">
+                        {% for img in images %}
+                            <div class="fullscreen-extra-image">
+                                <img src="{{ img.image.url }}" alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script>
+        const productDetailBody = '{{ product.detail }}'
+        const truncatedDetail = `${productDetailBody.substring(0, 300)}...`
+        const productDetail = document.querySelector('.product-detail-detail')
+
+        function truncateProductDetailText() {
+            productDetail.innerHTML = ''
+
+            if(productDetailBody.length > 300) {
+
+                // create p tag
+                const p = document.createElement('p')
+                p.setAttribute('class', 'product-detail-body')
+                const pText = document.createTextNode(truncatedDetail)
+                p.append(pText)
+                
+                // create button tag
+                const button = document.createElement('button')
+                const buttonText = document.createTextNode('Read more')
+                button.setAttribute('onclick', 'showFullBodyText()')
+                button.setAttribute('class', 'product-detail-read-more-btn')
+                button.append(buttonText)
+
+                // create i tag for font-awesome
+                const i = document.createElement('i')
+                i.setAttribute('class', 'fas fa-chevron-down')
+                button.append(i)
+
+                // append p tag to productDetail 
+                productDetail.append(p, button)
+            }
+            else {
+
+                // create p tag
+                const p = document.createElement('p')
+                p.setAttribute('class', 'product-detail-body')
+                const pText = document.createTextNode(productDetailBody)
+                p.append(pText)
+
+                // append p tag to productDetail 
+                productDetail.append(p)
+            }
+        }
+
+        truncateProductDetailText()
+
+
+        function showFullBodyText() {
+            productDetail.innerHTML = ''
+
+            // create p tag
+            const p = document.createElement('p')
+            p.setAttribute('class', 'product-detail-body')
+            const pText = document.createTextNode(productDetailBody)
+            p.append(pText)
+            
+            // create button tag
+            const button = document.createElement('button')
+            const buttonText = document.createTextNode('Read less')
+            button.setAttribute('onclick', 'truncateProductDetailText()')
+            button.setAttribute('class', 'product-detail-read-more-btn')
+            button.append(buttonText)
+
+            // create i tag for font-awesome
+            const i = document.createElement('i')
+            i.setAttribute('class', 'fas fa-chevron-up')
+            button.append(i)
+
+            // append p tag to productDetail 
+            productDetail.append(p, button)
+        }
+    </script>
+{% endblock content %}

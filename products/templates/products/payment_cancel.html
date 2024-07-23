@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Cancel payment
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="payment-cancel-wrapper">
+    <div class="payment-cancel-contents">
+        <h1 class="payment-cancel-header">Payment Canceled</h1>
+        <p class="payment-cancel-text">
+            It looks like your payment could not be processed at this time. 
+            This could be due to several reasons, such as insufficient funds or 
+            an issue with your payment method. To continue with your purchase, 
+            please check your payment details and try again. 
+        </p>
+        <div class="payment-cancel-btns">
+            <a class="payment-cancel-try-agin-btn" href="{% url 'products:checkout-summary' %}">Try again</a>
+            <a class="payment-cancel-cancel-btn" href="{% url 'products:product-list' %}">Cancel</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

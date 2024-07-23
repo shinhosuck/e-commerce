@@ -1,0 +1,49 @@
+
+
+
+<style>
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+    .step-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .current {
+        border: 1px solid var(--black-80);
+        border-radius: 5px;
+        padding: 0.4rem 0.5rem
+    }
+    .paginator-navigation-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--black-20);
+        font-size: 1.3rem;
+    }
+</style>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a class="paginator-navigation-btn" href="?page={{ page.previous_page_number }}">
+                <i class="fas fa-chevron-left"></i>
+                <span>Previous</span>
+            </a>
+        {% endif %}
+        <span class="current">
+            Page {{ page.number }} of {{ page.paginator.num_pages }}
+        </span>
+        {% if page.has_next %}
+            <a class="paginator-navigation-btn" href="?page={{ page.next_page_number }}">
+                <span>Next</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        {% endif %}
+    </span>
+</div>

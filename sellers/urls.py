@@ -7,5 +7,5 @@ app_name = 'sellers'
 
 
 urlpatterns = [
-    path('seller/register/', seller_register_view, name='seller-register')
+    path('seller/register/', seller_register_view, name='seller-register'),
 ]

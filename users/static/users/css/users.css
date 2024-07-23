@@ -1,0 +1,575 @@
+/*
+==================
+USER_REGISTER.HTML
+================== */
+
+.user-register-form-wrapper {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+    min-height: 90svh;
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.register-form-container {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+}
+
+.register-form-header {
+    letter-spacing: 0.05rem;
+    color: var(--black-15);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.register-form {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+}
+
+.username-container,
+.password1-container,
+.password2-container,
+.register-form-button-container {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.username-container > input,
+.password1-container > input,
+.password2-container > input {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    letter-spacing: 0.05rem;
+    color: var(--black-15);
+    font-size: 1rem;
+    border: none;
+    background: none;
+    outline: 1px solid var(--black-70);
+}
+
+.username-container > input:focus,
+.password1-container > input:focus,
+.password2-container > input:focus {
+    outline: 3px solid var(--black-70);
+}
+
+.username-container > label,
+.password1-container > label,
+.password2-container > label {
+    color: var(--black-15);
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+}
+
+.username-help-text,
+.password1-help-text,
+.password2-help-text {
+    font-size: 0.95rem;
+    letter-spacing: 0.05rem;
+    color: var(--black-30);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 50ms linear;
+}
+
+.ul {
+    color: var(--black-30);
+    font-size: 0.95rem;
+    letter-spacing: 0.05rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 100ms linear;
+}
+
+.show-help-text {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.errorlist {
+   color: #e6293f;
+   font-size: 0.95rem;
+   letter-spacing: 0.05rem;
+   font-weight: 500;
+}
+
+.register-button {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    background: var(--purple-40);
+    color: white;
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .register-button:hover {
+        background: var(--purple-20)
+    }
+}
+
+.already-registered-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 0.8rem;
+    row-gap: 0.2rem;
+}
+
+.already-registered {
+    letter-spacing: 0.05rem;
+    color: var(--black-20)
+}
+
+.already-registered-container > a {
+    letter-spacing: 0.05rem;
+    color: var(--balck-15);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .already-registered-container > a:hover {
+        color: var(--purple-50)
+    }
+}
+
+.already-registered-container > a > i {
+    line-height: 1;
+    font-size: 0.9rem;
+    margin-top: 0.1rem
+}
+
+@media screen and (min-width: 700px) {
+    .user-register-form-wrapper {
+        padding: 3rem 0;
+    }
+}
+
+/*
+===============
+USER_LOGIN.HTML
+=============== */
+
+.user-login-form-wrapper {
+    min-height: 90svh;
+    display: grid;
+    align-content: start;
+    gap: 2rem;
+    padding: 2rem 0;
+
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.user-login-brand-name-container {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+}
+
+.user-login-brand-name {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.user-login-brand-name > h1 {
+    color: var(--purple-30);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1vw + 1.8rem, 2.5rem);
+}
+
+.user-login-form-contents {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+}
+
+.login-form-header {
+    color: var(--black-15);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.login-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.login-form > p {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem
+}
+
+.login-form > p > label {
+    font-weight: 500;
+    color: var(--black-15);
+    letter-spacing: 0.05rem;
+}
+
+.login-form > p > input {
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    color: var(--black-15);
+    border: none;
+    outline: 1px solid var(--black-70);
+    background: none;
+}
+
+.login-form-button-container {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.login-button {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    background: var(--purple-40);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s linear;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .login-button:hover {
+        background: var(--purple-20)
+    }
+}
+
+.login-form > p > input:focus {
+    outline: 3px solid var(--black-70);
+}
+
+.not-yet-registered-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.8rem;
+    row-gap: 0.2rem;
+}
+
+.not-yet-registered {
+    letter-spacing: 0.05rem;
+    color: var(--black-20)
+}
+
+.not-yet-registered-container > a {
+    letter-spacing: 0.05rem;
+    color: var(--balck-15);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .not-yet-registered-container > a:hover {
+        color: var(--purple-50)
+    }
+}
+
+.not-yet-registered-container > a > i {
+    font-size: 0.9rem;
+    line-height: 1;
+    margin-top: 0.1rem;
+}
+
+@media screen and (min-width: 700px) {
+    .user-login-form-wrapper {
+        padding: 3rem 0;
+    }
+}
+
+/*
+===============
+USER_PROFILE.HTML
+=============== */
+
+.user-profile-container {
+    display: grid;
+    align-content: start;
+    padding: 2rem 0;
+    gap: 2rem;
+    min-height: 90svh
+}
+
+.user-profile-wrapper {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+    border-radius: 15px;
+    padding: 1.2rem;
+    background: white;
+}
+
+.user-profile-contents {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+}
+
+.update-profile-header {
+    color: var(--purple-20);
+    font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.profile-form {
+    display: grid;
+    align-content: start;
+    align-items: start;
+    gap: 1rem;
+}
+
+.profile-form-profile-image {
+    display: grid;
+    align-content: start;
+    gap: 0.8rem;
+    line-height: 1;
+}
+
+.profile-form-profile-image > label {
+    font-weight: 500;
+    color: var(--black-15);
+}
+
+.help-text {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    color: var(--black-20)
+}
+
+.form-content {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+}
+
+.form-content > input,
+.form-content > input,
+.form-content > input{
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    color: var(--black-15);
+    border: 1px solid var(--black-80);
+}
+
+.form-content > input:focus {
+    outline: 3px solid var(--black-80);
+}
+
+.form-content > label {
+    font-weight: 500;
+    color: var(--black-15);
+    line-height: 1;
+    letter-spacing: 0.05rem;
+}
+
+.update-profile-btn {
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    background: var(--purple-40);
+    padding: 0.8rem 1rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 0.5rem;
+    letter-spacing: 0.05rem;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .update-profile-btn:hover {
+        background: var(--purple-20)
+    }
+}
+
+@media (min-width: 550px) {
+    .update-profile-header {
+        text-align: start;
+    }
+}
+
+@media (min-width: 1000px) {
+    .user-profile-container {
+        padding: 3rem 0;
+    }
+}
+
+/* ========
+LOGOUT.HTML
+=========== */
+
+.logout-warning-wrapper {
+    min-height: 100svh;
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout-warning-error {
+    max-width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.3rem;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0px 0px 20px -1px rgb(209, 209, 209);
+}
+
+.logout-warning-error > h3 {
+    letter-spacing: 0.07rem;
+}
+
+.logout-warning-error > h4 {
+    letter-spacing: 0.07rem;
+    color: rgb(66, 66, 66);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logout-warning-error > h4 > a{
+    letter-spacing: 0.07rem;
+    color: rgb(255, 0, 0);
+    text-decoration: underline;
+}
+
+.logout-form-wrapper {
+    min-height: 70svh;
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 3rem 0;
+    display: grid;
+    align-content: start;
+    align-items: start;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.logout-form-header {
+    line-height: 1;
+    color: var(--purple-20);
+    font-weight: 700;
+}
+
+.logout-form {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+}
+
+.logout-form-text {
+    color: var(--black-30);
+    font-weight: 600;
+    text-wrap: pretty;
+    font-size: 1.2rem;
+}
+
+.logout-btns {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.logout-btn,
+.logout-continue-shopping-btn {
+    flex: 0 0 100%;
+    max-width: 220px;
+    padding: 0.8rem 1rem;
+    border-radius: 30px;
+    text-align: center;
+    background: var(--purple-40);
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: background 100ms linear;
+}
+
+@media (hover) {
+    .logout-continue-shopping-btn:hover {
+        background: var(--purple-20)
+    }
+}
+
+.logout-btn {
+    background: var(--black-30)
+}
+
+@media (hover) {
+    .logout-btn:hover {
+        background: var(--black-15)
+    }
+}
+
+
+/* @media (min-width: 350px) {
+    .logout-btn,
+    .logout-continue-shopping-btn {
+        flex: 0 1 auto;
+        width: 35%;
+    }
+} */

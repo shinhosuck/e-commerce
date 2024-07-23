@@ -1,0 +1,80 @@
+
+<div class="scroll-up-down-btn-container">
+    <a href="#footer" class="scroll-down-btn hide-scroll-btn">
+        <i class="fas fa-arrow-down"></i>
+    </a>
+    <a href="#nav" class="scroll-up-btn hide-scroll-btn">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+<script>
+
+    const container = document.querySelector('.container') 
+    const scrollUpDownBtn = document.querySelector('.scroll-up-down-btn-container')
+    const scrollDownBtn = document.querySelector('.scroll-down-btn')
+    const scrollUpBtn = document.querySelector('.scroll-up-btn')
+
+    const maxWidth = 1400
+    let width = window.innerWidth
+
+
+    // set href
+    if(width < 700) {
+        scrollUpBtn.href = '#mobile-nav'
+    }else {
+        scrollUpBtn.href = '#nav'
+    }
+
+    function handleScrollBtns() {
+        if(width < maxWidth) {
+            scrollUpDownBtn.style.right = `${(width * .10 / 2) - 15}px`
+
+        }else if(width >= maxWidth) {
+            scrollUpDownBtn.style.right = `${(width - 1400) / 2 - 20}px`
+        }
+    }
+    handleScrollBtns()
+
+
+   window.addEventListener('resize', (e)=> {
+        width = window.innerWidth
+
+        if(width < maxWidth) {
+            scrollUpDownBtn.style.right = `${(width * .10 / 2) - 15}px`
+
+        }else if(width >= maxWidth) {
+            scrollUpDownBtn.style.right = `${(width - 1400) / 2 - 20}px`
+        }
+
+        // set href
+        if(width < 700) {
+            scrollUpBtn.href = '#mobile-nav'
+        }else {
+            scrollUpBtn.href = '#nav'
+        }
+   })
+
+   if(document.body.scrollHeight >= 1400) {
+        window.addEventListener('scroll', ()=> {
+            const scrolledHeight = window.pageYOffset
+
+            if (scrolledHeight >= 300) {
+                scrollDownBtn.classList.remove('hide-scroll-btn')
+            }else {
+                scrollDownBtn.classList.add('hide-scroll-btn')
+            }
+
+            if(scrolledHeight >= 1400) {
+                scrollDownBtn.classList.add('hide-scroll-btn')
+                scrollUpBtn.classList.remove('hide-scroll-btn')
+            }else {
+                scrollUpBtn.classList.add('hide-scroll-btn')
+            }
+        })
+    }
+
+   console.log(document.body.scrollHeight)
+    
+
+</script>

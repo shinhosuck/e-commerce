@@ -1,0 +1,225 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block herocontent %}
+    <div class="landing-page-hero-container">
+        <div class="landing-page-hero-text-container">
+            <h1 class="landing-page-hero-header">Enhance Your PC's Gaming Performance</h1>
+            <p class="landing-page-hero-text">
+                Boost your PC's gaming performance with our high-performance GPUs. 
+                Shop our cutting-edge graphics cards for stunning visuals and smooth gameplay. 
+                Upgrade now and experience gaming like never before!
+            </p>
+            <a href="/shop/by/PC Graphics Card/" class="landing-page-hero-buy-now-btn">Upgrade Now</a>
+        </div>
+        <div class="landing-page-hero-image-container">
+            <img src="{% static 'products/images/landing-page-mobile-hero.jpg' %}" alt="">
+        </div>
+    </div>
+{% endblock herocontent %}
+
+{% block content %}
+    <!-- categories -->
+    <div id="container" class="landing-page-categories-background-color">
+        <div class="landing-page-categories-contents container">
+            <div class="landing-page-categories-header-container">
+                <h2 class="landing-page-categories-header">Shop By Category</h2>
+            </div>
+            <div class="landing-page-categories">
+                {% for cat in category %}
+                <a class="landing-page-category" href="{% url 'products:shop-by-category' cat.name %}">
+                    <div class="landing-page-category-img">
+                        <img src="{{ cat.image.url }}" alt="">
+                    </div>
+                    <div class="landing-page-category-background-overlay">
+                        <p class="landing-page-category-name">{{ cat.name|truncatechars:20 }}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- featured products -->
+    <div class="featured-product-contents">
+        <div class="featured-product-header-container">
+            <h2 class="featured-product-header">Featured Products</h2>
+        </div>
+        <div class="featured-products">
+            {% for product in featured %}
+                <div class="featured-product">
+                    <img class="featured-product-img" src="{{ product.get_product_image_url }}" alt="">
+                    <h3 class="featured-product-name">{{ product.name }}</h3>
+                    <p class="featured-product-detail">{{ product.detail|truncatechars:90}}</p>
+                    {% if product.get_discount_price %}
+                        <div class="featured-product-discount-price-container">
+                            <h4 class="featured-product-price">P{{ product.get_discount_price }}</h4>
+                            <p class="featured-product-old-price">P{{ product.price|intcomma }}</p>
+                        </div>
+                    {% else %}
+                        <h4 class="featured-product-price">P{{ product.price|intcomma }}</h4>
+                    {% endif %}
+                    <div class="featured-product-like-and-sold">
+                        <span class="featured-product-sold">{{ product.quantity_sold }} sold</span>
+                        <span class="featured-product-reviews-container">
+                            <i class="fas fa-comment"></i>
+                            <span>{{ product.product_reviews.count }}</span>
+                        </span>
+                        <span class="featured-product-like">
+                            <i class="fas fa-heart"></i>
+                            {% if not product.likes %}
+                                <span>0</span>
+                            {% else %}
+                                <span>
+                                    <span>{{ product.likes }}</span>
+                                    <span class="featured-product-like-count">({{product.product_reviews.count}})</span>
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <a class="featured-product-see-detail-btn" href="{{ product.get_absolute_url }}">See Detail</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- sale -->
+    <div class="landing-page-sale-background-image">
+        <div class="landing-page-sale-container">
+            <div class="landing-page-sale-text-container">
+                <h1 class="landing-page-sale-header">Intel CPU Laptops on Sale Now!</h1>
+                <p class="landing-page-sale-text">
+                    Discover our top picks of Intel-powered laptops 
+                    with unbeatable discounts. 
+                    Upgrade your tech game with these limited-time 
+                    offers on high-performance devices.
+                </p>
+                <a href="/shop/by/CPU/" class="landing-page-sale-shop-now-btn" href="#">Check out Deals</a>
+            </div>
+        </div>
+    </div>
+    <!-- latest products -->
+    <div class="landing-page-categories-background-color">
+        <div class="landing-page-latest-product-contents">
+            <div class="landing-page-latest-product-header-container">
+                <h2 class="landing-page-latest-product-header">Latest Products</h2>
+            </div>
+            <div class="landing-page-latest-products">
+                {% for product in latest %}
+                    <div class="landing-page-latest-product">
+                        <img class="landing-page-latest-product-img" src="{{ product.get_product_image_url }}" alt="">
+                        <h3 class="landing-page-latest-product-name">{{ product.name }}</h3>
+                        <p class="landing-page-latest-product-detail">{{ product.detail|truncatechars:90}}</p>
+                        {% if product.get_discount_price %}
+                            <div class="landing-page-latest-product-discount-price-container">
+                                <h4 class="landing-page-latest-product-price">P{{ product.get_discount_price }}</h4>
+                                <p class="landing-page-latest-product-old-price">P{{ product.price|intcomma }}</p>
+                            </div>
+                        {% else %}
+                            <h4 class="landing-page-latest-product-price">P{{ product.price|intcomma }}</h4>
+                        {% endif %}
+                        
+                        <div class="landing-page-latest-product-like-and-sold">
+                            <span class="landing-page-latest-product-sold">{{ product.quantity_sold }} sold</span>
+                            <span class="landing-page-latest-product-reviews-container">
+                                <i class="fas fa-comment"></i>
+                                <span>{{ product.product_reviews.count }}</span>
+                            </span>
+                            <span class="landing-page-latest-product-like">
+                                <i class="fas fa-heart"></i>
+                                {% if not product.likes %}
+                                    <span>0</span>
+                                {% else %}
+                                    <span>
+                                        <span>{{ product.likes }}</span>
+                                        <span class="landing-page-latest-product-like">({{product.product_reviews.count}})</span>
+                                    </span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <a class="landing-page-latest-product-see-detail-btn" href="{{ product.get_absolute_url }}">See Detail</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <a class="landing-page-latest-product-see-all-btn" href="{% url 'products:product-list' %}">
+            <span>See All</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    <!-- you might like -->
+    <div class="product-you-might-like-contents">
+        <div class="product-you-might-like-container">
+            <h2 class="product-you-might-like-header">Products You Might Like</h2>
+        </div>
+        <div class="product-you-might-like-products">
+            {% for product in you_might_like %}
+                <div class="product-you-might-like-product">
+                    <img class="product-you-might-like-product-img" src="{{ product.get_product_image_url }}" alt="">
+                    <h3 class="product-you-might-like-product-name">{{ product.name }}</h3>
+                    <p class="product-you-might-like-product-detail">{{ product.detail|truncatechars:90}}</p>
+                    {% if product.get_discount_price %}
+                        <div class="product-you-might-like-discount-price-container">
+                            <h4 class="product-you-might-like-product-price">P{{ product.get_discount_price }}</h4>
+                            <p class="product-you-might-like-old-price">P{{ product.price|intcomma}}</p>
+                        </div>
+                    {% else %}
+                        <h4 class="product-you-might-like-product-price">P{{ product.price|intcomma }}</h4>
+                    {% endif %}
+                    <div class="product-you-might-like-product-like-and-sold">
+                        <span class="product-you-might-like-product-sold">{{ product.quantity_sold }} sold</span>
+                        <span class="product-you-might-like-reviews-container">
+                            <i class="fas fa-comment"></i>
+                            <span>{{ product.product_reviews.count }}</span>
+                        </span>
+                        <span class="product-you-might-like-product-like">
+                            <i class="fas fa-heart"></i>
+                            {% if not product.likes %}
+                                <span>0</span>
+                            {% else %}
+                                <span>
+                                    <span>{{ product.likes }}</span>
+                                    <span class="product-you-might-like-product-like-count">({{product.product_reviews.count}})</span>
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <a class="product-you-might-like-product-see-detail-btn" href="{{ product.get_absolute_url }}">See Detail</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- new letter sign up form -->
+    <div class="landing-page-categories-background-color">
+        <div class="landing-page-newsletter-container">
+            <div class="landing-page-newsletter-text">
+                <h2>Sign Up For Our Newsletter</h2>
+                <p> 
+                    Become a part of our community today to be notified of exclusive deals, 
+                    new products, and expert tips delivered straight to your inbox. 
+                </p>
+            </div>
+            <form action="" method="POST" class="landing-page-newsletter-form">
+                {% csrf_token%}
+                <div class="landing-page-newsletter-form-input">
+                    <label for="first">First Name</label>
+                    <input type="text" id="first" name="first" required>
+                </div>
+                <div class="landing-page-newsletter-form-input">
+                    <label for="last">Last Name</label>
+                    <input type="text" id="last" name="last" required>
+                </div>
+                <div class="landing-page-newsletter-form-input">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button class="landing-page-newsletter-submit-btn " type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

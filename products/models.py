@@ -19,7 +19,7 @@ class ProductCategory(models.Model):
 
 
 class ProductSubCategory(models.Model):
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True, related_name='sub_categories')
     name = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
@@ -36,50 +36,38 @@ class Product(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    sub_category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='products')
+    sub_category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, related_name='sub_cat_products')
     name = models.CharField(max_length=50)
+    slug = models.SlugField(null=True, blank=True, unique=True)
     brand = models.CharField(max_length=50)
-    seller_organization = models.CharField(max_length=50)
-    product_image = models.ImageField(upload_to='product_image')
-    description = models.CharField(max_length=100)
+    seller = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='product_image')
     detail = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    price_str_format = models.CharField(max_length=1000, null=True, blank=True)
-    discount_price_str_format = models.CharField(max_length=1000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     available = models.BooleanField(default=True)
-    num_of_times_solid = models.IntegerField(default=0)
-    likes = models.DecimalField(max_digits=5, decimal_places=1 ,default=0.0)
+    quantity_sold = models.IntegerField(default=0)
+    likes = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
 
     def __str__(self):
         return self.name
     
-    def save(self, *arg, **kwarg):
-        price = str(self.price)
-        self.price_str_format = f'{price[0:-6]},{price[-6:]}'
-        super().save(*arg, **kwarg)
-
     def get_product_image_url(self):
-        return self.product_image.url
+        return self.image.url
     
     def get_absolute_url(self):
         return reverse('products:product-detail', args=[str(self.id)])
     
     def get_discount_price(self):
         sub_cat = ['High-end', 'Entry-level']
-        item = Product.objects.get(id=self.id)
-        if item.sub_category:
-            if item.sub_category.name in sub_cat:
-                discount = round(item.price - (item.price * Decimal(.10)), 2)
-                for char in str(discount):
-                    if char == '.':
-                        index = str(discount).index(char)
-                        discount = f'{str(discount)[0 : index - 3]},{str(discount)[index - 3 : index  + 3]} '
-                self.discount_price_str_format = discount
+        product = Product.objects.get(id=self.id)
+        if product.sub_category:
+            if product.sub_category.name in sub_cat:
+                discount = f'{product.price - (product.price * Decimal(.10)):,.2f}'
                 return discount
-        # return 0
+        return None
     
     class Meta:
         ordering = ['-created']
@@ -92,7 +80,7 @@ class ProductImage(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')
     image = models.ImageField(upload_to='product_images')
 
     def __str__(self):
@@ -102,17 +90,17 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Product Images'
 
 
-class ProductReview(models.Model):
+class Review(models.Model):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_reviews')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     title = models.CharField(max_length=100)
     content = models.TextField()
-    rating = models.IntegerField()
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -120,11 +108,10 @@ class ProductReview(models.Model):
         return self.product.name
     
     def calculate_rating(self):
-        reviews = ProductReview.objects.filter(product__id = self.product.id)
+        reviews = Review.objects.filter(product__id = self.product.id)
         total_reviews = reviews.count()
         added_review = sum([review.rating for review in reviews])
         rating_average = (added_review / ( total_reviews * 5)) * 5
-        # self.product.likes = rating_average
         return rating_average
     
     class Meta:
@@ -132,25 +119,25 @@ class ProductReview(models.Model):
         verbose_name_plural = 'Product Reviews'
 
 
-class Order(models.Model):
+class Cart(models.Model):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ordered_date = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField(default=1)
     open = models.BooleanField(default=True)
 
     def get_order_total(self):
+        order_total = None
         if self.product.get_discount_price():
             order_total = round(self.quantity * Decimal(self.product.get_discount_price().replace(',', '')), 2)
-            return order_total
         else:
             order_total = round(self.quantity * self.product.price, 2)
-            return order_total
+        return f'{order_total:,}'
     
     def __str__(self):
         return f'{self.customer.username} - {self.product.name}'
@@ -166,19 +153,22 @@ class Checkout(models.Model):
         editable=False
     )
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
-    order = models.ManyToManyField(Order)
+    order = models.ManyToManyField(Cart)
     date_created = models.DateTimeField(auto_now_add=True)
     checkout_date = models.DateTimeField(null=True)
     total_amount_due = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     open = models.BooleanField(default=True)
 
-    def set_amount_due(self):
-        customer = User.objects.get(username=self.customer.username)
-        checkout = Checkout.objects.get(customer=customer, open=True)
-        amount_due = [product.get_order_total() for product in checkout.order.all()]
+    def set_amount_due(self, id=None):
+        user = User.objects.get(id=self.customer.id)
+        try:
+            checkout = Checkout.objects.get(customer=user, open=True)
+        except Checkout.DoesNotExist:
+            checkout = Checkout.objects.get(id=id)
+        amount_due = [Decimal(order.get_order_total().replace(',', '')) for order in checkout.order.all()]
         self.total_amount_due = round(sum(amount_due), 2)
         checkout.save()
-        return round(sum(amount_due), 2)
+        return f'{round(sum(amount_due), 2):,}'
     
     def __str__(self):
         return f'{self.customer.username} - {self.order}'
@@ -193,7 +183,7 @@ class ShippingAddress(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length= 100)
     email = models.EmailField(max_length=100)
@@ -211,7 +201,7 @@ class ShippingAddress(models.Model):
         verbose_name_plural = 'Addresses'
 
 
-class CheckoutReceipt(models.Model):
+class Receipt(models.Model):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -229,10 +219,10 @@ class CheckoutReceipt(models.Model):
     checkout_summary = models.FileField(upload_to='checkout_summary', null=True, blank=True)
 
 
-
     def __str__(self):
         return self.customer.username
     
+
     class Meta:
         ordering = ['-receipt_sent_date']
-        verbose_name_plural = 'Checkout Receipts'
+        verbose_name_plural = 'Receipts'

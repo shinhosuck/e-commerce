@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    Logout
+{% endblock title %}
+
+
+{% block content %}
+    {% if not request.user.is_authenticated %}
+        <div class="logout-warning-wrapper">
+            <div class="logout-warning-error">
+                <h3>You are not logged in!</h3>
+                <h4>Did you wnat to login? <a href="{% url 'users:user-login' %}">Login</a></h4>
+            </div>
+        </div>
+        {% else %}
+        <div class="logout-form-wrapper">
+            <h1 class="logout-form-header">Log out</h1>
+            <form action="{% url 'users:user-logout' %}" class="logout-form" method="POST">
+                {% csrf_token %}
+                <h3 class="logout-form-text">Are you sure you want to logout?</h3>
+                <div class="logout-btns">
+                    <a class="logout-continue-shopping-btn" href="{% url 'products:product-list' %}">Continue shopping</a>
+                    <button class="logout-btn" type="submit">Logout</button>
+                </div>
+              
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}
+

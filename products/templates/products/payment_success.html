@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Successful payment
+{% endblock title %}
+
+
+{% block content %}
+    <div class="success-payment-main">
+        <div class="success-payment-receipt-info">
+            <button class="checkmark">
+                <i class="fa-solid fa-check"></i>
+            </button>
+            <h1 class="payment-successful-header">Payment Successful!</h1>
+            <p class="payment-successful-text">
+                Thank you for your purchase! Your payment has been processed 
+                successfully, and you will receive a 
+                confirmation email shortly with all the details of your order. 
+                If you have any questions or need further assistance, please do not
+                hesitate to contact our support team. Happy gaming!
+            </p>
+            <div class="payment-success-btns">
+                <a class="payment-success-continue-shopping-btn" href="{% url 'products:checkout-summary' %}">Try again</a>
+                <a class="payment-success-cancel-btn" href="{% url 'users:user-logout' %}">Sign out</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

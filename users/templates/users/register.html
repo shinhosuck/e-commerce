@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Register
+{% endblock title%}
+
+
+{% block content %}
+    <div class="user-register-form-wrapper">
+        <div class="user-login-brand-name-container">
+            <a class="user-login-brand-name"  href="{% url 'products:product-home' %}">
+                <h1>aiai</h1>
+                <h1>emarket</h1>
+            </a>
+        </div>
+        <div class="register-form-container">
+            <h2 class="register-form-header">Register</h2>
+            <form class="register-form" action="" method="POST">
+                {% csrf_token %}
+                <div class="username-container">
+                    {{ form.username.errors }}
+                    {{ form.username.label_tag}}
+                    {{ form.username}}
+                    <p class="username-help-text">{{ form.username.help_text}}</p>
+                </div>
+                <div class="password1-container">
+                    {{ form.password1.label_tag}}
+                    {{ form.password1}}
+                    {{ form.password1.help_text }}
+                </div>
+                <div class="password2-container">
+                    {{ form.password2.errors}}
+                    {{ form.password2.label_tag}}
+                    {{ form.password2}}
+                    <p class="password2-help-text">{{ form.password2.help_text}}</p>
+                </div>
+                <button class="register-button" type="submit">Register</button>
+            </form>
+            <div class="already-registered-container">
+                <p class="already-registered">Already registered?</p>
+                <a href="{% url 'users:user-login' %}">
+                    <span>Login</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+           
+        </div>
+    </div>
+
+    <script>
+        const errorArray = [...document.querySelectorAll('.errorlist')]
+        const username = document.querySelector('#id_username')
+        const inputArray = [
+            username,
+            document.querySelector('#id_password1'),
+            document.querySelector('#id_password2')
+        ]
+
+        inputArray[1].nextElementSibling.setAttribute('class', 'ul')
+        const eventArray = ['click', 'focus']
+
+        inputArray.forEach((input)=> {
+            eventArray.forEach((eventItem)=> {
+                input.addEventListener(eventItem, (e)=> {
+                    inputArray.forEach((item)=> {
+                        item.nextElementSibling.classList.remove('show-help-text')
+                    })
+                    e.currentTarget.nextElementSibling.classList.add('show-help-text')
+                    if(errorArray) {
+                        errorArray.forEach((error)=> {
+                            error.remove()
+                        })
+                    }
+                })
+            })
+        })
+
+        username.addEventListener('keyup', (e)=> {
+            e.currentTarget.value = e.currentTarget.value.replaceAll(' ', '')
+        })
+
+
+    </script>
+    
+{% endblock content %}

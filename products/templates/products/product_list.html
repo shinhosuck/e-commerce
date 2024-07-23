@@ -1,0 +1,163 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    Products
+{% endblock title %}
+
+
+{% block herocontent %}
+    <div class="products-page-hero-container">
+        <div class="products-page-hero-text-container">
+            <h1 class="products-page-hero-header">Discover the Latest Gadgets for Your PC</h1>
+            <p class="products-page-hero-text">
+                Find the newest gadgets to enhance your PC. Upgrade your 
+                setup with our latest technology for better performance 
+                and convenience.
+            </p>
+            <div class="product-page-hero-btn-container">
+                <a href="/shop/by/PC Gadgets/" class="products-page-hero-buy-now-btn">Explore Gadgets</a>
+            </div>
+        </div>
+        <div class="products-page-hero-image-container">
+            <img src="{% static 'products/images/products-page-mobile-hero.webp' %}" alt="">
+        </div>
+    </div>
+{% endblock herocontent %}
+
+
+{% block content %}
+    <div class="latest-products-wrapper">
+        <div class="latest-products-header-container">
+            <h1 class="latest-products-header">Latest Products</h1>
+            <div class="desktop-latest-product-filter">
+                <div class="desktop-latest-product-current-filter-text-container">
+                    <span>Filter:</span>
+                    <span class="desktop-latest-product-current-filter-text">Featured</span>
+                    <div class="desktop-latest-product-show-hide-filter-links">
+                        <i class="fas fa-chevron-up show-hide-filter-links-btn hide-filter-links-btn  hide-btn"></i>
+                        <i class="fas fa-chevron-down show-hide-filter-links-btn show-filter-links-btn"></i>
+                    </div>
+                </div>
+                <div class="desktop-latest-product-filter-links">
+                    <a href="?filter=Featured">Featured</a>
+                    <a href="?filter=Price low to high">Price low to high</a>
+                    <a href="?filter=Price high to low">Price high to low</a>
+                </div>
+            </div>
+        </div>
+        <!-- mobile product filter -->
+        <div class="mobile-latest-products-filters">
+            <div class="latest-products-filter">
+                <a class="filter-product-btn" href="?filter=Featured">Featured</a>
+                <div class=""></div>
+            </div>
+            <div class="latest-products-filter">
+                <a class="filter-product-btn " href="?filter=Price low to high">Price low to high</a>
+                <div></div>
+            </div>
+            <div class="latest-products-filter">
+                <a class="filter-product-btn " href="?filter=Price high to low">Price high to low</a>
+                <div></div>
+            </div>
+        </div>
+        <!-- end -->
+        <div class="latest-products">
+            {% for product in products %}
+                <div class="latest-product">
+                    <img class="latest-product-image" src="{{ product.get_product_image_url }}" alt="">
+                    <h3 class="latest-product-name">{{ product.name }}</h3>
+                    <p class="latest-product-description">{{ product.detail|truncatechars:90}}</p>
+                    {% if product.get_discount_price %}
+                       <div class="latest-product-discount-price-container">
+                            <h4 class="latest-product-price">P{{ product.get_discount_price }}</h4>
+                            <p class="latest-product-old-price">P{{ product.price|intcomma }}</p>
+                       </div>
+                    {% else %}
+                        <h4 class="latest-product-price">P{{ product.price|intcomma}}</h4>
+                    {% endif %}
+                    <div class="latest-product-like-and-sold">
+                        <span class="latest-product-sold">{{ product.quantity_sold }} sold</span>
+                        <span class="latest-product-reviews-container">
+                            <i class="fas fa-comment"></i>
+                            <span>{{ product.product_reviews.count }}</span>
+                        </span>
+                        <span class="latest-product-like">
+                            <i class="fas fa-heart"></i>
+                            {% if not product.likes %}
+                                <span>0</span>
+                            {% else %}
+                                <span>
+                                    <span>{{ product.likes }}</span>
+                                    <span class="latest-product-review-count">({{product.product_reviews.count}})</span>
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <a class="latest-product-see-detail-btn" href="{{ product.get_absolute_url }}">See Detail</a>
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'products/pagination.html' with page=products %}
+    </div>
+
+    <script>
+
+        let filter = '{{ filter }}'
+        const filterProductBtn = [...document.querySelectorAll('.filter-product-btn')]
+        let currentWindowWidth = window.innerWidth
+
+        const params = new URLSearchParams(window.location.search)
+
+        function handleMobileProductFilter() {
+            filterProductBtn.forEach((btn, index)=> {
+                if(params.get('filter')) {
+                    window.scrollTo({top:700})
+                }
+
+                if(filter === btn.textContent) {
+                    btn.classList.add('active-filter-btn')
+                    btn.nextElementSibling.classList.add('latest-product-filter-underline')
+                }
+            })
+        }
+        handleMobileProductFilter()
+        
+
+        function handleDesktopProductFilter() {
+            const container = document.querySelector('.desktop-latest-product-current-filter-text-container')
+            const btns = [...document.querySelectorAll('.show-hide-filter-links-btn')]
+            const links = document.querySelector('.desktop-latest-product-filter-links')
+            const currentFilter = document.querySelector('.desktop-latest-product-current-filter-text')
+            const childrenEl = [...links.children]
+            
+            container.addEventListener('click', (e)=> {
+
+                btns.forEach((btn)=> {
+                    if(btn.classList.contains('hide-btn')){
+                        btn.classList.remove('hide-btn')
+                    }else {
+                        btn.classList.add('hide-btn')
+                    }                    
+                })
+                links.classList.toggle('show-desktop-latest-product-filter-links')
+            })
+
+            currentFilter.textContent = filter
+
+            childrenEl.forEach((link)=> {
+
+                if(params.get('filter')) {
+                    window.scrollTo({top:500})
+                }
+
+                if(link.textContent === filter) {
+                    link.classList.add('desktop-active-filter-link')
+                }
+            })
+        }
+        handleDesktopProductFilter()
+
+    </script>
+{% endblock content %}

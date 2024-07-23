@@ -1,0 +1,64 @@
+
+
+
+<style>
+    .dashboard-container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+    .dashboard-navbar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        overflow: auto;
+        padding-bottom: 0.5rem;
+        /* background: var(--black-20);
+        padding: 1rem; */
+    }
+
+    .product-basket-nav-link {
+        color: var(--black-15)
+    }
+
+    .active-product-basket-nav-link {
+        color: var(--purple-40) !important;
+        font-weight: 600;
+    }
+
+    @media (hover) {
+        .product-basket-nav-link:hover {
+            color: var(--purple-40) !important;
+        }
+    }
+
+    @media (min-width: 450px) {
+        .dashboard-navbar {
+            padding-bottom: 0;
+        } 
+    }
+
+    @media (min-width: 550px) {
+        .dashboard-container {
+            justify-content: start;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    {% with request.resolver_match.url_name as url_name %}
+        <div class="dashboard-navbar">
+            <a class="{% if url_name == 'product-cart' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:product-cart' %}">Cart</a>
+            <a class="{% if url_name == 'shipping-address' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
+            <a class="{% if url_name == 'checkout-summary' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
+            <a class="{% if url_name == 'order-history' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order History</a>
+            <a class="{% if url_name == 'user-profile' %}active-product-basket-nav-link{% else %}product-basket-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
+        </div>
+    {% endwith %}
+</div>

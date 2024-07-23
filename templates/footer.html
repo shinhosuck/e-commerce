@@ -1,129 +1,61 @@
 
 
-
-
-
-<footer id="footer">
-    <div class="footer-wrapper1">
-        <div class="footer-contents">
-            <div class="footer-content">
-                <div class="footer-header-text-container">
-                    <h2 class="footer-content-header-text">About</h2>
-                    <div class="footer-header-text-underline"></div>
-                </div>
-                <div class="about-content-container">
-                    <a class="about-brand-name" href="{% url 'products:product-home' %}">
-                        <!-- <h1>AiAi Market</h1> -->
-                        <h1>aiai<span>e-market</span></h1>
-                        <!-- <p>THE PLACE TO SHOP</p> -->
-                    </a>
-                    <p class="footer-about-us-text">
-                        There are many variations of passages of Lorem Ipsum available, 
-                        but the majority have suffered alteration in some form, by 
-                        injected humour, or randomised words which don't look even slightly 
-                        believable. If you are going to use a passage of Lorem Ipsum.
-                    </p>
-                </div>
-            </div>
-            <div class="footer-content">
-                <div class="footer-header-text-container">
-                    <h2 class="footer-content-header-text">Quick Links</h2>
-                    <div class="footer-header-text-underline"></div>
-                </div>
-                
-                <nav class="footer-nav-links">
-                    <a class="footer-nav-link" href="{% url 'products:product-home' %}">Home</a>
-                    <a class="footer-nav-link" href="{% url 'products:product-list' %}">Products</a>
-                    {% if request.user.is_authenticated %}
-                        <a class="footer-nav-link" href="{% url 'products:product-basket' %}">Basket</a>
-                        <a class="footer-nav-link" href="{% url 'products:product-create' %}">Create</a>
-                        <a class="footer-nav-link" href="{% url 'users:user-profile' %}">Profile</a>
-                        <a class="footer-nav-link" href="{% url 'sellers:seller-register' %}">Sell on AiAi Market</a>
-                        <a class="footer-nav-link" href="{% url 'users:user-logout' %}">Logout</a>
-                    {% else %}
-                        <a class="footer-nav-link" href="{% url 'users:user-register' %}">Register</a>
-                        <a class="footer-nav-link" href="{% url 'users:user-login' %}">Login</a>
-                    {% endif %}
-                </nav>
-            </div>
-            <div class="footer-content last-element">
-                <div class="footer-header-text-container">
-                    <h2 class="footer-content-header-text">Contact</h2>
-                    <div class="footer-header-text-underline"></div>
-                </div>
-                
-                <div class="footer-messages">
-                    <div class="footer-address">
-                        <h4>Address</h4>
-                        <address style="max-width:200px;margin:0 auto">
-                            123 Main st. Baguio City, Benguet PH 2600
-                        </address>
-                    </div>
-                    <div class="footer-phone">
-                        <h4>Phone</h4>
-                        <a href="tel:+631233456789">+63-123-345-6789</a>
-                    </div>
-                    <div class="footer-email">
-                        <h4>Email</h4>
-                        <a href="mailto:aiaimarket@gmail.com">aiaimarket@gmail.com</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-content">
-                <div class="footer-header-text-container">
-                    <h2 class="footer-content-header-text">Leave a Message</h2>
-                    <div class="footer-header-text-underline"></div>
-                </div>
-                <form class="message-form" action="{% url 'users:user-message' %}" method="POST">
-                    {% csrf_token %}
+<footer id="footer" class="footer-wrapper">
+    <div class="footer-contents-1">
+        <div class="footer-content-brand">
+            <a class="about-brand-name" href="{% url 'products:product-home' %}">
+                aiai
+            </a>
+            <p class="footer-brand-text">
+                <strong>aiai</strong> is your premier online destination for cutting-edge electronics, 
+                offering everything from the latest smartphones to top-tier home 
+                entertainment systems. With competitive prices, fast shipping, 
+                and exceptional customer service, AIAI ensures you stay at the forefront of 
+                technology. Discover the future of electronics with AIAI today!
+            </p>
+        </div>
+        <div class="footer-quick-links-container">
+            <h2 class="footer-quick-links-header">Quick Links</h2>
+            <nav class="footer-quick-links">
+                <a class="footer-quick-link" href="{% url 'products:product-home' %}">Home</a>
+                <a class="footer-quick-link" href="{% url 'products:product-list' %}">Products</a>
+                {% if request.user.is_authenticated %}
+                    <a class="footer-quick-link" href="{% url 'products:product-cart' %}">Cart</a>
+                    <a class="footer-quick-link" href="{% url 'products:product-create' %}">Create</a>
+                    <a class="footer-quick-link" href="{% url 'users:user-profile' %}">Profile</a>
+                    <a class="footer-quick-link" href="{% url 'sellers:seller-register' %}">Sell product</a>
+                    <a class="footer-quick-link" href="{% url 'users:user-logout' %}">Logout</a>
+                {% else %}
+                    <a class="footer-quick-link" href="{% url 'users:user-register' %}">Register</a>
+                    <a class="footer-quick-link" href="{% url 'users:user-login' %}">Login</a>
+                {% endif %}
+            </nav>
+        </div>
+        <div class="footer-contact-container">
+            <h2 class="footer-contact-header">Contact</h2>
+            <form class="message-form" action="{% url 'users:user-message' %}" method="POST">
+                {% csrf_token %}
+                <div class="footer-contact-form-input-container">
                     <label for="email">Email</label>
                     <input id="email" name='email' type='email' required>
+                </div>
+                <div class="footer-contact-form-input-container">
                     <label for="message">Message</label>
                     <textarea id="message" name="message" id="" cols="30" rows="10" required></textarea>
-                    <ul class="message-info">
-                        <li>If you are a registered user, please include your username.</li>
-                        <li>If you have not registered, please consider registering.</li>
-                    </ul>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
-    <div class="footer-wrapper2">
+    <div class="footer-contents-2">
         <div class="footer-social-links">
-            <a class="social-link" href="https://www.twitter.com" target="_blank">
-                <i class="fa-brands fa-twitter"></i>
+            <a class="social-link" href="https://github.com/shinhosuck/e-commerce" target="_blank">
+                <i class="fa-brands fa-github"></i>
             </a>
-            <a class="social-link" href="https://www.youtube.com" target="_blank">
-                <i class="fa-brands fa-youtube"></i>
-            </a>
-            <a class="social-link" href="https://www.instagram.com" target="_blank">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a class="social-link" href="https://www.facebook.com" target="_blank">
-                <i class="fa-brands fa-square-facebook"></i>
+            <a class="social-link" href="https://www.linkedin.com/in/eric-anderson-a6b906214/" target="_blank">
+                <i class="fa-brands fa-linkedin"></i>
             </a>
         </div>
-        <div class="copy-right">
-            <p class="copy-right-text">&copyCopyright 2023 AiAi Market. All Rights Reserved.</p>
-        </div>
+        <p class="copyright-text">&copyCopyright 2023 aiai team. All Rights Reserved.</p>
     </div>
 </footer>
-
-<script>
-    const messageBox = document.querySelector('#message')
-    const email = document.querySelector('#email')
-    const messageInfo = document.querySelector('.message-info')
-
-    function handleEvent(e) {
-        if(e.target == messageBox) {
-            messageInfo.style.display = 'grid'
-        }else if(e.target == email) {
-            messageInfo.style.display = 'none'
-        }
-    }
-
-    messageBox.addEventListener('click', handleEvent)
-    email.addEventListener('click', handleEvent)
-
-</script>

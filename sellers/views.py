@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import SellerSignUpForm
 from .models import SellerSignUp
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
-@login_required
+# @login_required
 def seller_register_view(request):
     user = request.user
 
@@ -30,3 +31,5 @@ def seller_register_view(request):
     
     if seller_exists:
         return redirect('products:product-create')
+
+

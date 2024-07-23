@@ -1,4 +1,4 @@
-from .models import Product, ProductImage, ProductReview, ShippingAddress
+from .models import Product, ProductImage, ShippingAddress
 from django.forms import ClearableFileInput
 from django import forms 
 
@@ -13,9 +13,8 @@ class CreateProductForm(forms.ModelForm):
             'sub_category',
             'name',
             'brand',
-            'seller_organization',
-            'product_image',
-            'description', 
+            'seller',
+            'image',
             'detail', 
             'price', 
             'available'
@@ -27,18 +26,18 @@ class CreateProductImageForm(forms.ModelForm):
     class Meta:
         model = ProductImage
         fields = ['image']
-        labels = {
-            'image': 'Additional Product Images'
-        }
-        widgets = {
-            'image': ClearableFileInput(attrs={'multiple': True}),
-        }
+        # labels = {
+        #     'image': 'Additional Product Images'
+        # }
+        # widgets = {
+        #     'image': ClearableFileInput(attrs={'multiple': True}),
+        # }
 
 
 class ProductReviewForm(forms.Form):
     rating = forms.CharField(max_length=5)
     title = forms.CharField(max_length=100)
-    content = forms.CharField(widget=forms.Textarea, required=False)
+    content = forms.CharField(widget=forms.Textarea)
 
 
 class ShippingAddressForm(forms.ModelForm):
