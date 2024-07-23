@@ -152,7 +152,6 @@ HOME PAGE/HOME.HTML
 }
 
 .landing-page-categories-header {
-    letter-spacing: 0.05rem;
     color: var(--purple-20);
     font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
     font-weight: 700;
@@ -237,7 +236,6 @@ HOME PAGE/HOME.HTML
 }
 
 .featured-product-header {
-    letter-spacing: 0.05rem;
     color: var(--purple-20);
     font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
     font-weight: 700;
@@ -522,7 +520,6 @@ HOME PAGE/HOME.HTML
 }
 
 .landing-page-latest-product-header {
-    letter-spacing: 0.05rem;
     color: var(--purple-20);
     font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
     font-weight: 700;
@@ -730,7 +727,6 @@ HOME PAGE/HOME.HTML
 }
 
 .product-you-might-like-header {
-    letter-spacing: 0.05rem;
     color: var(--purple-20);
     font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
     font-weight: 700;
@@ -1335,7 +1331,6 @@ PRODUCT_LIST.HTML/PRODUCT LIST
 }
 
 .latest-products-header {
-    letter-spacing: 0.05rem;
     color: var(--purple-20);
     font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
     font-weight: 700;
@@ -2237,6 +2232,10 @@ CART.HTML/MY CART
 }
 
 .product-cart-header {
+    display: none;
+}
+
+.mobile-product-cart-header {
     color: var(--purple-20);
     font-size: clamp(1.3rem, 1vw + 1.5rem, 1.6rem);
     font-weight: 700;
@@ -2532,7 +2531,7 @@ CART.HTML/MY CART
 }
 
 @media screen and (min-width: 550px) {
-    .product-cart-header {
+    .mogile-product-cart-header {
         text-align: start;
     }
 
@@ -2592,6 +2591,20 @@ CART.HTML/MY CART
 
     .small-screen-basket-product {
         display: none;
+    }
+
+    .mobile-product-cart-header {
+        display: none;
+    }
+
+    .product-cart-header {
+        display: grid;
+        grid-column: 1 / -1;
+        color: var(--purple-20);
+        font-size: clamp(1.3rem, 1vw + 1.5rem, 1.6rem);
+        font-weight: 700;
+        line-height: 1.2;
+        text-transform: uppercase;
     }
 
     .product-basket-wrapper {
@@ -2797,10 +2810,7 @@ ADDRESS.HTML/SHIPPING ADDRESS
     margin: 0 auto;
     max-width: 1000px;
     display: grid;
-    gap: 2rem;
-    border-radius: 15px;
-    padding: 1.5rem 1.1rem;
-    background: white;
+    gap: 1.5rem;
 }
 
 .shipping-address-form {
@@ -2821,7 +2831,6 @@ ADDRESS.HTML/SHIPPING ADDRESS
     line-height: 1.2;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 0.5rem;
 }
 
 .address-inputs {
@@ -2836,6 +2845,7 @@ ADDRESS.HTML/SHIPPING ADDRESS
 }
 
 .address-inputs > div > label {
+    letter-spacing: 0.05rem;
     color: var(--black-15);
     font-weight: 500;
 }
@@ -2847,7 +2857,8 @@ ADDRESS.HTML/SHIPPING ADDRESS
     border-radius: 8px;
     font-size: 1rem;
     letter-spacing: 0.05rem;
-    border: 1px solid var(--black-80);
+    border: 1px solid var(--black-70);
+    background: transparent;
 }
 
 .address-inputs > div > input:focus {
