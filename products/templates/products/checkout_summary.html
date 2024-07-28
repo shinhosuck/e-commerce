@@ -24,8 +24,9 @@
             </div>
         {% else %}
             <div class="checkout-products-container">
+                <h1 class="checkout-header">Checkout</h1>
                 <div class="checkout-products-contents">
-                    <h1 class="checkout-header">Checkout Summary</h1>
+                    <h1 class="mobile-checkout-header">Checkout</h1>
                     <!-- For large screen -->
                     <div class="desktop-checkout-products">
                         <div class="dekstop-checkout-products-headers">
@@ -136,7 +137,6 @@
                             <p class="checkout-amount-due-total-text">P{{ total }}</p>
                         </div>
                         <!-- end -->
-
                         <form class="checkout-form" action="{% url 'products:checkout' %}" method="POST">
                             {% csrf_token %}
                             <button class="purchase-btn" type="submit" id="checkout-button">

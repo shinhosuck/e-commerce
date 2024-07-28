@@ -47,7 +47,6 @@ searchBtns.forEach((btn)=> {
 
 
 // product detail extra images 
-
 function handleImages(e) {
 
         const childEl = fullScreenImage.querySelector('img')
@@ -56,13 +55,14 @@ function handleImages(e) {
         const fullscreenSrc = childEl.src
         const extraImageSrc = img.src
 
-        img.src = fullscreenSrc
+        // img.src = fullscreenSrc
         childEl.src = extraImageSrc
 }
 
-
 productDetailImageContainer && productDetailImageContainer.addEventListener('click', (e)=> {
     imageFullScreen.classList.add('show-product-detail-image-fullscreen')
+    window.scrollTo({top:62, behavior:'instant'})
+    body.style.overflow = 'hidden'
     fullScreenExtraImages.forEach((img, index)=>{
         img.addEventListener('click', handleImages)
     })
@@ -70,6 +70,7 @@ productDetailImageContainer && productDetailImageContainer.addEventListener('cli
 
 fullScreenCloseBtn && fullScreenCloseBtn.addEventListener('click', ()=> {
     imageFullScreen.classList.remove('show-product-detail-image-fullscreen')
+    body.style.overflow = 'scroll'
 })
 
 // end product detail extra images 

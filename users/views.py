@@ -68,11 +68,8 @@ def logout_view(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in! Please login.')
         return redirect('products:product-list')
-    else:
-        if request.method == 'POST':
-            logout(request)
-            return redirect('users:user-login')
-        return render(request, 'users/logout.html', context=None)
+    logout(request)
+    return redirect('users:user-login')
 
 
 @login_required

@@ -17,7 +17,7 @@
                 and convenience.
             </p>
             <div class="product-page-hero-btn-container">
-                <a href="/shop/by/PC Gadgets/" class="products-page-hero-buy-now-btn">Explore Gadgets</a>
+                <a href="/shop/by/PC gadget/" class="products-page-hero-buy-now-btn">Explore Gadgets</a>
             </div>
         </div>
         <div class="products-page-hero-image-container">
@@ -132,7 +132,7 @@
             const currentFilter = document.querySelector('.desktop-latest-product-current-filter-text')
             const childrenEl = [...links.children]
             
-            container.addEventListener('click', (e)=> {
+            container && container.addEventListener('click', (e)=> {
 
                 btns.forEach((btn)=> {
                     if(btn.classList.contains('hide-btn')){

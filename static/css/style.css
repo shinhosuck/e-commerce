@@ -292,20 +292,24 @@ INDEX.HTML
 
 .mobile-shopping-cart {
     font-size: 1.2rem;
-    color: var(--black-50)
+    color: var(--black-40)
 }
 
 .mobile-num-of-items {
     position: absolute;
-    top: -5px;
-    left: 55px;
+    top: -10px;
+    left: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
-    border-radius: 50%;
-    color: red;
-    line-height: 0;
+    font-size: 0.85rem;
+    color: var(--orange-50);
+    min-width: 15px;
+    line-height: 1;
+}
+
+.mobile-num-of-items > span {
+    font-weight: 700;
 }
 
 .mobile-active-nav-link {
@@ -381,6 +385,10 @@ INDEX.HTML
         cursor: pointer;
     }
 
+    .toggle-user-nav-links-btn > i {
+        margin-top: 0.2rem;
+    }
+
     .hide-toggle-user-nav-links-btn {
         display: none;
     }
@@ -406,7 +414,7 @@ INDEX.HTML
         position: absolute;
         z-index: 2;
         left: -90px;
-        top: 35px;
+        top: 30px;
         width: 220px;
         opacity: 0;
         max-height: 0;
@@ -415,31 +423,32 @@ INDEX.HTML
         transition: max-height 100ms linear;
     }
 
-    .logged-in-user-nav-link-container:hover >
-    .user-navlinks-position-absolute {
+    .show-user-navlinks {
         max-height: 700px;
         opacity: 1;
     }
+    
+    @media (hover) {
+        .logged-in-user-nav-link-container:hover >
+        .toggle-user-navbar {
+            color: var(--purple-60)
+        }
 
-    .logged-in-user-nav-link-container:hover >
-    .toggle-user-navbar {
-        color: var(--purple-60)
-    }
-
-    .logged-in-user-nav-link-container:hover >
-    .toggle-user-navbar > button {
-        color: var(--purple-60)
+        .logged-in-user-nav-link-container:hover >
+        .toggle-user-navbar > button {
+            color: var(--purple-60)
+        }
     }
 
     .logged-in-user-nav-links {
         display: grid;
         justify-content: start;
         border-radius: 15px;
-        margin-top: 0.8rem;
+        margin-top: 1.2rem;
         padding: 1.5rem;
         gap: 1rem;
         background: hsl(0, 0%, 93%);
-        border: 1px solid var(--black-80)
+        border: 1px solid var(--black-70)
     }
 
     .logged-in-user-nav-links > .nav-link {
@@ -460,18 +469,23 @@ INDEX.HTML
         gap: 0.5rem;
     }
 
+    .nav-basket > i {
+        line-height: 1;
+        font-size: 1.2rem;
+    }
+
     .num-of-items {
         position: absolute;
-        top: -5px;
-        left: 75px;
+        top: -10px;
+        left: 51px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.9rem;
-        border-radius: 50%;
-        color: red;
-        line-height: 0;
-        font-weight: 500;
+        font-size: 0.85rem;
+        color: var(--orange-50);
+        line-height: 1;
+        font-weight: 700;
+        min-width: 17px;
     }
 
     .nav-link {

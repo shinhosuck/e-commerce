@@ -1,10 +1,17 @@
 from django.contrib import admin
-from .models import SellerSignUp 
+from .models import Seller, SellerProduct
 
 
 
 
-class SellerSignUpAdmin(admin.ModelAdmin):
-    list_display = ['member_name', 'organization_name', 'created', 'updated']
+class SellerAdmin(admin.ModelAdmin):
+    list_display = ['seller_name', 'first_name', 'last_name', 'created', 'updated']
     
-admin.site.register(SellerSignUp, SellerSignUpAdmin)
+admin.site.register(Seller, SellerAdmin)
+
+
+class SellerProductAdmin(admin.ModelAdmin):
+    list_display = ['product', 'seller', 'created']
+    
+admin.site.register(SellerProduct, SellerProductAdmin)
+

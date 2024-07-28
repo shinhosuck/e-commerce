@@ -1,0 +1,115 @@
+
+.seller-form-wrapper {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto; 
+    min-height: 90svh;
+}
+
+.seller-form-header {
+    color: var(--purple-20);
+    font-size: clamp(1.2rem, 1vw + 1.1rem, 1.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+    text-wrap: balance;
+}
+
+.seller-sign-up-form {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+}
+
+.seller-form-content-wrapper {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+}
+
+.seller-form-border {
+    display: none;
+}
+
+.seller-sign-up-form-content {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem
+}
+
+.seller-sign-up-form-content > label {
+    color: var(--black-15);
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+}
+
+.seller-sign-up-form-content > input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.8rem 1rem;
+    border: none;
+    outline: 1px solid var(--black-70);
+    border-radius: 8px;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    background: transparent;
+}
+
+.seller-sign-up-form-content > input:focus {
+    outline: 3px solid var(--black-70);
+}
+
+.seller-form-btn {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.seller-form-register-btn {
+    padding: 0.8rem 1rem;
+    border-radius: 30px;
+    color: white;
+    background: var(--purple-40);
+    font-size: 1rem;
+    border: none;
+    letter-spacing: 0.05rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.seller-form-cancel-btn {
+    padding: 0.8rem 1rem;
+    border-radius: 30px;
+    color: white;
+    background: var(--black-30);
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.05rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+
+@media (min-width: 700px) {
+    .seller-form-wrapper {
+        margin: 3rem auto; 
+    }
+
+    .seller-form-header {
+        text-align: start;
+    }
+
+    .seller-sign-up-form {
+        grid-template-columns: 1fr 1px 1fr;
+        gap: 2rem;
+    }
+
+    .seller-form-border {
+        display: grid;
+        width: 1px;
+        background: var(--black-80)
+    }
+}

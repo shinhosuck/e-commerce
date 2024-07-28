@@ -1,37 +1,7 @@
-from .models import Product, ProductImage, ShippingAddress
-from django.forms import ClearableFileInput
+
+from .models import ShippingAddress
 from django import forms 
 
-
-
-
-class CreateProductForm(forms.ModelForm):
-    class Meta:
-        model = Product 
-        fields = [
-            'category',
-            'sub_category',
-            'name',
-            'brand',
-            'seller',
-            'image',
-            'detail', 
-            'price', 
-            'available'
-        ]
-
-
-class CreateProductImageForm(forms.ModelForm):
-    allow_multiple_selected = True
-    class Meta:
-        model = ProductImage
-        fields = ['image']
-        # labels = {
-        #     'image': 'Additional Product Images'
-        # }
-        # widgets = {
-        #     'image': ClearableFileInput(attrs={'multiple': True}),
-        # }
 
 
 class ProductReviewForm(forms.Form):

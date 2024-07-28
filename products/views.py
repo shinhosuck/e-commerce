@@ -8,11 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.utils import timezone
 from .context_processors import get_cart_total, create_checkout_summary
+from sellers.models import SellerProduct
 from .models import (
     Product, 
-    ProductImage,  
-    ProductCategory,
-    ProductSubCategory,
+    Category,
     Review,
     Cart,
     Checkout,
@@ -20,8 +19,6 @@ from .models import (
     Receipt,
 )
 from .forms import (
-    CreateProductForm, 
-    CreateProductImageForm, 
     ProductReviewForm,
     ShippingAddressForm,
 )
@@ -29,7 +26,7 @@ from django.conf import settings
 import stripe
 import json
 from decimal import Decimal
-from sellers.models import SellerSignUp
+from sellers.models import Seller
 from django.core.files import File
 import uuid
 from django.core.paginator import (
@@ -45,7 +42,7 @@ endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
 
 def home_view(request):
-    category = ProductCategory.objects.prefetch_related('products')
+    category = Category.objects.prefetch_related('products')
     products = None
 
     for cat in category:
@@ -57,18 +54,19 @@ def home_view(request):
             for qs in queryset:
                 products.append(qs)
 
-    you_might_like = [product for product in products if product.sub_category.name == 'Entry-level']
+    you_might_like = [product for product in products if product.sub_category and product.sub_category.name == 'entry-level']
     
     if len(you_might_like) > 4:
         remainder = len(you_might_like) % 4
         you_might_like = you_might_like[0: (len(you_might_like) - remainder)]
 
     context = {
-        'category': category,
+        'category': category.order_by('name'),
         'featured': products[-5:-1],
         'latest': products[0:8],
         'you_might_like': you_might_like
     }
+
     return render(request, 'products/home.html', context)
 
 
@@ -102,12 +100,13 @@ def product_list_view(request):
 
 
 def product_detail_view(request, id): 
+
     try:
         product = Product.objects.get(id=id)
     except Exception as e:
         messages.error(request, f'{e}')
         return redirect('products:product-home')
-    
+   
     context = {
         'product': product,
         'images': product.product_images.all(),
@@ -145,53 +144,19 @@ def shop_by_category(request, str):
     return render(request, 'products/shop_by_category.html', context )
 
 
-@login_required()
-def product_create_view(request):
-    try:
-        request.user.sellersignup
-    except Exception as e:
-        messages.error(request, f'{e}. Please sign up to sell on AiAi Market')
-        return redirect('sellers:seller-signup')
-    
-    query_set = ProductSubCategory.objects.all()
-    category_name = []
-    sub_categories = []
-
-    for obj in query_set:
-        if obj.category.name not in category_name:
-            category_name.append(obj.category.name)
-            sub_categories.append({'id':obj.category.id ,'category_name':obj.category.name, 'sub_categories':[{'id':obj.id, 'name':obj.name}]})
-        else:
-            for sub_cat in sub_categories:
-                for key, value in sub_cat.items():
-                    if value == obj.category.name:
-                        sub_cat['sub_categories'] += [{'id':obj.id, 'name':obj.name}]
-    
-    image_form = CreateProductImageForm(request.POST or None, request.FILES or None)
-    product_form = CreateProductForm(request.POST or None, request.FILES or None)
-    context = {
-        'product_form': product_form,
-        'image_form': image_form,
-        'sub_categories': json.dumps(sub_categories)
-    }
-    if image_form.is_valid() and product_form.is_valid():
-        images = request.FILES.getlist('image')
-        product = product_form.save()
-        for img in images:
-            ProductImage.objects.create(product=product, image=img)
-    return render(request, 'products/product_create.html', context)
-
-
 @login_required
 def write_review_view(request, id):
-    existing_review = Review.objects.filter(id=request.GET.get('update')).first()
-    product = Product.objects.get(id=id)
     user = request.user
 
+    products = Product.objects.filter(id=id).prefetch_related('product_reviews')
+    product = products.first()
+
+    existing_review = product.product_reviews.filter(author=user, product__id=id).first()
+    
     if request.method == 'POST':
         form = ProductReviewForm(request.POST)
         if form.is_valid():
-            author = request.user
+            author = user
             content = form.cleaned_data.get('content')
             rating = int(form.cleaned_data.get('rating'))
             title = form.cleaned_data.get('title')
@@ -202,10 +167,7 @@ def write_review_view(request, id):
                 existing_review.content=content
                 existing_review.save()
                 product.likes = existing_review.calculate_rating()
-                product.save()
-                messages.success(request, f'{author.username}, thank you for the review!')
-                return redirect('products:product-detail', id)
-            
+                messages.success(request, f'{author.username}, thank you for updating the review!')
             else:
                 new_review = Review.objects.create(
                     product=product, 
@@ -215,13 +177,13 @@ def write_review_view(request, id):
                     content=content
                 )
                 product.likes = new_review.calculate_rating()
-                product.save()
-            messages.success(request, f'{author.username}, thank you for the review!')
+                messages.success(request, f'{author.username}, thank you for the review!')
+
+            product.save()
             return redirect('products:product-detail', id)
         
         messages.error(request, 'There was an error. Try again later.')
         return redirect('products:product-review', id)
-    
     else:
         checkouts = Checkout.objects.filter(
             customer=user, 
@@ -229,19 +191,17 @@ def write_review_view(request, id):
             open=False
         )
 
+        context= {
+            'product': product
+        }
+
         if not checkouts.exists():
             messages.error(request, 'You are not authorized to write review on this product.')
             return redirect('products:product-detail', id)
         
         elif checkouts.exists():
-            purchase_verified = []
-            for checkout in checkouts:
-                orders = checkout.order.filter(product=product)
-                for order in orders:
-                    if order.product == product:
-                        purchase_verified.append(order)
-            if purchase_verified:
-                context= {'query': product}
+            purchase_verified = checkouts.first().order.filter(customer=user, product=product).first()
+            if purchase_verified.customer == user:
                 if existing_review:
                     context['existing_review_id'] = existing_review.id
                     context['existing_review'] = existing_review
@@ -252,29 +212,36 @@ def write_review_view(request, id):
     
     
 def product_search_view(request):
-    q = request.GET.get('q') 
-    
-    sort_by_price = ''
-    str_list = q.lower().split('_')
+    search = request.GET.get('q') 
+    filter = request.GET.get('filter')
 
-    if 'sort' in str_list:
-        sort_by_price = ' '.join(str_list[-1].split('-'))
-        q = str_list[0]
-
+    products = []
+   
     context = {
-        'q': q.capitalize(),
-        'sort_by': sort_by_price.capitalize()
+        'search': search,
+        'filter': filter or 'Feature'
     }
 
     # Search by Category, sub-category, and product name
-    query_set = Product.objects.filter(Q(category__name__icontains = q) | 
-            Q(sub_category__name__icontains = q) | Q(name__icontains = q))
-    if sort_by_price == 'price low to high':
-        context['query_set'] = query_set.order_by('price')
-    elif sort_by_price == 'price high to low':
-        context['query_set'] = query_set.order_by('-price')
+    for char in search.split():
+        queryset = Product.objects.filter(Q(category__name__icontains = char) | 
+            Q(sub_category__name__icontains = char) | Q(name__icontains = char) |
+            Q(brand__icontains=char) | Q(detail__icontains=char) | Q(seller__icontains=char))
+            
+        if not products:
+            products = queryset
+        else: 
+            products.union(queryset)
+        
+    if filter:
+        if filter == 'Price low to high':
+            context['products'] = products.order_by('price')
+        elif filter == 'Price high to low':
+            context['products'] = products.order_by('-price')
+        else:
+            context['products'] = products
     else:
-        context['query_set'] = query_set
+        context['products'] = products
 
     return render(request, 'products/search_result.html', context)
 
@@ -337,7 +304,7 @@ def customer_address_view(request):
     if request.method == 'POST':
         form = ShippingAddressForm(request.POST, instance=instance)
         if form.is_valid():
-            shipping_address = form.save()
+            shipping_address = form.save(commit=False)
             shipping_address.customer = user
             shipping_address.save()
             if orders:
@@ -438,26 +405,31 @@ def payment_success_view(request, id):
         checkout_obj.open = False
         checkout_obj.checkout_date = timezone.now()
         checkout_obj.save()
-
-    for order in orders:
-        order.open = False
-        order.save()
     
+    queryset = checkout_obj.order.all()
+    for obj in queryset:
+        quantity = obj.quantity
+        product = obj.product
+        product.quantity_sold += quantity
+        product.save()
+
+        print('NAME:', product.name, '\n', 'QUANTITY SOLID:', product.quantity_sold)
+
     context = {
         'email': address.email
     }
 
     # create Receipt
-    # receipt = Receipt.objects.create(
-    #     checkout=checkout_obj, 
-    #     customer=user, 
-    #     saving = get_cart_total(request).get('discount_amount'),
-    #     sub_total = checkout_obj.set_amount_due(checkout_obj.id),
-    #     tax = get_cart_total(request).get('vat'),
-    #     total = get_cart_total(request).get('total'),
-    #     receipt_sent_date = timezone.now(),
-    #     sent = True
-    # )
+    receipt = Receipt.objects.create(
+        checkout=checkout_obj, 
+        customer=user, 
+        saving = get_cart_total(request)['discount_amount'],
+        sub_total = checkout_obj.set_amount_due(checkout_obj.id),
+        tax = get_cart_total(request)['vat'],
+        total = get_cart_total(request)['total'],
+        receipt_sent_date = timezone.now(),
+        sent = True
+    )
 
     # send customer the url of the receipt
     
@@ -470,6 +442,10 @@ def payment_success_view(request, id):
     #     recipient_list = [address.email],
     #     from_email = email_from,
     # )
+
+    for order in orders:
+        order.open = False
+        order.save()
 
     return render(request, 'products/payment_success.html', context)
 

@@ -21,8 +21,8 @@
                 <a class="nav-link {% if url_name == 'user-login' %}active-nav-link{% endif %}" href="{% url 'users:user-login' %}">Login</a>
                 <a class="nav-link {% if url_name == 'user-register' %}active-nav-link{% endif %}" href="{% url 'users:user-register' %}">Register</a>
             {% else %}
-                {% if request.user.sellersignup %}
-                    <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Sell product</a>
+                {% if request.user.seller %}
+                    <a class="nav-link {% if url_name == 'product-create' %}active-nav-link{% endif %}" href="{% url 'sellers:product-create' %}">Sell on aiai</a>
                 {% else %}
                     <a class="nav-link {% if url_name == 'seller-signup' %}active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sign up to sell</a>
                 {% endif %}
@@ -30,10 +30,10 @@
                     <div class="toggle-user-navbar">
                         <img class="logged-in-navbar-user-profile-img" src="{{request.user.userprofile.profile_image.url}}" alt="">
                         <p class="logged-in-navbar-username">{{ request.user.username }}</p>
-                        <button class="toggle-user-nav-links-btn open-user-navlinks-btn hide-toggle-user-nav-links-btn">
+                        <button class="toggle-user-nav-links-btn close-user-navlinks-btn hide-toggle-user-nav-links-btn">
                             <i class="fas fa-chevron-up"></i>
                         </button>
-                        <button class="toggle-user-nav-links-btn close-user-navlinks-btn">
+                        <button class="toggle-user-nav-links-btn open-user-navlinks-btn">
                             <i class="fas fa-chevron-down"></i>
                         </button>
                     </div>
@@ -42,7 +42,9 @@
                             <a class="nav-basket {% if url_name == 'product-basket' %}active-nav-link{% endif %}" href="{% url 'products:product-cart' %}">
                                 Cart
                                 <i class="fa-solid fa-cart-shopping mobile-shopping-cart"></i>
-                                <span class="num-of-items">{{ num_of_product }}</span>
+                                <span class="num-of-items">
+                                    <span>{{ num_of_product }}</span>
+                                </span>
                             </a>
                             <a class="nav-link {% if url_name == 'checkout-summary' %}active-nav-link{% endif %}" href="{% url 'products:checkout-summary' %}">Checkout</a>
                             <a class="nav-link {% if url_name == 'shipping-address' %}active-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
@@ -87,7 +89,9 @@
                     <a class="mobile-basket-link mobile-nav mobile-nav-link {% if url_name == 'product-basket' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-cart' %}">
                         Cart
                         <i class="fa-solid fa-cart-shopping mobile-shopping-cart"></i>
-                        <span class="mobile-num-of-items">{{ num_of_product }}</span>
+                        <span class="mobile-num-of-items">
+                            <span>{{ num_of_product }}</span>
+                        </span>
                     </a>
                 {% endif %}
 
@@ -100,8 +104,8 @@
                     <a class="mobile-nav mobile-nav-link {% if url_name == 'shipping-address' %}mobile-active-nav-link{% endif %}" href="{% url 'products:shipping-address' %}">Address</a>
                     <a class="mobile-nav mobile-nav-link {% if url_name == 'order-history' %}mobile-active-nav-link{% endif %}" href="{% url 'products:order-history' %}">Order history</a>
                     <a class="mobile-nav mobile-nav-link {% if url_name == 'user-profile' %}mobile-active-nav-link{% endif %}" href="{% url 'users:user-profile' %}">Profile</a>
-                    {% if request.user.sellersignup %}
-                        <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'products:product-create' %}">Sell product</a>
+                    {% if request.user.seller %}
+                        <a class="mobile-nav mobile-nav-link {% if url_name == 'product-create' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:product-create' %}">Sell on aiai</a>
                     {% else %}
                         <a class="mobile-nav mobile-nav-link {% if url_name == 'seller-signup' %}mobile-active-nav-link{% endif %}" href="{% url 'sellers:seller-register' %}">Sign up to sell</a>
                     {% endif %}
@@ -110,4 +114,27 @@
             </nav>
         </div>
     {% endwith %}
+
+    <script>
+        const openUserNavlinksBtn = document.querySelector('.open-user-navlinks-btn')
+        const closeUserNavlinksBtn = document.querySelector('.close-user-navlinks-btn')
+        const toggleUserNavbar = document.querySelector('.toggle-user-navbar')
+        const userNavlinks = document.querySelector('.user-navlinks-position-absolute')
+
+        toggleUserNavbar && toggleUserNavbar.addEventListener('click', (e)=> {
+            userNavlinks.classList.toggle('show-user-navlinks')
+
+            if(userNavlinks.classList.contains("show-user-navlinks")) {
+                openUserNavlinksBtn.classList.add('hide-toggle-user-nav-links-btn')
+                closeUserNavlinksBtn.classList.remove('hide-toggle-user-nav-links-btn')
+
+            }else {
+                openUserNavlinksBtn.classList.remove('hide-toggle-user-nav-links-btn')
+                closeUserNavlinksBtn.classList.add('hide-toggle-user-nav-links-btn')
+            }
+        })
+
+
+    </script>
+
 </div>

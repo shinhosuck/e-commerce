@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import (
-    ProductCategory, 
+    Category, 
     Product, 
     ProductImage,
     Review,
-    ProductSubCategory,
+    SubCategory,
     Cart,
     Checkout,
     ShippingAddress,
@@ -13,16 +13,16 @@ from .models import (
 
 
 
-class ProductCategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
 
-admin.site.register( ProductCategory, ProductCategoryAdmin)
+admin.site.register( Category, CategoryAdmin)
 
 
-class ProductSubCategoryAdmin(admin.ModelAdmin):
+class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'category']
 
-admin.site.register(ProductSubCategory, ProductSubCategoryAdmin)
+admin.site.register(SubCategory, SubCategoryAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):

@@ -1,0 +1,189 @@
+{% extends 'index.html' %}
+
+
+
+{% block title %}
+    Create
+{% endblock title %}
+
+ 
+{% block content %}
+    <div class="product-create-form-contents">
+        <h2 class="create-your-product-header">Please Add Your Product</h2>
+        <form class="create-form" action="{% url 'sellers:product-create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="product-create-input-container">
+                <div class="product-image-input">
+                    {{ image_form.image.label_tag }}
+                    <p class="image-error-element hide-image-error">
+                        <span>The image does not meet the required dimension.</span>
+                        <button type="button"><i class="fas fa-close"></i></button>
+                    </p>
+                    <p>{{ image_form.image }}</p>
+                    <button class="see-image-requirements-btn" type="button">
+                        <span class="image-requirements-text">Read image requirements</span>
+                        <span class="image-requirements-chevron"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+                    <ul class="image-requirements-warning show-image-requirements-warning">
+                        <li>Hold down “Control”, or “Command” to select more than one image.</li>
+                        <li>Image width or height can't exceed 800px.</li>
+                        <li>Image width or height can't be smaller than 500px.</li>
+                        <li>Only 3 images allowed.</li>
+                    </ul>
+                </div>
+                <div class="product-category-input">
+                    {{ product_form.category.label_tag}}
+                    <p>{{ product_form.category }}</p>
+                </div>
+                <div class="product-sub-category-input">
+                    {{ product_form.sub_category.label_tag}}
+                    <p id="sub-category">{{ product_form.sub_category }}</p>
+                </div>
+                <div class="product-name-input">
+                    {{ product_form.name.label_tag}}
+                    <p>{{ product_form.name }}</p>
+                </div>
+                <div class="product-brand-input">
+                    {{ product_form.brand.label_tag}}
+                    <p>{{ product_form.brand }}</p>
+                </div>
+                <div class="product-price-input">
+                    {{ product_form.price.label_tag}}
+                    <p>{{ product_form.price }}</p>
+                </div>
+            </div>
+            <div class="create-product-form-border"></div>
+            <div class="product-create-input-container">
+                <div class="product-detail-textarea">
+                    {{ product_form.detail.label_tag}}
+                    <p>{{ product_form.detail}}</p>
+                </div>
+                <div class="product-available-input">
+                    {{ product_form.available.label_tag}}
+                    {{ product_form.available }}
+                </div>
+                <div class="create-form-btns">
+                    <button type="submit">Add Product</button>
+                    <a href="{% url 'products:product-list' %}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        const productSubCategoryInput = document.querySelector('.product-sub-category-input')
+        const subCategories = '{{ sub_categories|safe }}' // data coming from backend context
+        const json_obj = JSON.parse(subCategories)
+        
+        const idCategory = document.querySelector('#id_category')
+        const idSubCategory = document.querySelector('#id_sub_category')
+
+        const seeImageRequirementsBtn = document.querySelector('.see-image-requirements-btn')
+        const imageRequirementsWarning = document.querySelector('.image-requirements-warning')
+        const imageErrorElement = document.querySelector('.image-error-element')
+        const imageRequirementsChevron = document.querySelector('.image-requirements-chevron')
+        const imageRequirementsText = document.querySelector('.image-requirements-text')
+        const idImage = document.querySelector('#id_image')
+        let allowImages = true
+        
+    
+        // create sub_categories <option></option>
+        // function createSubCategories() {
+        //     let optionsArray = []
+        //     json_obj.map((obj)=>{
+        //         obj.sub_categories.forEach((item)=> {
+        //             const option = `<option value='${item.id}'>${item.name}</option>`
+        //             optionsArray = [...optionsArray,option]
+        //         })
+        //     })
+        //     optionsArray.splice(0, 0, '<option value="" selected="">---------</option>')
+        //     handleCategoryClickEvent(optionsArray)
+        // }
+        // createSubCategories()
+
+        seeImageRequirementsBtn.addEventListener('click', (e)=> {
+            imageRequirementsWarning.classList.toggle('show-image-requirements-warning')
+
+            if(imageRequirementsWarning.classList.contains('show-image-requirements-warning')){
+                imageRequirementsText.textContent = 'Read image requirements'
+                imageRequirementsChevron.style.transform = 'rotate(0deg)'
+            }else {
+                imageRequirementsText.textContent = 'Hide image requirements'
+                 imageRequirementsChevron.style.transform = 'rotate(180deg)'
+            }
+        })
+
+        imageErrorElement.addEventListener('click', (e)=> {
+            e.currentTarget.classList.add('hide-image-error')
+        })
+
+        function handleFileInputOnchange() {
+            idImage.onchange = async()=> {
+                const files = [...idImage.files]
+                allowImages = await validateImage(files)
+
+                if(!allowImages) {
+                    idImage.value = null
+                    imageErrorElement.classList.remove('hide-image-error')
+                }
+            }
+        }
+        handleFileInputOnchange()
+
+        const validateImage = async(files)=> {
+            for(let i = 0; i < files.length; i++) {
+                const dimension = await getImageDimension(files[i])
+                const {width, height} = await dimension
+                if(width > 800 || height > 800){
+                    return false
+                }
+            }
+            return true
+        }
+
+        function getImageDimension(file) {
+            return new Promise((resolve)=> {
+                const newImage = new Image()
+                newImage.src = URL.createObjectURL(file)
+                newImage.onload = ()=> {
+                    const width = newImage.width
+                    const height = newImage.height
+                    console.log(width, height)
+                    resolve({width: width, height: height})
+                }
+            })
+        }
+
+        
+        //     
+        function handleCategoryClickEvent(optionsArray) {
+            productSubCategoryInput.style.display = 'none'
+
+            // inject sub_categories <option></option>
+            // idSubCategory.innerHTML = optionsArray.join('')
+
+            idCategory.addEventListener('click', (e) => {
+                const idValue = e.currentTarget.value
+
+                // from json_obj, find an object id == idValue
+                const categoryObj = json_obj.find((obj)=> obj.id == idValue)
+
+                // if categoryObj, then create <option><option> with categoryObj's sub_categories.
+                if(categoryObj) {
+                    const options = categoryObj.sub_categories.map((item)=> {
+                        return `<option value='${item.id}'>${item.name}</option>`
+                    })
+                    options.splice(0, 0, '<option value="" selected="">---------</option>')
+                    idSubCategory.innerHTML = options.join('')
+                    productSubCategoryInput.style.display = 'grid'
+
+                }else {
+                    productSubCategoryInput.style.display = 'none'
+                }
+            })
+        }
+        handleCategoryClickEvent()
+    </script>
+
+{% endblock content %}

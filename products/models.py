@@ -1,12 +1,13 @@
+from typing import Any
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 import uuid
 from decimal import Decimal
-from django.utils import timezone
+from django_resized import ResizedImageField
 
 
-class ProductCategory(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='category_images')
 
@@ -15,18 +16,18 @@ class ProductCategory(models.Model):
     
     class Meta:
         ordering = ['name']
-        verbose_name_plural = 'Product Categories'
+        verbose_name_plural = 'Categories'
 
 
-class ProductSubCategory(models.Model):
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True, related_name='sub_categories')
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='sub_categories')
     name = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.name
     
     class Meta:
-        verbose_name_plural = 'Product Sub-categories'
+        verbose_name_plural = 'Subcategories'
         ordering = ['category']
 
 
@@ -36,13 +37,15 @@ class Product(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='products')
-    sub_category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, related_name='sub_cat_products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    sub_category = models.ForeignKey(
+        SubCategory, on_delete=models.CASCADE, 
+        null=True, blank=True, related_name='sub_cat_products'
+    )
     name = models.CharField(max_length=50)
     slug = models.SlugField(null=True, blank=True, unique=True)
     brand = models.CharField(max_length=50)
-    seller = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='product_image')
+    seller = models.CharField(max_length=50, null=True, blank=True)
     detail = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
@@ -55,19 +58,27 @@ class Product(models.Model):
         return self.name
     
     def get_product_image_url(self):
-        return self.image.url
+        image_obj = self.product_images.first()
+        return image_obj.image.url
     
     def get_absolute_url(self):
         return reverse('products:product-detail', args=[str(self.id)])
     
     def get_discount_price(self):
-        sub_cat = ['High-end', 'Entry-level']
+        sub_cat = ['entry-level', 'high-end']
         product = Product.objects.get(id=self.id)
         if product.sub_category:
             if product.sub_category.name in sub_cat:
                 discount = f'{product.price - (product.price * Decimal(.10)):,.2f}'
                 return discount
         return None
+    
+    # on product delete, delete associated images
+    def delete(self, using=None, keep_parents=False):
+        image_qs = self.product_images.all()
+        for obj in image_qs:
+            obj.image.delete()
+        return super().delete(using=None, keep_parents=False)
     
     class Meta:
         ordering = ['-created']
@@ -81,13 +92,20 @@ class ProductImage(models.Model):
         editable=False
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')
-    image = models.ImageField(upload_to='product_images')
-
-    def __str__(self):
-        return f'{self.product}'
+    image = ResizedImageField(
+        size=[800, 800], 
+        crop=['middle', 'center'],
+        quality=80, 
+        upload_to="product_images", 
+        force_format='WEBP',
+    )
 
     class Meta:
         verbose_name_plural = 'Product Images'
+        ordering = ['-product']
+
+    def __str__(self):
+        return f'{self.product}'
 
 
 class Review(models.Model):
@@ -116,7 +134,7 @@ class Review(models.Model):
     
     class Meta:
         ordering = ['-created']
-        verbose_name_plural = 'Product Reviews'
+        verbose_name_plural = 'Reviews'
 
 
 class Cart(models.Model):
@@ -222,7 +240,6 @@ class Receipt(models.Model):
     def __str__(self):
         return self.customer.username
     
-
     class Meta:
         ordering = ['-receipt_sent_date']
         verbose_name_plural = 'Receipts'

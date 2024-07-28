@@ -24,6 +24,7 @@
             </div>
         {% else %}
         <div class="order-history-receipts">
+            <h1 class="order-history-receipts-header">Order History</h1>
             {% for receipt in receipts %}
                 <div class="receipt">
                     <div class="receipt-counter">
@@ -83,7 +84,6 @@
                                         <span>Review this product</span>
                                     </a>
                                 </div>
-                                <!-- <a href="">Review this product</a> -->
                             {% endfor %}
                         </div>
                         <div class="receipts-amount-paid-container">
@@ -173,7 +173,6 @@
                     </div>
                     <!-- end of lg -->
                 </div>
-                <div class="order-history-receipt-border"></div>
             {% endfor %}
         </div>
         {% endif %}
